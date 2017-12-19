@@ -68,6 +68,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tomcat入门学习二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/19/tomcat入门学习二/" class="article-date">
+  <time datetime="2017-12-19T12:12:50.000Z" itemprop="datePublished">2017-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/19/tomcat入门学习二/">tomcat入门学习二</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="WEB应用配置"><a href="#WEB应用配置" class="headerlink" title="WEB应用配置"></a>WEB应用配置</h2><h3 id="WEB应用配置-1"><a href="#WEB应用配置-1" class="headerlink" title="WEB应用配置"></a>WEB应用配置</h3><h4 id="虚拟目录映射"><a href="#虚拟目录映射" class="headerlink" title="虚拟目录映射"></a>虚拟目录映射</h4><p>（1）需要重启WEB服务器<br>打开conf下server.xml<br>在<host>中插入<context>标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;context path=&quot;/blogproject&quot; docBase=&quot;f:\blog&quot;/&gt;</div></pre></td></tr></table></figure></context></host></p>
+<p>path代表虚拟目录，即用浏览器所访问的目录<br>即<a href="http://www.glbb.com/blogproject" target="_blank" rel="external">http://www.glbb.com/blogproject</a><br>docBase代表项目实际所在的目录<br>改动server.xml之后必须重启web服务器<br>(2)不需重启WEB服务器上线WEB应用<br>tomcat官方文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">In individual files (with a &quot;.xml&quot; extension) in the $CATALINA_BASE/conf/[enginename]/[hostname]/ directory. The context path and version will be derived from the base name of the file (the file name less the .xml extension). This file will always take precedence over any context.xml file packaged in the web application&apos;s META-INF directory.</div></pre></td></tr></table></figure></p>
+<p>在tomcat的conf/Catalina/localhost目录下新建一个文件<br>如a.xml<br>其中文件名称（如a）除去.xml扩展名被用作path路径的值,即虚拟目录<br>在a.xml中键入·<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;context docBase=&quot;f:\javaee&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>多级虚拟目录<br>例子：文件名称foo#bar代表虚拟目录foo/bar<br>(3)把某个WEB应用配置为缺省应用<br>如直接输入主机IP进入某个WEB应用<br>在tomcat的conf/Catalina/localhost目录下创建文件名为ROOT.xml<br>需要重启服务器来覆盖原来的默认WEB应用<br>原来<a href="http://localhost/blogproject/1.html" target="_blank" rel="external">http://localhost/blogproject/1.html</a><br>现在<a href="http://localhost/1.html" target="_blank" rel="external">http://localhost/1.html</a><br>(4)在conf/server.xml中把WEB应用配置为缺省的WEB应用<br><code>&lt;context path=&quot;&quot; docBase=&quot;f:\blog&quot;/&gt;</code><br>即path什么都不写<br>(5)让tomcat自动映射<br>在webapps目录下，tomcat会自动映射</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbdlcfbj0003kcvd646kqf1n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-tomcat入门学习一" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/18/tomcat入门学习一/" class="article-date">
@@ -114,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbcc1qy9000130vd51e5nqy3" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbdlcfbj0000kcvdcvhfntg1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbcc1qyk000330vdsuzx9f8w" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbdlcfby0005kcvdehlijpdf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -239,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbcc1qxf000030vdepobohyy" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbdlcfbj0001kcvdpix3ey9a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -276,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/08/14/中科院院士_让中国转基因鲤鱼尽快“游”向餐桌/" data-id="cjbcc1qz3000430vdwt5r68ht" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/08/14/中科院院士_让中国转基因鲤鱼尽快“游”向餐桌/" data-id="cjbdlcfbj0004kcvdqlptt4zc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -303,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbcc1qye000230vdcnuq81dk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbdlcfbj0002kcvds9woq6tj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -343,6 +383,10 @@
       <ul>
         
           <li>
+            <a href="/2017/12/19/tomcat入门学习二/">tomcat入门学习二</a>
+          </li>
+        
+          <li>
             <a href="/2017/12/18/tomcat入门学习一/">tomcat入门学习一</a>
           </li>
         
@@ -356,10 +400,6 @@
         
           <li>
             <a href="/2017/08/14/中科院院士_让中国转基因鲤鱼尽快“游”向餐桌/">让中国转基因鲤鱼尽快“游”向餐桌——访中科院院士朱作言</a>
-          </li>
-        
-          <li>
-            <a href="/2017/06/23/Hello/">(no title)</a>
           </li>
         
       </ul>
