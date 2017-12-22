@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JAVA内省 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="学习内省原因开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作 得到所有的属性其中Person类相当于一个Bean,123456789101112131415161718192021222324252627282930package introspector;public class Person &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA内省">
+<meta property="og:url" content="http://glbb.github.io/2017/12/22/JAVA内省/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="学习内省原因开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作 得到所有的属性其中Person类相当于一个Bean,123456789101112131415161718192021222324252627282930package introspector;public class Person &amp;#123;">
+<meta property="og:updated_time" content="2017-12-22T13:22:54.615Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA内省">
+<meta name="twitter:description" content="学习内省原因开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作 得到所有的属性其中Person类相当于一个Bean,123456789101112131415161718192021222324252627282930package introspector;public class Person &amp;#123;">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA内省" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/22/JAVA内省/" class="article-date">
+  <time datetime="2017-12-22T13:22:48.000Z" itemprop="datePublished">2017-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA内省
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="学习内省原因"><a href="#学习内省原因" class="headerlink" title="学习内省原因"></a>学习内省原因</h3><p>开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作</p>
+<h4 id="得到所有的属性"><a href="#得到所有的属性" class="headerlink" title="得到所有的属性"></a>得到所有的属性</h4><p>其中Person类相当于一个Bean,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">package introspector;</div><div class="line"></div><div class="line">public class Person &#123;</div><div class="line">	public String name;</div><div class="line">	public int age;</div><div class="line">	public String passwd;</div><div class="line">	</div><div class="line">	public String getAB()&#123;</div><div class="line">		return null;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getName() &#123;</div><div class="line">		return name;</div><div class="line">	&#125;</div><div class="line">	public void setName(String name) &#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public int getAge() &#123;</div><div class="line">		return age;</div><div class="line">	&#125;</div><div class="line">	public void setAge(int age) &#123;</div><div class="line">		this.age = age;</div><div class="line">	&#125;</div><div class="line">	public String getPasswd() &#123;</div><div class="line">		return passwd;</div><div class="line">	&#125;</div><div class="line">	public void setPasswd(String passwd) &#123;</div><div class="line">		this.passwd = passwd;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中具有的属性为name,age,passwd,AB,class<br>以下为获得所有属性的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test1() throws Exception&#123;</div><div class="line">		BeanInfo beanInfo = Introspector.getBeanInfo(Person.class);</div><div class="line">		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();</div><div class="line">		for(PropertyDescriptor pd : pds)&#123;</div><div class="line">			System.out.println(pd.getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>若是不想要获得父类型所继承的属性可以调用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BeanInfo beanInfo = Introspector.getBeanInfo(Person.class,Object.class);</div></pre></td></tr></table></figure></p>
+<h3 id="操作bean的属性"><a href="#操作bean的属性" class="headerlink" title="操作bean的属性"></a>操作bean的属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//操作bean的age属性</div><div class="line">	@Test</div><div class="line">	public void test2() throws Exception&#123;</div><div class="line">		Person p = new Person();</div><div class="line">		PropertyDescriptor pd = new PropertyDescriptor(&quot;age&quot;, Person.class);</div><div class="line">		</div><div class="line">		Method m = pd.getWriteMethod();</div><div class="line">		m.invoke(p, 45);</div><div class="line">		</div><div class="line">		m = pd.getReadMethod();</div><div class="line">		int age = (int) m.invoke(p, null);</div><div class="line">		System.out.println(age);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>如果要得到属性类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Class c = pd.getPropertyType();</div><div class="line">System.out.println(c);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbhy5igb0001fwvdmbp8edx8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/22/JAVA枚举/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA枚举</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/22/JAVA内省/">JAVA内省</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/JAVA枚举/">JAVA枚举</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/Java反射/">Java反射</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/BeanUtils操作/">BeanUtils操作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/21/WEB应用组成结构/">WEB应用组成结构</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JAVA枚举 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="看如下示例代码1234567891011121314151617181920212223242526272829303132package enumeration;import org.junit.Test;public class demo_1 &amp;#123;		@Test	public void test()&amp;#123;		print(Grade.A);		print(Grade.B);		pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA枚举">
+<meta property="og:url" content="http://glbb.github.io/2017/12/22/JAVA枚举/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="看如下示例代码1234567891011121314151617181920212223242526272829303132package enumeration;import org.junit.Test;public class demo_1 &amp;#123;		@Test	public void test()&amp;#123;		print(Grade.A);		print(Grade.B);		pr">
+<meta property="og:updated_time" content="2017-12-22T13:21:39.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA枚举">
+<meta name="twitter:description" content="看如下示例代码1234567891011121314151617181920212223242526272829303132package enumeration;import org.junit.Test;public class demo_1 &amp;#123;		@Test	public void test()&amp;#123;		print(Grade.A);		print(Grade.B);		pr">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA枚举" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/22/JAVA枚举/" class="article-date">
+  <time datetime="2017-12-22T13:21:24.000Z" itemprop="datePublished">2017-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA枚举
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看如下示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;),B(&quot;89-80&quot;),C(&quot;79-70&quot;),D(&quot;69-60&quot;),E(&quot;59-0&quot;);</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>枚举构造函数必须为私有的</li>
+<li>switch可以接受枚举类型</li>
+</ol>
+<h3 id="带有抽象方法的枚举"><a href="#带有抽象方法的枚举" class="headerlink" title="带有抽象方法的枚举"></a>带有抽象方法的枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">		System.out.println(Grade.A.locateValue());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;优&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,B(&quot;89-80&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;良&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,C(&quot;79-70&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;中&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,D(&quot;69-60&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;差&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,E(&quot;59-0&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;不及格&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public abstract String locateValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="单态设计模式"><a href="#单态设计模式" class="headerlink" title="单态设计模式"></a>单态设计模式</h3><p>内存中只有一个这样的类<br>可以使用枚举来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">enum A&#123;</div><div class="line">	a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbhy5igz0003fwvd8gt0c9fa" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/22/JAVA内省/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JAVA内省
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/22/Java反射/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java反射</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/22/JAVA内省/">JAVA内省</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/JAVA枚举/">JAVA枚举</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/Java反射/">Java反射</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/22/BeanUtils操作/">BeanUtils操作</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/21/WEB应用组成结构/">WEB应用组成结构</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
