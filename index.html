@@ -68,6 +68,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-XML用JAXP解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/24/XML用JAXP解析/" class="article-date">
+  <time datetime="2017-12-24T06:23:12.000Z" itemprop="datePublished">2017-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/24/XML用JAXP解析/">XML用JAXP解析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>XML解析介绍<br>xml解析开发包</p>
+<h3 id="Jaxp解析"><a href="#Jaxp解析" class="headerlink" title="Jaxp解析"></a>Jaxp解析</h3><ol>
+<li>Jaxp(sum)是JAVASE一部分，由javax.xml,org.w3c.dom,org.xml.sax包及其子包构成，在javax.xml.parsers包中定义了几个工厂类，可以得到XMLdom解析</li>
+</ol>
+<p>下面是操作的XML文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;书架&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 name=&quot;GLBB&quot;&gt;JAVA就业培训教程&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;109.00元&lt;/售价&gt;</div><div class="line">		&lt;售价&gt;29.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 name=&quot;GLBB&quot;&gt;JavaScript网页开发&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;28.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">&lt;/书架&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="对XML文件进行读操作"><a href="#对XML文件进行读操作" class="headerlink" title="对XML文件进行读操作"></a>对XML文件进行读操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package xmlParse;</div><div class="line"></div><div class="line"></div><div class="line">import javax.xml.parsers.DocumentBuilder;</div><div class="line">import javax.xml.parsers.DocumentBuilderFactory;</div><div class="line"></div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line">import org.w3c.dom.Document;</div><div class="line">import org.w3c.dom.Element;</div><div class="line">import org.w3c.dom.Node;</div><div class="line">import org.w3c.dom.NodeList;</div><div class="line"></div><div class="line"></div><div class="line">public class demo1 &#123;</div><div class="line">	</div><div class="line">	//对xml进行crud</div><div class="line">	</div><div class="line">	//对xml进行读取某个节点操作</div><div class="line">	@Test</div><div class="line">	public void read1() throws Exception&#123;</div><div class="line">		//创建工厂</div><div class="line">		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</div><div class="line">		//得到解析器</div><div class="line">		DocumentBuilder builder = factory.newDocumentBuilder();</div><div class="line">		//解析xml文档，得到代表的document</div><div class="line">		Document document = builder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		NodeList list = document.getElementsByTagName(&quot;书名&quot;);</div><div class="line">		Node node = list.item(1);</div><div class="line">		String content = node.getTextContent();</div><div class="line">		System.out.println(content);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//遍历xml中所有的节点</div><div class="line">	@Test</div><div class="line">	public void read2() throws Exception&#123;</div><div class="line">		//创建工厂</div><div class="line">		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</div><div class="line">		//得到解析器</div><div class="line">		DocumentBuilder builder = factory.newDocumentBuilder();</div><div class="line">		//解析xml文档，得到代表的document</div><div class="line">		Document document = builder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		Node root = document.getElementsByTagName(&quot;书架&quot;).item(0);</div><div class="line">		list(root);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void list(Node node)&#123;</div><div class="line">		if(node instanceof Element)&#123;</div><div class="line">			System.out.println(node.getNodeName());</div><div class="line">		&#125;</div><div class="line">		NodeList nodelist = node.getChildNodes();</div><div class="line">		for(int i=0;i&lt;nodelist.getLength();i++)&#123;</div><div class="line">			Node child = nodelist.item(i);</div><div class="line">			list(child);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	//得到xml某个标签的属性</div><div class="line">	@Test</div><div class="line">	public void read3() throws Exception&#123;</div><div class="line">		//创建工厂</div><div class="line">		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</div><div class="line">		//得到解析器</div><div class="line">		DocumentBuilder builder = factory.newDocumentBuilder();</div><div class="line">		//解析xml文档，得到代表的document</div><div class="line">		Document document = builder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		Element element = (Element) document.getElementsByTagName(&quot;书名&quot;).item(0);</div><div class="line">		String str = element.getAttribute(&quot;name&quot;);</div><div class="line">		System.out.println(str);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="对XML文件进行写操作"><a href="#对XML文件进行写操作" class="headerlink" title="对XML文件进行写操作"></a>对XML文件进行写操作</h4><p>javax.xml.transform包中有Transform类用于把代表的XML的Document对象转换成某种格式进行输出，如可把XML文档转化为Html文档，也可以把document对象重新写入XML文件中<br>Transform类通过transform方法完成该操作，该方法接受一个源和一个目的地，通过：<br>javax.xml.transform.dom.DOMSourse类来关联要转换的的Document对象，<br>javax.xml.transform.dom.DOMResult类来表示数据传送的目的地<br>Transform对象可通过TransformerFactory来获得</p>
+<h4 id="添加元素"><a href="#添加元素" class="headerlink" title="添加元素"></a>添加元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//添加元素</div><div class="line">	@Test</div><div class="line">	public void write1() throws Exception&#123;</div><div class="line">		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</div><div class="line">		DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();</div><div class="line">		Document sourseDocument = dbBuilder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		Element price = sourseDocument.createElement(&quot;售价&quot;);</div><div class="line">		price.setTextContent(&quot;53.00元&quot;);</div><div class="line">		</div><div class="line">		Element addPrice = (Element) sourseDocument.getElementsByTagName(&quot;书&quot;).item(0);</div><div class="line">		addPrice.appendChild(price);</div><div class="line">		</div><div class="line">		TransformerFactory tfFactory = TransformerFactory.newInstance();</div><div class="line">		Transformer tf = tfFactory.newTransformer();</div><div class="line">		tf.transform(new DOMSource(sourseDocument), new StreamResult(new FileOutputStream(&quot;src/book.xml&quot;)));</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h4 id="在指定位置添加元素"><a href="#在指定位置添加元素" class="headerlink" title="在指定位置添加元素"></a>在指定位置添加元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//指定位置添加元素</div><div class="line">	@Test</div><div class="line">	public void write2() throws Exception&#123;</div><div class="line">		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</div><div class="line">		DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();</div><div class="line">		</div><div class="line">		//得到DOM</div><div class="line">		Document sourseDocument = dbBuilder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		//要插入的节点</div><div class="line">		Element price = sourseDocument.createElement(&quot;售价&quot;);</div><div class="line">		price.setTextContent(&quot;53.00元&quot;);</div><div class="line">		</div><div class="line">		//在哪个节点插入该节点</div><div class="line">		Element book = (Element) sourseDocument.getElementsByTagName(&quot;书&quot;).item(0);</div><div class="line">		</div><div class="line">		//在DOM中加入该节点</div><div class="line">		Element relNode = (Element) book.getElementsByTagName(&quot;售价&quot;).item(0);</div><div class="line">		book.insertBefore(price, relNode);</div><div class="line">		</div><div class="line">		TransformerFactory tfFactory = TransformerFactory.newInstance();</div><div class="line">		Transformer tf = tfFactory.newTransformer();</div><div class="line">		tf.transform(new DOMSource(sourseDocument), new StreamResult(new FileOutputStream(&quot;src/book.xml&quot;)));</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h4 id="给元素添加属性"><a href="#给元素添加属性" class="headerlink" title="给元素添加属性"></a>给元素添加属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//给元素添加属性</div><div class="line">	@Test</div><div class="line">	public void write3() throws Exception&#123;</div><div class="line">		DocumentBuilderFactory dbfBuilderFactory = DocumentBuilderFactory.newInstance();</div><div class="line">		DocumentBuilder dbbuilder = dbfBuilderFactory.newDocumentBuilder();</div><div class="line">		Document document = dbbuilder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		Element element = (Element) document.getElementsByTagName(&quot;书名&quot;).item(0);</div><div class="line">		element.setAttribute(&quot;author&quot;, &quot;GLBB&quot;);</div><div class="line">		</div><div class="line">		TransformerFactory factory = TransformerFactory.newInstance();</div><div class="line">		Transformer transformer = factory.newTransformer();</div><div class="line">		transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(&quot;src/book.xml&quot;)));</div><div class="line">		</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h3 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void delete() throws Exception&#123;</div><div class="line">		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();</div><div class="line">		DocumentBuilder builder = builderFactory.newDocumentBuilder();</div><div class="line">		Document document = builder.parse(&quot;src/book.xml&quot;);</div><div class="line">		</div><div class="line">		//第一种方法</div><div class="line">		//得到要删除的节点</div><div class="line">	//	Element element = (Element) document.getElementsByTagName(&quot;售价&quot;).item(0);</div><div class="line">		//得到要删除的父节点</div><div class="line">	//	Element element2 = (Element) document.getElementsByTagName(&quot;书&quot;).item(0);</div><div class="line">		//从父节点中移除该节点</div><div class="line">	//	element2.removeChild(element);</div><div class="line">		</div><div class="line">		//第二种方法</div><div class="line">		Element element = (Element) document.getElementsByTagName(&quot;售价&quot;).item(0);</div><div class="line">		element.getParentNode().removeChild(element);</div><div class="line">		</div><div class="line">		TransformerFactory factory = TransformerFactory.newInstance();</div><div class="line">		Transformer transformer = factory.newTransformer();</div><div class="line">		transformer.transform(new DOMSource(document), new StreamResult(new FileOutputStream(&quot;src/book.xml&quot;)));</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjbke16fc0004tkvdkq40eedn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JAVA内省" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/22/JAVA内省/" class="article-date">
@@ -100,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbhy5igb0001fwvdmbp8edx8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbke16ee0000tkvdobo8odj2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -143,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbhy5igz0003fwvd8gt0c9fa" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbke16fi0007tkvdmip5dlbv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -208,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbhy5ih20004fwvd4s2lzq0y" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbke16f60002tkvd5u4ja0ki" class="article-share-link">Share</a>
       
       
     </footer>
@@ -250,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbhy5ifv0000fwvdiii45ta2" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbke16f80003tkvd0dpv2ao3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -304,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbhy5ih40005fwvd8m5rxy16" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbke16fh0006tkvdbfr16cjy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbhy5igx0002fwvdkfgq1vwp" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbke16fg0005tkvddbth6r0a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,7 +434,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbhy5ih40007fwvdwzcfymm4" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbke16g8000btkvd174gf6oi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -443,7 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbhy5ih40006fwvd5i0vkkby" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbke16g60009tkvda0r5rasb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -479,96 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbhy5ihj0008fwvd3o0ninhv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-markdown简要语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/16/markdown简要语法/" class="article-date">
-  <time datetime="2017-10-16T13:32:30.000Z" itemprop="datePublished">2017-10-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/16/markdown简要语法/">markdown简明语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>这是正文<br>以下学习markdown语法</p>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><p>正文</p>
-<h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><p>正文</p>
-<h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><p>正文</p>
-<h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><p>正文</p>
-<h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><p>正文</p>
-<h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p>正文</p>
-<h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><ul>
-<li>文本</li>
-<li>文本</li>
-<li>文本</li>
-</ul>
-<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><ol>
-<li>文本</li>
-<li>文本</li>
-<li>文本</li>
-</ol>
-<h2 id="链接和图片"><a href="#链接和图片" class="headerlink" title="链接和图片"></a>链接和图片</h2><p><a href="http://www.jianshu.com" target="_blank" rel="external">简书</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/259-0ad0d0bfc1c608b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
-<p>一盏灯， 一片昏黄； 一简书， 一杯淡茶。 守着那一份淡定， 品读属于自己的寂寞。 保持淡定， 才能欣赏到最美丽的风景！ 保持淡定， 人生从此不再寂寞。</p>
-<h3 id="诗的引用"><a href="#诗的引用" class="headerlink" title="诗的引用"></a>诗的引用</h3><p>立志当怀虎胆，求知莫畏羊肠</p>
-</blockquote>
-<h2 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h2><p><em>一盏灯</em>， 一片昏黄；一<strong>简书</strong>， 一杯淡茶。 守着那一份淡定， 品读属于自己的寂寞。 保持淡定， 才能欣赏到最美丽的风景！ 保持淡定， 人生从此不再寂寞。</p>
-<p><code>printf(&quot;hello world&quot;);</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">printf(&quot;hello world&quot;);</div><div class="line">System.out.println(&quot;hello world&quot;);</div></pre></td></tr></table></figure>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><table>
-<thead>
-<tr>
-<th>姓名</th>
-<th style="text-align:left">职位</th>
-<th>工资</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>张三</td>
-<td style="text-align:left">设计师</td>
-<td>50000</td>
-</tr>
-<tr>
-<td>李四</td>
-<td style="text-align:left">工程师</td>
-<td>50000</td>
-</tr>
-<tr>
-<td>王五</td>
-<td style="text-align:left">助手</td>
-<td>10000</td>
-</tr>
-</tbody>
-</table>
-<h2 id="显示链接中带括号的图片"><a href="#显示链接中带括号的图片" class="headerlink" title="显示链接中带括号的图片"></a>显示链接中带括号的图片</h2><p><img src="http://latex.codecogs.com/gif.latex?\prod%20\(n_{i}\)+1" alt=""></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbhy5iiu000afwvdhtxgfc3v" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbke16g7000atkvdznyn92va" class="article-share-link">Share</a>
       
       
     </footer>
@@ -612,6 +570,10 @@
       <ul>
         
           <li>
+            <a href="/2017/12/24/XML用JAXP解析/">XML用JAXP解析</a>
+          </li>
+        
+          <li>
             <a href="/2017/12/22/JAVA内省/">JAVA内省</a>
           </li>
         
@@ -625,10 +587,6 @@
         
           <li>
             <a href="/2017/12/22/BeanUtils操作/">BeanUtils操作</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/21/WEB应用组成结构/">WEB应用组成结构</a>
           </li>
         
       </ul>
