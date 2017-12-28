@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>tomcat之war包和reloadable属性 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如何打成一个war包windows下cmd进入WEB应用所在目录如unbeatableglbb下的news WEB应用就进入unbeatableglbb输入如下命令1jar cvf news.war news 为什么需要打成war包服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下 配置tomcat中Context元素中的reloadable属性配置tomcat中Cont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat之war包和reloadable属性">
+<meta property="og:url" content="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="如何打成一个war包windows下cmd进入WEB应用所在目录如unbeatableglbb下的news WEB应用就进入unbeatableglbb输入如下命令1jar cvf news.war news 为什么需要打成war包服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下 配置tomcat中Context元素中的reloadable属性配置tomcat中Cont">
+<meta property="og:updated_time" content="2017-12-28T03:19:22.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat之war包和reloadable属性">
+<meta name="twitter:description" content="如何打成一个war包windows下cmd进入WEB应用所在目录如unbeatableglbb下的news WEB应用就进入unbeatableglbb输入如下命令1jar cvf news.war news 为什么需要打成war包服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下 配置tomcat中Context元素中的reloadable属性配置tomcat中Cont">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tomcat之war包和reloadable属性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/28/tomcat之war包和reloadable属性/" class="article-date">
+  <time datetime="2017-12-28T03:19:13.000Z" itemprop="datePublished">2017-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tomcat之war包和reloadable属性
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="如何打成一个war包"><a href="#如何打成一个war包" class="headerlink" title="如何打成一个war包"></a>如何打成一个war包</h3><p>windows下cmd进入WEB应用所在目录<br>如unbeatableglbb下的news WEB应用<br>就进入unbeatableglbb<br>输入如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar cvf news.war news</div></pre></td></tr></table></figure></p>
+<h3 id="为什么需要打成war包"><a href="#为什么需要打成war包" class="headerlink" title="为什么需要打成war包"></a>为什么需要打成war包</h3><p>服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下</p>
+<h3 id="配置tomcat中Context元素中的reloadable属性"><a href="#配置tomcat中Context元素中的reloadable属性" class="headerlink" title="配置tomcat中Context元素中的reloadable属性"></a>配置tomcat中Context元素中的reloadable属性</h3><p>配置tomcat中Context元素中的reloadable属性，让tomcat自动加载更新后的web应用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;www.unbeatableglbb.com&quot; appBase=&quot;F:\tomcatpractice\unbeatableglbb&quot;&gt;</div><div class="line">		&lt;Context path=&quot;&quot; docBase=&quot;F:\tomcatpractice\unbeatableglbb\mail&quot; reloadable=&quot;true&quot;/&gt;</div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
+<p>并不建议在大型项目开发中配置这个属性，原因是程序如果很大，若一改动tomcat就会自动加载，频繁改动，那就会发生很多错误</p>
+<h4 id="在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"><a href="#在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载" class="headerlink" title="在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"></a>在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjbpx7vyt000an8vdx32k3bm2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/28/web资源访问流程图/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">web资源访问流程图</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/28/tomcat之war包和reloadable属性/">tomcat之war包和reloadable属性</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/28/web资源访问流程图/">web资源访问流程图</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/27/Tomcat配置虚拟主机/">Tomcat配置虚拟主机</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/27/dom4j解析XML/">dom4j解析XML、</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/25/SAX解析XML示例/">SAX解析XML示例</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
