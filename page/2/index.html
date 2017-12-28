@@ -68,6 +68,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JAVA枚举" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/22/JAVA枚举/" class="article-date">
+  <time datetime="2017-12-22T13:21:24.000Z" itemprop="datePublished">2017-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/22/JAVA枚举/">JAVA枚举</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看如下示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;),B(&quot;89-80&quot;),C(&quot;79-70&quot;),D(&quot;69-60&quot;),E(&quot;59-0&quot;);</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>枚举构造函数必须为私有的</li>
+<li>switch可以接受枚举类型</li>
+</ol>
+<h3 id="带有抽象方法的枚举"><a href="#带有抽象方法的枚举" class="headerlink" title="带有抽象方法的枚举"></a>带有抽象方法的枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">		System.out.println(Grade.A.locateValue());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;优&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,B(&quot;89-80&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;良&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,C(&quot;79-70&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;中&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,D(&quot;69-60&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;差&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,E(&quot;59-0&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;不及格&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public abstract String locateValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="单态设计模式"><a href="#单态设计模式" class="headerlink" title="单态设计模式"></a>单态设计模式</h3><p>内存中只有一个这样的类<br>可以使用枚举来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">enum A&#123;</div><div class="line">	a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbq8k3wy0003qwvdftb8zu3m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java反射" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/22/Java反射/" class="article-date">
@@ -123,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbpy5p4b0005rsvd1fh3ozm1" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbq8k3xj0009qwvdlvbiq8kz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -165,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbpy5p3x0000rsvdvudgi1cc" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbq8k3ww0002qwvd17lzwrpb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbpy5p4r000arsvdnpvwv2hc" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbq8k3xq000dqwvd5vtlnruh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbpy5p470003rsvde4ac3cl5" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbq8k3wt0001qwvdj2m7ifoe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -302,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbpy5p4z000grsvdicine5b8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbq8k3xx000iqwvdlewwg2jx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbpy5p4w000ersvdewrdulh8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbq8k3xt000fqwvdi2nxfxy4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbpy5p50000irsvdfxs99t7u" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbq8k3xz000jqwvdrg712dfz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -483,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbpy5p4v000drsvd2arnlgfz" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbq8k3xn000bqwvdvwuukqr7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -510,7 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbpy5p450002rsvdwjvk48mb" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbq8k3wn0000qwvdasr7f0wc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -554,6 +597,10 @@
       <ul>
         
           <li>
+            <a href="/2017/12/28/https及tomcat配置及应用管理/">https及tomcat配置及应用管理</a>
+          </li>
+        
+          <li>
             <a href="/2017/12/28/Tomcat体系结构/">Tomcat体系结构</a>
           </li>
         
@@ -567,10 +614,6 @@
         
           <li>
             <a href="/2017/12/27/Tomcat配置虚拟主机/">Tomcat配置虚拟主机</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/27/dom4j解析XML/">dom4j解析XML、</a>
           </li>
         
       </ul>

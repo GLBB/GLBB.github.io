@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>https及tomcat配置及应用管理 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对称加密通过相同的密码序列进行加密解密 非对称加密产生公钥私钥公钥加密的数据私钥解，私钥加密的数据公钥解密 （代号）小东将公钥发给CA担保，生成数字证书，发给代号（小明） 小明也生成一对公钥私钥，用小东数字证书加密，再对数据摘要进行加密，生成数字签名，也称数据指纹 数字签名通过md5算法生成 tomcat配置加密服务器在cmd中使用java工具keytool在cmd中输入1keytool -gen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="https及tomcat配置及应用管理">
+<meta property="og:url" content="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="对称加密通过相同的密码序列进行加密解密 非对称加密产生公钥私钥公钥加密的数据私钥解，私钥加密的数据公钥解密 （代号）小东将公钥发给CA担保，生成数字证书，发给代号（小明） 小明也生成一对公钥私钥，用小东数字证书加密，再对数据摘要进行加密，生成数字签名，也称数据指纹 数字签名通过md5算法生成 tomcat配置加密服务器在cmd中使用java工具keytool在cmd中输入1keytool -gen">
+<meta property="og:updated_time" content="2017-12-28T08:36:38.228Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="https及tomcat配置及应用管理">
+<meta name="twitter:description" content="对称加密通过相同的密码序列进行加密解密 非对称加密产生公钥私钥公钥加密的数据私钥解，私钥加密的数据公钥解密 （代号）小东将公钥发给CA担保，生成数字证书，发给代号（小明） 小明也生成一对公钥私钥，用小东数字证书加密，再对数据摘要进行加密，生成数字签名，也称数据指纹 数字签名通过md5算法生成 tomcat配置加密服务器在cmd中使用java工具keytool在cmd中输入1keytool -gen">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-https及tomcat配置及应用管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/28/https及tomcat配置及应用管理/" class="article-date">
+  <time datetime="2017-12-28T08:14:08.000Z" itemprop="datePublished">2017-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      https及tomcat配置及应用管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>通过相同的密码序列进行加密解密</p>
+<h4 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h4><p>产生公钥私钥<br>公钥加密的数据私钥解，私钥加密的数据公钥解密</p>
+<p>（代号）小东将公钥发给CA担保，生成数字证书，发给代号（小明）</p>
+<p>小明也生成一对公钥私钥，用小东数字证书加密，再对数据摘要进行加密，生成数字签名，也称数据指纹</p>
+<p>数字签名通过md5算法生成</p>
+<h3 id="tomcat配置加密服务器"><a href="#tomcat配置加密服务器" class="headerlink" title="tomcat配置加密服务器"></a>tomcat配置加密服务器</h3><p>在cmd中使用java工具keytool<br>在cmd中输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -alias tomcat -keyalg RSA</div></pre></td></tr></table></figure></p>
+<p>设置密码<br>在姓氏和名字填写服务器主机名称<br>如 www.unbeatableglbb.com<br>其他可以回车默认<br>在cmd的工作目录下可以看见.keystore文件<br>复制粘贴到conf文件夹下，<br>然后打开server.xml插入一个连接器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;8443&quot; protocol=&quot;org.apache.coyote.http11.Http11Protocol&quot;</div><div class="line">               maxThreads=&quot;150&quot; SSLEnabled=&quot;true&quot; scheme=&quot;https&quot; secure=&quot;true&quot;</div><div class="line">               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; keystoreFile=&quot;conf/.keystore&quot; keystorePass=&quot;****&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>keystoreFile是.keystore所在文件夹<br>keystorePass是建立.keystore文件是输入的密码<br>重启服务器</p>
+<h3 id="tomcat应用管理"><a href="#tomcat应用管理" class="headerlink" title="tomcat应用管理"></a>tomcat应用管理</h3><p>参考<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://jingyan.baidu.com/album/fea4511a1c624ef7bb9125ec.html?picindex=6</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjbq8k3xl000aqwvdc2brjrze" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/28/Tomcat体系结构/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tomcat体系结构</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/28/https及tomcat配置及应用管理/">https及tomcat配置及应用管理</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/28/Tomcat体系结构/">Tomcat体系结构</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/28/tomcat之war包和reloadable属性/">tomcat之war包和reloadable属性</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/28/web资源访问流程图/">web资源访问流程图</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/27/Tomcat配置虚拟主机/">Tomcat配置虚拟主机</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
