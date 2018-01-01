@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>servlet和读取资源文件 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="配置文件web.xml文件更改，自动加载 一个servlet可以映射到多个url地址，可以配置多个&amp;lt;servlet-mapping&amp;gt; 中可以配置通用符， &amp;lt;servlet-mapping&amp;gt;/ &amp;lt;servlet-mapping&amp;gt;通配符匹配，或 &amp;lt;servlet-mapping&amp;gt;\.sh&amp;lt;servlet-mapping&amp;gt; 启动服务器时就启动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="servlet和读取资源文件">
+<meta property="og:url" content="http://glbb.github.io/2018/01/01/servlet和读取资源文件/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="配置文件web.xml文件更改，自动加载 一个servlet可以映射到多个url地址，可以配置多个&amp;lt;servlet-mapping&amp;gt; 中可以配置通用符， &amp;lt;servlet-mapping&amp;gt;/ &amp;lt;servlet-mapping&amp;gt;通配符匹配，或 &amp;lt;servlet-mapping&amp;gt;\.sh&amp;lt;servlet-mapping&amp;gt; 启动服务器时就启动">
+<meta property="og:updated_time" content="2018-01-01T11:23:54.261Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="servlet和读取资源文件">
+<meta name="twitter:description" content="配置文件web.xml文件更改，自动加载 一个servlet可以映射到多个url地址，可以配置多个&amp;lt;servlet-mapping&amp;gt; 中可以配置通用符， &amp;lt;servlet-mapping&amp;gt;/ &amp;lt;servlet-mapping&amp;gt;通配符匹配，或 &amp;lt;servlet-mapping&amp;gt;\.sh&amp;lt;servlet-mapping&amp;gt; 启动服务器时就启动">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-servlet和读取资源文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/01/servlet和读取资源文件/" class="article-date">
+  <time datetime="2018-01-01T11:23:11.000Z" itemprop="datePublished">2018-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      servlet和读取资源文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>配置文件web.xml文件更改，自动加载</li>
+<li>一个servlet可以映射到多个url地址，可以配置多个&lt;servlet-mapping&gt;</li>
+<li><servlet-mapping>中可以配置通用符， &lt;servlet-mapping&gt;/ <em>&lt;servlet-mapping&gt;通配符匹配，或 &lt;servlet-mapping&gt;\</em>.sh&lt;servlet-mapping&gt;</servlet-mapping></li>
+<li>启动服务器时就启动servlet可以配置一个标签&lt;load-on-starup&gt;1&lt;/load-on-starup&gt;</li>
+<li>servlet线程安全问题,可以使用同步方法获得把类实现接口SingleThreadModel标记接口，这样当有多个访问时，若一个servlet还没处理完上一个客户机的请求，就会新创建一个servlet</li>
+<li>java中子类在覆盖父类的方法时，不能抛出比父类更多的异常</li>
+</ol>
+<h3 id="servletConfig对象"><a href="#servletConfig对象" class="headerlink" title="servletConfig对象"></a>servletConfig对象</h3><p>servletConfig对象可以读取web.xml servlet &lg;init-param&gt;里面配置的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;init-param&gt;</div><div class="line">    	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">    	&lt;param-value&gt;GLBB&lt;/param-value&gt;</div><div class="line">&lt;/init-param&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String value = conf.getInitParameter(&quot;name&quot;);</div><div class="line">response.getOutputStream().write(value.getBytes());</div></pre></td></tr></table></figure>
+<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>servletContext域</p>
+<ol>
+<li>这是一个容器</li>
+<li>servletContext域说明了这个容器的范围，也就是应用程序范围<br>一个servlet可以通过servletContext的setAttribute方法设置一个属性，另一个servlet可以同过getAttribute方法得到这个值</li>
+</ol>
+<h4 id="为整个应用程序配置参数"><a href="#为整个应用程序配置参数" class="headerlink" title="为整个应用程序配置参数"></a>为整个应用程序配置参数</h4><p>可以通过在web.xml中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;context-param&gt;</div><div class="line">	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">	&lt;param-value&gt;glbb&lt;param-value/&gt;</div><div class="line">&lt;context-param&gt;</div></pre></td></tr></table></figure></p>
+<p>web服务器在加载这个web应用时，会将以上参数封装到servletContext对象中<br>可以通过调用getInitParameter方法来获得参数的值</p>
+<h3 id="servlet进行请求的转发"><a href="#servlet进行请求的转发" class="headerlink" title="servlet进行请求的转发"></a>servlet进行请求的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String str = &quot;1111111111111111&quot;;</div><div class="line">this.getServletContext().setAttribute(&quot;str&quot;, str);</div><div class="line">		</div><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div><div class="line">rd.forward(request, response);</div></pre></td></tr></table></figure></p>
+<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	if(application.getAttribute(&quot;str&quot;)!=null)&#123;</div><div class="line">		String str = (String)application.getAttribute(&quot;str&quot;);</div><div class="line">		out.write(str);</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>其中用this.getServletContext().setAttribute(“str”, str);来保存数据，有问题对于当访问密集时，容易造成数据紊乱</p>
+<h4 id="利用servletContext读取资源文件"><a href="#利用servletContext读取资源文件" class="headerlink" title="利用servletContext读取资源文件"></a>利用servletContext读取资源文件</h4><p>其中资源文件在src目录下<br>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">		Properties property = new Properties();</div><div class="line">		property.load(is);</div><div class="line">		</div><div class="line">		String url = property.getProperty(&quot;url&quot;);</div><div class="line">		String user = property.getProperty(&quot;user&quot;);</div><div class="line">		String password = property.getProperty(&quot;password&quot;);</div><div class="line">		</div><div class="line">		response.getWriter().write(url+&quot; &quot;+user+&quot; &quot;+password);</div></pre></td></tr></table></figure></p>
+<p>properties配置文件中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">url=jdbc:mysql://localhost:3306/test</div><div class="line">user=glbb</div><div class="line">password=123456</div></pre></td></tr></table></figure></p>
+<p>其中这是一个web项目，读取文件时如用以前的传统方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FileInputSteam fis = new FileInputStream(&quot;classes/db.properties&quot;);</div></pre></td></tr></table></figure></p>
+<p>其中url为相对路径，相对的是启动java虚拟机的目录<br>即bin目录下的starup.bat文件所在目录相对目录</p>
+<p>也可以通过servletContext的getRealPath方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">FileInputSteam fis = new FileInputStream(path);</div></pre></td></tr></table></figure></p>
+<h4 id="普通java程序读取资源数据"><a href="#普通java程序读取资源数据" class="headerlink" title="普通java程序读取资源数据"></a>普通java程序读取资源数据</h4><p>可以通过类加载器来读取资源文件，其中文件路径名以src目录为基准，如db.properties是在src目录下，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">InputStream is = Dao.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div></pre></td></tr></table></figure></p>
+<p>其中Dao，data acess object中有许多如update,delete,add这些方法都需加载资源文件,所以资源文件加载可以放到一个静态代码块</p>
+<p>通过类加载器读取文件，文件不可以太大，若文件太大，类加载器把文件全部加载到内存中，容易导致jvm内存溢出<br>还有：类加载器和静态代码块只会执行一次，若对资源文件进行更改，想要访问最新的资源可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String path = Dao.class.getClassLoader().getResource(&quot;db.properties&quot;).getPath();</div><div class="line">		try &#123;</div><div class="line">			FileInputStream fis = new FileInputStream(path);</div><div class="line">			Properties prop = new Properties();</div><div class="line">			prop.load(fis);</div><div class="line">			System.out.println(prop.getProperty(&quot;url&quot;));</div><div class="line">		&#125; catch (FileNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<p>用类装载方式获得文件位置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjbw4aedd000euovdf0cmueqt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/29/Servlet调用图/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Servlet调用图</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/Servlet调用图/">Servlet调用图</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/手写一个servlet程序/">手写一个servlet程序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/Schema入门/">Schema入门</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/28/https及tomcat配置及应用管理/">https及tomcat配置及应用管理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
