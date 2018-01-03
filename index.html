@@ -68,6 +68,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-response图片输出" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/03/response图片输出/" class="article-date">
+  <time datetime="2018-01-03T11:17:32.000Z" itemprop="datePublished">2018-01-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/03/response图片输出/">response图片输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.response;</div><div class="line"></div><div class="line">import java.awt.Color;</div><div class="line">import java.awt.Font;</div><div class="line">import java.awt.Graphics;</div><div class="line">import java.awt.Graphics2D;</div><div class="line">import java.awt.image.BufferedImage;</div><div class="line">import java.io.IOException;</div><div class="line">import java.util.Random;</div><div class="line"></div><div class="line">import javax.imageio.ImageIO;</div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line"></div><div class="line">//输出随机图片</div><div class="line">public class demo3 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line">	</div><div class="line">	public static final int WIDTH = 120;</div><div class="line">	public static final int HEIGHT = 35;</div><div class="line">	private static final int LINESNUMBER = 5;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);</div><div class="line">		Graphics graphics = bufferedImage.getGraphics();</div><div class="line">		</div><div class="line">		//设置背景颜色</div><div class="line">		setBackgroudColor(graphics);</div><div class="line">		</div><div class="line">		//设置边框</div><div class="line">		setBorder(graphics);</div><div class="line">		</div><div class="line">		//设置干扰线</div><div class="line">		drawRomdomLine(graphics);</div><div class="line">		</div><div class="line">		//写随机字符，graphics2D有旋转方法</div><div class="line">		drawRomdomLetter((Graphics2D) graphics);</div><div class="line">		</div><div class="line">		//把图形输出给浏览器,不缓存</div><div class="line">		response.setDateHeader(&quot;expries&quot;, -1);</div><div class="line">		response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</div><div class="line">		response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</div><div class="line">		response.setContentType(&quot;image/jpeg&quot;);</div><div class="line">		ImageIO.write(bufferedImage, &quot;jpg&quot;, response.getOutputStream());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void setBackgroudColor(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.WHITE);</div><div class="line">		graphics.fillRect(0, 0, WIDTH, HEIGHT);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void setBorder(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.BLUE);</div><div class="line">		graphics.drawRect(1, 1, WIDTH-3, HEIGHT-3);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void drawRomdomLine(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.GREEN);</div><div class="line">		for(int i=0;i&lt;LINESNUMBER;i++)&#123;</div><div class="line">			int x1 = new Random().nextInt(WIDTH);</div><div class="line">			int x2 = new Random().nextInt(WIDTH);</div><div class="line">			</div><div class="line">			int y1 = new Random().nextInt(HEIGHT);</div><div class="line">			int y2 = new Random().nextInt(HEIGHT);</div><div class="line">			</div><div class="line">			graphics.drawLine(x1, y1, x2, y2);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	private void drawRomdomLetter(Graphics2D graphics) &#123;</div><div class="line">	//常用汉语字符</div><div class="line">		String base = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31&quot;;</div><div class="line">		</div><div class="line">		graphics.setColor(Color.RED);</div><div class="line">		graphics.setFont(new Font(&quot;宋体&quot;,Font.BOLD,20));</div><div class="line">		</div><div class="line">		int x = 5;</div><div class="line">		</div><div class="line">		for(int i=0;i&lt;4;i++)&#123;</div><div class="line">			int degree = new Random().nextInt()%30;</div><div class="line">			double theta = degree*3.14/180;</div><div class="line">			graphics.rotate(theta, x, 25);</div><div class="line">			String ch = base.charAt(new Random().nextInt(base.length()))+&quot;&quot;;</div><div class="line">			graphics.drawString(ch, x, 25);</div><div class="line">			graphics.rotate(-theta, x, 25);</div><div class="line">			</div><div class="line">			x+=30;</div><div class="line">		&#125;	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>附加注册页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;index.html&lt;/title&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</div><div class="line">    </div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">		#authenticat:HOVER &#123;</div><div class="line">			cursor: pointer;</div><div class="line">		&#125;		</div><div class="line">	&lt;/style&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;form&gt;</div><div class="line">    	用户名：&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br/&gt;</div><div class="line">    	密码：&lt;input type=&quot;password&quot; name=&quot;passwd&quot;&gt;&lt;br/&gt;</div><div class="line">    	认证码：&lt;input type=&quot;text&quot; name=&quot;authentication&quot;&gt;&lt;br/&gt;</div><div class="line">    	&lt;img src=&quot;/day06/servlet/demo3&quot; onclick=&quot;this.src=this.src+&apos;?&apos;+(new Date().getMilliseconds())&quot; id=&quot;authenticat&quot;/&gt;</div><div class="line">    	&lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</div><div class="line">    &lt;/form&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjbyyyj5v000e4cvdzr9yhd7t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-servlet之response输出和文件下载" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/03/servlet之response输出和文件下载/" class="article-date">
@@ -102,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjbyxj5rm000h4gvdwjv7d7p0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjbyyyj5w000f4cvdsugd3pfc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -167,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjbyxj5rn000i4gvd18htgeq7" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjbyyyj65000l4cvdigsqpaeb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -204,7 +242,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjbyxj5ra00094gvdjgq78z1f" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjbyyyj5m00094cvd6badk0u5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjbyxj5rx000o4gvdh9vc0bw8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjbyyyj69000p4cvdd3r4nsa6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjbyxj5r000074gvd323e6nqn" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjbyyyj5j00074cvdw1uhndf8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,7 +367,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjbyxj5rk000f4gvdj00bhxhv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjbyyyj5z000h4cvd2dzbhxj3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjbyxj5rb000a4gvdgyogcqn4" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjbyyyj5s000c4cvdjumj5c03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjbyxj5ro000j4gvd1fqptus9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjbyyyj60000i4cvdrgi6it2a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -444,56 +482,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjbyxj5ru000m4gvdjebclpue" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Tomcat配置虚拟主机" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/27/Tomcat配置虚拟主机/" class="article-date">
-  <time datetime="2017-12-27T12:52:46.000Z" itemprop="datePublished">2017-12-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/Tomcat配置虚拟主机/">Tomcat配置虚拟主机</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如需在WEB服务器中配置一个网站，需使用Host元素进行配置，配置的主机想要被外接访问，必须在DNS服务器或WINDOWS服务器中配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;</div><div class="line">            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</div></pre></td></tr></table></figure></p>
-<p>默认是localhost<br>配置一个www.unbeatableglbb.com主机<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;www.unbeatableglbb.com&quot; appBase=&quot;F:\tomcatpractice\unbeatableglbb&quot;&gt;</div><div class="line">		&lt;Context path=&quot;/mail&quot; docBase=&quot;F:\tomcatpractice\unbeatableglbb\mail&quot;/&gt;</div><div class="line">	  &lt;/Host&gt;</div></pre></td></tr></table></figure></p>
-<p>appBase是项目实际所在路径<br>同时配置了一个comtext WEB应用</p>
-<p>但此时打开浏览器并不能访问到<a href="http://www.unbeatableglbb.com/mail/1.html" target="_blank" rel="external">http://www.unbeatableglbb.com/mail/1.html</a></p>
-<p>下面是访问网站流程</p>
-<p>WEB访问baidu流程<br><img src="http://i4.bvimg.com/624208/1e8bf720ee4d5855.png" alt="Markdown"></p>
-<p>想要知道一个主机的Ip，可以通过ping命令查看IP地址<br><img src="http://i4.bvimg.com/624208/8f1517a492e2e8a5.png" alt="Markdown"></p>
-<p>真正web访问过程<br><img src="http://i4.bvimg.com/624208/694cf95ff1e78e87.png" alt="Markdown"></p>
-<p>在hosts文件所在位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">C:\Windows\System32\drivers\etc</div></pre></td></tr></table></figure></p>
-<p>在hosts中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">127.0.0.1 www.unbeatableglbb.com</div></pre></td></tr></table></figure></p>
-<p>则可通过浏览器<a href="http://www.unbeatableglbb.com:8080/mail/1.html访问到" target="_blank" rel="external">http://www.unbeatableglbb.com:8080/mail/1.html访问到</a></p>
-<h3 id="直接通过主机访问到mail-1-html"><a href="#直接通过主机访问到mail-1-html" class="headerlink" title="直接通过主机访问到mail/1.html"></a>直接通过主机访问到mail/1.html</h3><p>在server.xml中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;www.unbeatableglbb.com&quot; appBase=&quot;F:\tomcatpractice\unbeatableglbb&quot;&gt;</div><div class="line">		&lt;Context path=&quot;&quot; docBase=&quot;F:\tomcatpractice\unbeatableglbb\mail&quot;/&gt;</div><div class="line">	  &lt;/Host&gt;</div></pre></td></tr></table></figure></p>
-<p>将path设置为空，设置为默认web应用<br>在把默认的web应用设置一个默认的首页<br>方法 在F:\tomcatpractice\unbeatableglbb\mail中新建一个WEB-INF目录，然后在WEB-INF目录中新建web.xml文件</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjbyxj5rd000b4gvdpiw6hika" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjbyyyj63000k4cvdc772mymy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -537,6 +526,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/03/response图片输出/">response图片输出</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
           </li>
         
@@ -550,10 +543,6 @@
         
           <li>
             <a href="/2017/12/29/手写一个servlet程序/">手写一个servlet程序</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/29/Schema入门/">Schema入门</a>
           </li>
         
       </ul>

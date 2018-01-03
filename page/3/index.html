@@ -68,6 +68,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JAVA可变参数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/21/JAVA可变参数/" class="article-date">
+  <time datetime="2017-12-20T16:36:16.000Z" itemprop="datePublished">2017-12-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/21/JAVA可变参数/">JAVA可变参数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="java可变参数"><a href="#java可变参数" class="headerlink" title="java可变参数"></a>java可变参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">package variable_parameter;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo1 &#123;</div><div class="line">	@Test</div><div class="line">	public void testsum()&#123;</div><div class="line">		sum(1,2,3,4,5,6);</div><div class="line">		//或者写成</div><div class="line">		int[] arr = &#123;1,2,3,4,5,6&#125;;</div><div class="line">		sum(arr);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void sum(int ...values)&#123;</div><div class="line">		//可变参数可以看成数组</div><div class="line">		int result = 0;</div><div class="line">		for(int i:values)&#123;</div><div class="line">			result += i;</div><div class="line">		&#125;</div><div class="line">		System.out.println(result);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但注意不可写成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public void sum(int ...values,int a)&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>可写成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public void sum(int a,int ...values)&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p><br></p>
+<h3 id="可变参数可能具有的坑"><a href="#可变参数可能具有的坑" class="headerlink" title="可变参数可能具有的坑"></a>可变参数可能具有的坑</h3><p>java.util.Arrays中有aslist方法<br>以下是asList解释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">static &lt;T&gt; List&lt;T&gt;	asList(T... a)</div><div class="line">Returns a fixed-size list backed by the specified array.</div></pre></td></tr></table></figure></p>
+<p><img src="http://i1.bvimg.com/624208/bcd8e58d2cfdae48.png" alt="Markdown"></p>
+<p>T代表泛型对象<br>注意int[]数组是被当作一个对象<br>Interger[]是被当成一个数组，数组里面每一个都是Integer对象</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbyyyj5k00084cvd4yoptvv2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-tomcat入门学习二" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/19/tomcat入门学习二/" class="article-date">
@@ -98,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbyxj5rt000l4gvdydymw2d6" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbyyyj68000o4cvdit7sc158" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbyxj5rp000k4gvdmhnorfvq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbyyyj67000m4cvd1vgs4nr4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbyxj5rw000n4gvdj0dilp0q" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbyyyj67000n4cvdj9asua15" class="article-share-link">Share</a>
       
       
     </footer>
@@ -279,7 +322,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbyxj5rm000g4gvdz3fkino8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbyyyj61000j4cvdo1itxkov" class="article-share-link">Share</a>
       
       
     </footer>
@@ -306,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbyxj5qj00014gvdbaih400g" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbyyyj4v00004cvdga8b428a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -350,6 +393,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/03/response图片输出/">response图片输出</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
           </li>
         
@@ -363,10 +410,6 @@
         
           <li>
             <a href="/2017/12/29/手写一个servlet程序/">手写一个servlet程序</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/29/Schema入门/">Schema入门</a>
           </li>
         
       </ul>
