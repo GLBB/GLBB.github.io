@@ -68,6 +68,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tomcat之war包和reloadable属性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/28/tomcat之war包和reloadable属性/" class="article-date">
+  <time datetime="2017-12-28T03:19:13.000Z" itemprop="datePublished">2017-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/28/tomcat之war包和reloadable属性/">tomcat之war包和reloadable属性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="如何打成一个war包"><a href="#如何打成一个war包" class="headerlink" title="如何打成一个war包"></a>如何打成一个war包</h3><p>windows下cmd进入WEB应用所在目录<br>如unbeatableglbb下的news WEB应用<br>就进入unbeatableglbb<br>输入如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar cvf news.war news</div></pre></td></tr></table></figure></p>
+<h3 id="为什么需要打成war包"><a href="#为什么需要打成war包" class="headerlink" title="为什么需要打成war包"></a>为什么需要打成war包</h3><p>服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下</p>
+<h3 id="配置tomcat中Context元素中的reloadable属性"><a href="#配置tomcat中Context元素中的reloadable属性" class="headerlink" title="配置tomcat中Context元素中的reloadable属性"></a>配置tomcat中Context元素中的reloadable属性</h3><p>配置tomcat中Context元素中的reloadable属性，让tomcat自动加载更新后的web应用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;www.unbeatableglbb.com&quot; appBase=&quot;F:\tomcatpractice\unbeatableglbb&quot;&gt;</div><div class="line">		&lt;Context path=&quot;&quot; docBase=&quot;F:\tomcatpractice\unbeatableglbb\mail&quot; reloadable=&quot;true&quot;/&gt;</div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
+<p>并不建议在大型项目开发中配置这个属性，原因是程序如果很大，若一改动tomcat就会自动加载，频繁改动，那就会发生很多错误</p>
+<h4 id="在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"><a href="#在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载" class="headerlink" title="在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"></a>在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjbz7zw7a000jv8vd3wh1l3qs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-web资源访问流程图" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/28/web资源访问流程图/" class="article-date">
@@ -95,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjbz3fbi0000mm4vdrmstd4c0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjbz7zw7f000nv8vdfhyoraif" class="article-share-link">Share</a>
       
       
     </footer>
@@ -144,7 +184,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjbz3fbgw000am4vdukd1y18a" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjbz7zw6u0009v8vdguo2osux" class="article-share-link">Share</a>
       
       
     </footer>
@@ -195,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjbz3fbhc000gm4vdlbkay7xv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjbz7zw97000rv8vdj05vwl3a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -234,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjbz3fbgv0009m4vdwwcfr52p" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjbz7zw670005v8vdjm36q78n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -278,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjbz3fbg60004m4vdl885wizc" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjbz7zw6y000bv8vducw1v9k4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjbz3fbic000qm4vd0ingedio" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjbz7zw94000pv8vdc89di84s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbz3fbfz0002m4vdoxs3nms9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbz7zw5f0001v8vdpancmy2h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,7 +450,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbz3fbg50003m4vdvfuyzntq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbz7zw610003v8vdrcn6bj3k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -475,49 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbz3fbgb0006m4vdws2fp6qh" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-BeanUtils操作" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/22/BeanUtils操作/" class="article-date">
-  <time datetime="2017-12-22T13:19:20.000Z" itemprop="datePublished">2017-12-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/22/BeanUtils操作/">BeanUtils操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为用Sum公司API操作Bean属性还是比较麻烦，所以Apache开发出BeanUtils来让操作属性更加简便,BeanUtils需要一个日志支持，可以导入logging.jar<br>下面是Bean Person类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">package beanutils;</div><div class="line"></div><div class="line">public class Person &#123;</div><div class="line">	public String name;</div><div class="line">	public int age;</div><div class="line">	public String passwd;</div><div class="line">	private Date birthday;</div><div class="line">	</div><div class="line">	public Date getBirthday() &#123;</div><div class="line">		return birthday;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setBirthday(Date birthday) &#123;</div><div class="line">		this.birthday = birthday;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getAB()&#123;</div><div class="line">		return null;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getName() &#123;</div><div class="line">		return name;</div><div class="line">	&#125;</div><div class="line">	public void setName(String name) &#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public int getAge() &#123;</div><div class="line">		return age;</div><div class="line">	&#125;</div><div class="line">	public void setAge(int age) &#123;</div><div class="line">		this.age = age;</div><div class="line">	&#125;</div><div class="line">	public String getPasswd() &#123;</div><div class="line">		return passwd;</div><div class="line">	&#125;</div><div class="line">	public void setPasswd(String passwd) &#123;</div><div class="line">		this.passwd = passwd;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>更改属性的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test1() throws IllegalAccessException, InvocationTargetException&#123;</div><div class="line">		Person p = new Person();</div><div class="line">		BeanUtils.setProperty(p, &quot;name&quot;, &quot;glbb&quot;);</div><div class="line">		System.out.println(p.getName());</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="BeanUtils会进行基本类型自动转换"><a href="#BeanUtils会进行基本类型自动转换" class="headerlink" title="BeanUtils会进行基本类型自动转换"></a>BeanUtils会进行基本类型自动转换</h3><p>只限八种基本类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test2() throws IllegalAccessException, InvocationTargetException&#123;</div><div class="line">		String name = &quot;GLBB&quot;;</div><div class="line">		String passwd = &quot;123456&quot;;</div><div class="line">		String age = &quot;20&quot;;</div><div class="line">		//String birthday = &quot;1997-09-25&quot;;</div><div class="line">		</div><div class="line">		Person p = new Person();</div><div class="line">		BeanUtils.setProperty(p, &quot;name&quot;, name);</div><div class="line">		BeanUtils.setProperty(p, &quot;passwd&quot;, passwd);</div><div class="line">		BeanUtils.setProperty(p, &quot;age&quot;, age);</div><div class="line">		//BeanUtils.setProperty(p, &quot;birthday&quot;, birthday);</div><div class="line">		</div><div class="line">		System.out.println(p.name+&quot; &quot;+p.passwd+&quot; &quot;+p.age+&quot; &quot;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>其中把String age型转换为int age类型然后赋值给person，<br>但是无法自动进行String转换成date类型<br>需要类型转换器</p>
-<h3 id="类型转换器"><a href="#类型转换器" class="headerlink" title="类型转换器"></a>类型转换器</h3><p>自己写的类型转换器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test3() throws IllegalAccessException, InvocationTargetException&#123;</div><div class="line">		String name = &quot;GLBB&quot;;</div><div class="line">		String passwd = &quot;123456&quot;;</div><div class="line">		String age = &quot;20&quot;;</div><div class="line">		String birthday = &quot;1997-09-25&quot;;</div><div class="line">		</div><div class="line">		ConvertUtils.register(new Converter()&#123;</div><div class="line">			@SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">			@Override</div><div class="line">			public &lt;T&gt; T convert(Class&lt;T&gt; arg0, Object arg1) &#123;</div><div class="line">				if(arg1==null)&#123;</div><div class="line">					return null;</div><div class="line">				&#125;else if(!(arg1 instanceof String))&#123;</div><div class="line">					throw new ConversionException(&quot;不是String类型&quot;);</div><div class="line">				&#125;</div><div class="line">				String str = (String)arg1;</div><div class="line">				if(str.trim().equals(&quot;&quot;))&#123;</div><div class="line">					throw new ConversionException(&quot;无效字符串&quot;);</div><div class="line">				&#125;</div><div class="line">				SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</div><div class="line">				try &#123;</div><div class="line">					return (T) sdf.parse(str);</div><div class="line">				&#125; catch (ParseException e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					throw new ConversionException(&quot;字符串格式不对&quot;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;, Date.class);</div><div class="line">		</div><div class="line">		Person p = new Person();</div><div class="line">		BeanUtils.setProperty(p, &quot;name&quot;, name);</div><div class="line">		BeanUtils.setProperty(p, &quot;passwd&quot;, passwd);</div><div class="line">		BeanUtils.setProperty(p, &quot;age&quot;, age);</div><div class="line">		BeanUtils.setProperty(p, &quot;birthday&quot;, birthday);</div><div class="line">		</div><div class="line">		System.out.println(p.name+&quot; &quot;+p.passwd+&quot; &quot;+p.age+&quot; &quot;+p.getBirthday());</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="可以调用Apache已经写好的类型转换器"><a href="#可以调用Apache已经写好的类型转换器" class="headerlink" title="可以调用Apache已经写好的类型转换器"></a>可以调用Apache已经写好的类型转换器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test4() throws IllegalAccessException, InvocationTargetException&#123;</div><div class="line">		String name = &quot;GLBB&quot;;</div><div class="line">		String passwd = &quot;123456&quot;;</div><div class="line">		String age = &quot;20&quot;;</div><div class="line">		String birthday = &quot;1997-09-25&quot;;</div><div class="line">		</div><div class="line">		ConvertUtils.register(new DateLocaleConverter(), Date.class);</div><div class="line">		</div><div class="line">		Person p = new Person();</div><div class="line">		BeanUtils.setProperty(p, &quot;name&quot;, name);</div><div class="line">		BeanUtils.setProperty(p, &quot;passwd&quot;, passwd);</div><div class="line">		BeanUtils.setProperty(p, &quot;age&quot;, age);</div><div class="line">		BeanUtils.setProperty(p, &quot;birthday&quot;, birthday);</div><div class="line">		</div><div class="line">		System.out.println(p.name+&quot; &quot;+p.passwd+&quot; &quot;+p.age+&quot; &quot;+p.getBirthday());</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<h4 id="使用Map进行填充"><a href="#使用Map进行填充" class="headerlink" title="使用Map进行填充"></a>使用Map进行填充</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test5() throws IllegalAccessException, InvocationTargetException&#123;</div><div class="line">		Map&lt;String,String&gt; map = new HashMap&lt;&gt;();</div><div class="line">		map.put(&quot;name&quot;, &quot;GLBB&quot;);</div><div class="line">		map.put(&quot;passwd&quot;, &quot;123456&quot;);</div><div class="line">		map.put(&quot;age&quot;, &quot;20&quot;);</div><div class="line">		map.put(&quot;birthday&quot;, &quot;1997-09-25&quot;);</div><div class="line">		</div><div class="line">		ConvertUtils.register(new DateLocaleConverter(), Date.class);</div><div class="line">		</div><div class="line">		Person p = new Person();</div><div class="line">		</div><div class="line">		BeanUtils.populate(p, map);</div><div class="line">		</div><div class="line">		System.out.println(p.name+&quot; &quot;+p.passwd+&quot; &quot;+p.age+&quot; &quot;+p.getBirthday());</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbz3fbfv0001m4vd0jqzkfg9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbz7zw70000cv8vd1ewi0gwt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -561,6 +559,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
           </li>
         
@@ -574,10 +576,6 @@
         
           <li>
             <a href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/29/Servlet调用图/">Servlet调用图</a>
           </li>
         
       </ul>
