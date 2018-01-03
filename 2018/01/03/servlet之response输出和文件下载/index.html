@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>servlet之response输出和文件下载 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1234String str = &amp;quot;中国&amp;quot;;OutputStream os = response.getOutputStream();os.write(str.getBytes()); 可以成功显示原因：向response中写数据和浏览器读数据采用的码表都是gb2312，或其他相同的码表设置都用utf-8码表12345response.setHeader(&amp;quot;Conte">
+<meta property="og:type" content="article">
+<meta property="og:title" content="servlet之response输出和文件下载">
+<meta property="og:url" content="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="1234String str = &amp;quot;中国&amp;quot;;OutputStream os = response.getOutputStream();os.write(str.getBytes()); 可以成功显示原因：向response中写数据和浏览器读数据采用的码表都是gb2312，或其他相同的码表设置都用utf-8码表12345response.setHeader(&amp;quot;Conte">
+<meta property="og:updated_time" content="2018-01-03T10:36:24.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="servlet之response输出和文件下载">
+<meta name="twitter:description" content="1234String str = &amp;quot;中国&amp;quot;;OutputStream os = response.getOutputStream();os.write(str.getBytes()); 可以成功显示原因：向response中写数据和浏览器读数据采用的码表都是gb2312，或其他相同的码表设置都用utf-8码表12345response.setHeader(&amp;quot;Conte">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-servlet之response输出和文件下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/03/servlet之response输出和文件下载/" class="article-date">
+  <time datetime="2018-01-03T10:36:15.000Z" itemprop="datePublished">2018-01-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      servlet之response输出和文件下载
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(str.getBytes());</div></pre></td></tr></table></figure>
+<p>可以成功显示原因：<br>向response中写数据和浏览器读数据采用的码表都是gb2312，或其他相同的码表<br>设置都用utf-8码表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=utf-8&quot;);</div><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(str.getBytes(&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
+<p>用&lt;meta&gt;方式，不同的浏览器支持不一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(&quot;&lt;meta http-equiv=&apos;content-type&apos; content=&apos;text/html;charset=UTF-8&apos;&gt;&quot;.getBytes());</div><div class="line">os.write(&quot;&lt;h1&gt;的说法是就是&lt;/h1&gt;&quot;.getBytes());</div><div class="line">os.write(str.getBytes(&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
+<p>不一定对所有的浏览器都有效</p>
+<h3 id="采用字符流进行输出"><a href="#采用字符流进行输出" class="headerlink" title="采用字符流进行输出"></a>采用字符流进行输出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line">//写入response采用utf-8码表</div><div class="line">response.setCharacterEncoding(&quot;utf-8&quot;);</div><div class="line">//控制浏览器采用utf-8进行显示</div><div class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=utf-8&quot;);</div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(str);</div></pre></td></tr></table></figure>
+<p>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">等价于</div><div class="line">//写入response采用utf-8码表</div><div class="line">response.setCharacterEncoding(&quot;utf-8&quot;);</div><div class="line">//控制浏览器采用utf-8进行显示</div><div class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=utf-8&quot;);</div></pre></td></tr></table></figure></p>
+<h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>下载download目录下一个girl.jpg文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.response;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.OutputStream;</div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class demo02 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		String path = this.getServletContext().getRealPath(&quot;/download/girl.jpg&quot;);</div><div class="line">//		System.out.println(path);</div><div class="line">		String filename = path.substring(path.lastIndexOf(&quot;\\&quot;)+1);</div><div class="line">//		System.out.println(path.lastIndexOf(&quot;\\&quot;)); 45</div><div class="line">//		System.out.println(filename);</div><div class="line">		</div><div class="line"></div><div class="line">		response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot; + filename);</div><div class="line"></div><div class="line">		InputStream is = null;</div><div class="line">		OutputStream os = null;</div><div class="line">		is = new FileInputStream(path);</div><div class="line">		int len = 0;</div><div class="line">		byte[] buffer = new byte[1024];</div><div class="line">		os = response.getOutputStream();</div><div class="line">		while ((len = is.read(buffer)) &gt; 0) &#123;</div><div class="line">			os.write(buffer, 0, len);</div><div class="line">		&#125;</div><div class="line">		is.close();</div><div class="line">		os.close();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中的文件名若为中文，必须将文件名用URLEncoder转换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String path = this.getServletContext().getRealPath(&quot;/download/美女.jpg&quot;);</div><div class="line">String filename = path.substring(path.lastIndexOf(&quot;\\&quot;)+1);</div><div class="line">	//文件名为中文</div><div class="line">response.setHeader(&quot;content-disposition&quot;,&quot;attachment;filename=&quot;+URLEncoder.encode(filename,&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjbyxj5rm000h4gvdwjv7d7p0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/01/servlet和读取资源文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">servlet和读取资源文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/Servlet调用图/">Servlet调用图</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/手写一个servlet程序/">手写一个servlet程序</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/29/Schema入门/">Schema入门</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
