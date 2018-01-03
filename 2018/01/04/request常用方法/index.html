@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tomcat入门学习一 | 我的博客</title>
+  <title>request常用方法 | 我的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下载tomcat之后开启tomcat必须配置javahome环境变量 tomcat web服务从默认的8080端口改为80端口 打开tomcat 里面conf目录里的server.xml文件 找到如下代码(连接器) 123&amp;lt;Connector port=&amp;quot;8080&amp;quot; protocol=&amp;quot;HTTP/1.1&amp;quot;              connection">
+  <meta name="description" content="URL: http://www.sina.com/news/1.htmlURI: /news/1.htmlURI用来标示某一个资源URL用来标示互联网上某一个资源123456789101112131415161718192021System.out.println(request.getRequestURI());System.out.println(request.getRequestURL()">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tomcat入门学习一">
-<meta property="og:url" content="http://glbb.github.io/2017/12/18/tomcat入门学习一/index.html">
+<meta property="og:title" content="request常用方法">
+<meta property="og:url" content="http://glbb.github.io/2018/01/04/request常用方法/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="下载tomcat之后开启tomcat必须配置javahome环境变量 tomcat web服务从默认的8080端口改为80端口 打开tomcat 里面conf目录里的server.xml文件 找到如下代码(连接器) 123&amp;lt;Connector port=&amp;quot;8080&amp;quot; protocol=&amp;quot;HTTP/1.1&amp;quot;              connection">
-<meta property="og:updated_time" content="2017-12-18T15:05:29.106Z">
+<meta property="og:description" content="URL: http://www.sina.com/news/1.htmlURI: /news/1.htmlURI用来标示某一个资源URL用来标示互联网上某一个资源123456789101112131415161718192021System.out.println(request.getRequestURI());System.out.println(request.getRequestURL()">
+<meta property="og:updated_time" content="2018-01-03T16:19:53.726Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tomcat入门学习一">
-<meta name="twitter:description" content="下载tomcat之后开启tomcat必须配置javahome环境变量 tomcat web服务从默认的8080端口改为80端口 打开tomcat 里面conf目录里的server.xml文件 找到如下代码(连接器) 123&amp;lt;Connector port=&amp;quot;8080&amp;quot; protocol=&amp;quot;HTTP/1.1&amp;quot;              connection">
+<meta name="twitter:title" content="request常用方法">
+<meta name="twitter:description" content="URL: http://www.sina.com/news/1.htmlURI: /news/1.htmlURI用来标示某一个资源URL用来标示互联网上某一个资源123456789101112131415161718192021System.out.println(request.getRequestURI());System.out.println(request.getRequestURL()">
   
     <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
   
@@ -67,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-tomcat入门学习一" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-request常用方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/12/18/tomcat入门学习一/" class="article-date">
-  <time datetime="2017-12-18T15:04:47.000Z" itemprop="datePublished">2017-12-18</time>
+    <a href="/2018/01/04/request常用方法/" class="article-date">
+  <time datetime="2018-01-03T16:19:48.000Z" itemprop="datePublished">2018-01-04</time>
 </a>
     
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tomcat入门学习一
+      request常用方法
     </h1>
   
 
@@ -89,31 +89,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="下载tomcat之后"><a href="#下载tomcat之后" class="headerlink" title="下载tomcat之后"></a>下载tomcat之后</h3><p>开启tomcat必须配置javahome环境变量</p>
-<h3 id="tomcat-web服务从默认的8080端口改为80端口"><a href="#tomcat-web服务从默认的8080端口改为80端口" class="headerlink" title="tomcat web服务从默认的8080端口改为80端口"></a>tomcat web服务从默认的8080端口改为80端口</h3><ol>
-<li>打开tomcat 里面conf目录里的server.xml文件</li>
-<li><p>找到如下代码(连接器)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</div><div class="line">              connectionTimeout=&quot;20000&quot;</div><div class="line">              redirectPort=&quot;8443&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;80&quot; protocol=&quot;HTTP/1.1&quot;</div><div class="line">              connectionTimeout=&quot;20000&quot;</div><div class="line">              redirectPort=&quot;8443&quot; /&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>启动tomcat服务</p>
-</li>
-<li>若启动不成功查看是否有程序已经占用80端口</li>
-<li>我80端口被httpd占用<br> 通过netstat -apn|grep “80”发现我端口被httpd服务占用</li>
-<li>通过systemctl stop httpd.service关闭httpd服务</li>
-<li>重启tomcat成功</li>
-</ol>
-<h3 id="web入门辨识"><a href="#web入门辨识" class="headerlink" title="web入门辨识"></a>web入门辨识</h3><ul>
-<li>url      例子: <a href="http://www.sina.com/" target="_blank" rel="external">http://www.sina.com/</a></li>
-<li>主机名      例子: www.sina.com</li>
-<li>域名     例子：sina.com</li>
-</ul>
+        <p>URL: <a href="http://www.sina.com/news/1.html" target="_blank" rel="external">http://www.sina.com/news/1.html</a><br>URI: /news/1.html<br>URI用来标示某一个资源<br>URL用来标示互联网上某一个资源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">System.out.println(request.getRequestURI());</div><div class="line"></div><div class="line">System.out.println(request.getRequestURL());</div><div class="line"></div><div class="line">//获得查询参数</div><div class="line">System.out.println(request.getQueryString());</div><div class="line"></div><div class="line">//得到客户端远程访问ip地址</div><div class="line">System.out.println(request.getRemoteAddr());</div><div class="line"></div><div class="line">//得到远程访问客户端主机名（在dns服务器上注册），若未注册，即返回远程ip地址</div><div class="line">System.out.println(request.getRemoteHost());</div><div class="line"></div><div class="line">//得到远程访问的客户机端口号，浏览器占用的端口号</div><div class="line">System.out.println(request.getRemotePort());</div><div class="line"></div><div class="line">//方法返回WEB服务器主机名</div><div class="line">System.out.println(request.getLocalName());</div><div class="line"></div><div class="line">//获得客户机请求方式</div><div class="line">System.out.println(request.getMethod());</div></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbz9qrey000lokvdhvh1mjx9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjbz9qreo000eokvdd70yt471" class="article-share-link">Share</a>
       
       
     </footer>
@@ -122,19 +103,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/12/19/tomcat入门学习二/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          tomcat入门学习二
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/18/互联网常用协议工作端口/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/01/03/response请求重定向和一些小细节/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">互联网常用协议工作端口</div>
+      <div class="article-nav-title">response请求重定向和一些小细节</div>
     </a>
   
 </nav>

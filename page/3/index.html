@@ -68,6 +68,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java反射" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/22/Java反射/" class="article-date">
+  <time datetime="2017-12-22T13:20:23.000Z" itemprop="datePublished">2017-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/22/Java反射/">Java反射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java反射主要用于框架当中</p>
+<p>一个类有多个组成部分，如成员变量，方法，构造方法等，<br>反射就是加载类，并揭破出类的各个部分。<br>如配置文件中写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">itcast.Person run();</div></pre></td></tr></table></figure></p>
+<p>框架根据这句话会去加载Person这个类，并调用run()方法</p>
+<p>得到字节码的几种方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package reflect;</div><div class="line"></div><div class="line"></div><div class="line">public class demo &#123;</div><div class="line">	public static void main(String[] args) throws ClassNotFoundException &#123;</div><div class="line">		//得到一个类的字节码的几种方法</div><div class="line">		//1.</div><div class="line">		Class class_1 = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		//2.</div><div class="line">		Class class_2 = new Person().getClass();</div><div class="line">		//3.</div><div class="line">		Class class_3 = Person.class;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>解析一个类的示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">package reflect;</div><div class="line"></div><div class="line">import java.lang.reflect.Constructor;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo2 &#123;</div><div class="line">	@Test</div><div class="line">	public void test() throws Exception&#123;</div><div class="line">		Class class_1 = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Constructor constructor = class_1.getConstructor(null);</div><div class="line">		Person person_1 = (Person) constructor.newInstance(null);</div><div class="line">		System.out.println(person_1.name);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">package reflect;</div><div class="line"></div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class Person &#123;</div><div class="line">	String name = &quot;aaa&quot;;</div><div class="line">	int age = 0;</div><div class="line">	List list;</div><div class="line">	public Person()&#123;</div><div class="line">		System.out.println(name);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public Person(String name)&#123;</div><div class="line">		this.name = name;</div><div class="line">		System.out.println(this.name);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public Person(String name,int age)&#123;</div><div class="line">		this.name = name;</div><div class="line">		this.age = age;</div><div class="line">		System.out.println(this.name+&quot; &quot;+this.age);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private Person(List list)&#123;</div><div class="line">		this.list = list;</div><div class="line">		System.out.println(list);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print()&#123;</div><div class="line">		System.out.println(name);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(String name,int age)&#123;</div><div class="line">		System.out.println(name+&quot;:&quot;+age);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public Class[] print(String name,int r[])&#123;</div><div class="line">		return new Class[]&#123;String.class&#125;;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void print(int age)&#123;</div><div class="line">		System.out.println(age);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void print(boolean k)&#123;</div><div class="line">		System.out.println(k);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中null代表构造无参构造函数</p>
+<h3 id="其中构造Person的字符串参数类型的构造函数"><a href="#其中构造Person的字符串参数类型的构造函数" class="headerlink" title="其中构造Person的字符串参数类型的构造函数"></a>其中构造Person的字符串参数类型的构造函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public Person(String name)&#123;</div><div class="line">		this.name = name;</div><div class="line">		System.out.println(this.name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test_2() throws Exception&#123;</div><div class="line">		Class class_1 = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Constructor constructor =     class_1.getConstructor(String.class);</div><div class="line">		Person p = (Person) constructor.newInstance(&quot;GLBB&quot;);</div><div class="line">		System.out.println(p.name);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="注意：getConstructor-…args-只能得到public类型的构造参数"><a href="#注意：getConstructor-…args-只能得到public类型的构造参数" class="headerlink" title="注意：getConstructor(…args)只能得到public类型的构造参数"></a>注意：getConstructor(…args)只能得到public类型的构造参数</h4><p>解释：<br>用于公共的有</p>
+<p>getConstructor(…args)用于解析公共构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Constructor&lt;T&gt;	getConstructor(Class&lt;?&gt;... parameterTypes)</div><div class="line">Returns a Constructor object that reflects the specified public constructor of the class represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>getMethod(…args)用于解析公共方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Method	getMethod(String name, Class&lt;?&gt;... parameterTypes)</div><div class="line">Returns a Method object that reflects the specified public member method of the class or interface represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>getField()用于得到成员变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Field	getField(String name)</div><div class="line">Returns a Field object that reflects the specified public member field of the class or interface represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>其中用于私有的有<br>getDeclaredConstructor(Class&lt;?&gt;… parameterTypes)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Constructor&lt;T&gt;	getDeclaredConstructor(Class&lt;?&gt;... parameterTypes)</div><div class="line">Returns a Constructor object that reflects the specified constructor of the class or interface represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>getDeclaredMethod(String name, Class&lt;?&gt;… parameterTypes)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Method	getDeclaredMethod(String name, Class&lt;?&gt;... parameterTypes)</div><div class="line">Returns a Method object that reflects the specified declared method of the class or interface represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>getDeclaredField(String name)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Field	getDeclaredField(String name)</div><div class="line">Returns a Field object that reflects the specified declared field of the class or interface represented by this Class object.</div></pre></td></tr></table></figure></p>
+<p>获得私有的Person方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test_4() throws Exception&#123;</div><div class="line">		Class class_1 = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Constructor constructor = class_1.getDeclaredConstructor(List.class);</div><div class="line">		List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">		list.add(1);</div><div class="line">		list.add(2);</div><div class="line">		list.add(3);</div><div class="line">		constructor.setAccessible(true);//强制访问</div><div class="line">		Person p = (Person) constructor.newInstance(list);</div><div class="line">		System.out.println(p.list);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>必须设置setAccessible为true</p>
+<p>可以直接用class.newInstance()获得无参构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test_5() throws Exception&#123;</div><div class="line">		Class class_1 = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Person p = (Person) class_1.newInstance();</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="通过反射调用方法"><a href="#通过反射调用方法" class="headerlink" title="通过反射调用方法"></a>通过反射调用方法</h3><h4 id="无参方法"><a href="#无参方法" class="headerlink" title="无参方法"></a>无参方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void print()&#123;</div><div class="line">		System.out.println(name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>反射解析方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//public void print()</div><div class="line">	@Test</div><div class="line">	public void test1() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Method method = clazz.getMethod(&quot;print&quot;, null);</div><div class="line">		method.invoke(new Person(), null);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="带参数的方法"><a href="#带参数的方法" class="headerlink" title="带参数的方法"></a>带参数的方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void print(String name,int age)&#123;</div><div class="line">		System.out.println(name+&quot;:&quot;+age);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>反射解析方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//public void print(String name,int age)</div><div class="line">	@Test</div><div class="line">	public void test2() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Method method = clazz.getMethod(&quot;print&quot;, String.class,int.class);</div><div class="line">		method.invoke(new Person(), &quot;GLBB&quot;,20);	</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="静态的方法"><a href="#静态的方法" class="headerlink" title="静态的方法"></a>静态的方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public static void print(boolean k)&#123;</div><div class="line">		System.out.println(k);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>反射解析方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//public static void print(boolean k)</div><div class="line">	@Test</div><div class="line">	public void test5()throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Method method = clazz.getMethod(&quot;print&quot;, boolean.class);</div><div class="line">		method.invoke(null, true);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="解析main方法的坑"><a href="#解析main方法的坑" class="headerlink" title="解析main方法的坑"></a>解析main方法的坑</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args)&#123;</div><div class="line">		System.out.println(&quot;main!!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解析方法如下是错的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test6() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Method method = clazz.getMethod(&quot;main&quot;, String[].class);</div><div class="line">		method.invoke(null,new String[]&#123;&quot;aa&quot;,&quot;bb&quot;&#125;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>原因：SUM公司JAVA升级问题<br>JDK1.4时，没有可变参数，传递函数间的参数是通过数组来解决的<br>JDK1.4    method.invoke(Object obj,Object objs[]);<br>JDK1.5    method.invoke(Object obj,Object …args);<br>因此new String[]{“aa”,”bb”}传递过去<br>会被解析成String aa, String bb<br>即会寻找main(String name,String ss)方法，没有此方法，报错<br>或者不符合我们的预期<br>因此，如果解析main此类参数为对象的方法时应注意写成如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test6() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Method method = clazz.getMethod(&quot;main&quot;, String[].class);</div><div class="line">		//方法一</div><div class="line">		//method.invoke(null, (Object)new String[]&#123;&quot;1&quot;,&quot;2&quot;&#125;);</div><div class="line">		//方法二</div><div class="line">		method.invoke(null, new Object[]&#123;new String[]&#123;&quot;1&quot;,&quot;2&quot;&#125;&#125;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="解析字段方法"><a href="#解析字段方法" class="headerlink" title="解析字段方法"></a>解析字段方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//public String name = &quot;aaa&quot;;</div><div class="line">	@Test</div><div class="line">	public void test1() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Field f = clazz.getField(&quot;name&quot;);</div><div class="line">		String s = (String) f.get(new Person());</div><div class="line">		System.out.println(s);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//private int age = 0;</div><div class="line">	@Test</div><div class="line">	public void test2() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Field f = clazz.getDeclaredField(&quot;age&quot;);</div><div class="line">		f.setAccessible(true);</div><div class="line">		int number = (int) f.get(new Person());</div><div class="line">		System.out.println(number);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//private static String passwd = &quot;123&quot;;</div><div class="line">	@Test</div><div class="line">	public void test3() throws Exception&#123;</div><div class="line">		Class clazz = Class.forName(&quot;reflect.Person&quot;);</div><div class="line">		Field f = clazz.getDeclaredField(&quot;passwd&quot;);</div><div class="line">		f.setAccessible(true);</div><div class="line">		String str = (String) f.get(null);</div><div class="line">		System.out.println(str);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjbz9qreu000jokvdynsv28s2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-BeanUtils操作" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/22/BeanUtils操作/" class="article-date">
@@ -100,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbz7zw640004v8vdqbg4elwm" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjbz9qref000aokvdi9zmm0zq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbz7zw6w000av8vdibg1m4kv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjbz9qree0009okvdktm3jm2o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -197,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbz7zw5z0002v8vdiutk1k4m" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjbz9qrcl0002okvd57gulyhr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbz7zw7b000kv8vd8jpfmxcp" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjbz9qrez000mokvdde3t2q8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -293,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbz7zw7c000lv8vd6afmt5fw" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjbz9qrey000lokvdhvh1mjx9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbz7zw7d000mv8vditozgpdg" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjbz9qrf1000ookvd21i9dyly" class="article-share-link">Share</a>
       
       
     </footer>
@@ -418,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbz7zw73000ev8vdc1ymjg11" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjbz9qrek000dokvdvx506rod" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbz7zw550000v8vdo9g3ghj8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjbz9qrb40000okvdh1aofhcw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -489,6 +554,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/04/request常用方法/">request常用方法</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
           </li>
         
@@ -502,10 +571,6 @@
         
           <li>
             <a href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
           </li>
         
       </ul>
