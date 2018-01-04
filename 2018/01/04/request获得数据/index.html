@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>request获得数据 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="123456789101112131415161718//获得某个头的一个值		String value = request.getHeader(&amp;quot;Accept&amp;quot;);		System.out.println(value);				//获得某个头的所有值		Enumeration&amp;lt;String&amp;gt; enumration = request.getHeaders(&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="request获得数据">
+<meta property="og:url" content="http://glbb.github.io/2018/01/04/request获得数据/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="123456789101112131415161718//获得某个头的一个值		String value = request.getHeader(&amp;quot;Accept&amp;quot;);		System.out.println(value);				//获得某个头的所有值		Enumeration&amp;lt;String&amp;gt; enumration = request.getHeaders(&amp;quo">
+<meta property="og:updated_time" content="2018-01-04T10:42:54.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="request获得数据">
+<meta name="twitter:description" content="123456789101112131415161718//获得某个头的一个值		String value = request.getHeader(&amp;quot;Accept&amp;quot;);		System.out.println(value);				//获得某个头的所有值		Enumeration&amp;lt;String&amp;gt; enumration = request.getHeaders(&amp;quo">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-request获得数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/04/request获得数据/" class="article-date">
+  <time datetime="2018-01-04T10:42:00.000Z" itemprop="datePublished">2018-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      request获得数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//获得某个头的一个值</div><div class="line">		String value = request.getHeader(&quot;Accept&quot;);</div><div class="line">		System.out.println(value);</div><div class="line">		</div><div class="line">		//获得某个头的所有值</div><div class="line">		Enumeration&lt;String&gt; enumration = request.getHeaders(&quot;Accept&quot;);</div><div class="line">		while(enumration.hasMoreElements())&#123;</div><div class="line">			String values = enumration.nextElement();</div><div class="line">			System.out.println(values);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">// 获取所有头的值</div><div class="line">		Enumeration&lt;String&gt; enumration2 = request.getHeaderNames();</div><div class="line">		while (enumration2.hasMoreElements()) &#123;</div><div class="line">			String name = enumration2.nextElement();</div><div class="line">			String value2 = request.getHeader(name);</div><div class="line">			System.out.println(name + &quot; : &quot; + value2);</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+<p>通过a标签给servlet提供数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;/day06/servlet/requstDemo2?username=GLBB&quot;&gt;点我发送username给服务器&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+<p>servlet获得数据a标签中的数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String value = request.getParameter(&quot;username&quot;);</div><div class="line">System.out.println(value);</div></pre></td></tr></table></figure></p>
+<h3 id="servlet获得表单用post方法提交的数据"><a href="#servlet获得表单用post方法提交的数据" class="headerlink" title="servlet获得表单用post方法提交的数据"></a>servlet获得表单用post方法提交的数据</h3><p>在servlet中覆盖父类doPost方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException &#123;</div><div class="line">	// TODO Auto-generated method stub</div><div class="line">	Enumeration&lt;String&gt; e = request.getParameterNames();</div><div class="line">	while (e.hasMoreElements()) &#123;</div><div class="line">		String name = e.nextElement();</div><div class="line">		String value = request.getParameter(name);</div><div class="line">		System.out.println(name + &quot; : &quot; + value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面模拟html中用post方法提交表单<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">   &lt;form action=&quot;/day06/servlet/requstDemo2&quot; method=&quot;post&quot; &gt;</div><div class="line">		用户名 ：&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;</div><div class="line">		密码： &lt;input type=&quot;text&quot; name=&quot;passwd&quot; /&gt;</div><div class="line">		&lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="使用beanutils填充表单数据到user类"><a href="#使用beanutils填充表单数据到user类" class="headerlink" title="使用beanutils填充表单数据到user类"></a>使用beanutils填充表单数据到user类</h3><p>加入beanutils和logging的jar包</p>
+<p>html页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&quot;/day06/servlet/requstDemo2&quot; method=&quot;post&quot; &gt;</div><div class="line">			用户名1 ：&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;&lt;br/&gt;</div><div class="line">			用户名2： &lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;&lt;br/&gt;</div><div class="line">			密码： &lt;input type=&quot;text&quot; name=&quot;passwd&quot; /&gt;&lt;br/&gt;</div><div class="line">			&lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt;&lt;br/&gt;</div><div class="line">	&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<p>user类,对这两个属性的get和set方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String[] username;</div><div class="line">String passwd;</div></pre></td></tr></table></figure></p>
+<p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Map&lt;String,String[]&gt; map = request.getParameterMap();</div><div class="line">		</div><div class="line">		User user = new User();</div><div class="line">		</div><div class="line">		try &#123;</div><div class="line">			BeanUtils.populate(user, map);</div><div class="line">		&#125; catch (IllegalAccessException | InvocationTargetException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		System.out.println(user.getUsername()[0]+&quot; &quot;+user.getUsername()[1]+&quot; &quot;+user.getPasswd());</div></pre></td></tr></table></figure></p>
+<h3 id="获得各种表单提交的数据"><a href="#获得各种表单提交的数据" class="headerlink" title="获得各种表单提交的数据"></a>获得各种表单提交的数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;form method=&quot;post&quot; action=&quot;/day06/servlet/requestDemo3&quot;&gt;</div><div class="line">			用户名 ：&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;</div><div class="line">			密码： &lt;input type=&quot;password&quot; name=&quot;passwd&quot; /&gt;</div><div class="line">			性别：</div><div class="line">				&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;male&quot;/&gt;男</div><div class="line">				&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;female&quot; /&gt;女</div><div class="line">				&lt;br /&gt;</div><div class="line">			所在地：</div><div class="line">				&lt;select name=&quot;city&quot;&gt;</div><div class="line">					&lt;option value=&quot;beijing&quot;&gt;北京&lt;/option&gt;</div><div class="line">					&lt;option value=&quot;shanghai&quot;&gt;上海&lt;/option&gt;</div><div class="line">					&lt;option value=&quot;chongqing&quot;&gt;重庆&lt;/option&gt;</div><div class="line">				&lt;/select&gt;</div><div class="line">				&lt;br /&gt;</div><div class="line">			爱好：</div><div class="line">				&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;basketball&quot;/&gt;篮球</div><div class="line">				&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;football&quot;/&gt;足球</div><div class="line">				&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;pingqang&quot;/&gt;乒乓球</div><div class="line">				&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;dance&quot;/&gt;跳舞</div><div class="line">				&lt;br /&gt;</div><div class="line">			备注：&lt;textarea cols=&quot;60&quot; rows=&quot;6&quot; name=&quot;descreption&quot;&gt;&lt;/textarea&gt;&lt;br /&gt;</div><div class="line">			&lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;GLBB&quot;/&gt;</div><div class="line">			</div><div class="line">			&lt;input type=&quot;submit&quot; value=&quot;提交&quot;/&gt;</div><div class="line">		&lt;/form&gt;</div></pre></td></tr></table></figure>
+<p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">System.out.println(req.getParameter(&quot;username&quot;));</div><div class="line">		System.out.println(req.getParameter(&quot;passwd&quot;));</div><div class="line">		System.out.println(req.getParameter(&quot;gender&quot;));</div><div class="line">		System.out.println(req.getParameter(&quot;city&quot;));</div><div class="line">		String[] hobbies = req.getParameterValues(&quot;hobby&quot;);</div><div class="line">		for (int i = 0; hobbies != null &amp;&amp; i &lt; hobbies.length; i++) &#123;</div><div class="line">			System.out.print(hobbies[i]+&quot; &quot;);</div><div class="line">		&#125;</div><div class="line">		System.out.println(req.getParameter(&quot;descreption&quot;));</div><div class="line">		System.out.println(req.getParameter(&quot;id&quot;));</div></pre></td></tr></table></figure></p>
+<p>其中提交中文会产生乱码问题，原因是设置网页以utf-8打开，网页提交就以utf-8提交，但是response中是以iso-8859-1码表来存储，所以若想提交中文，可以设置response的码表，设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.setCharacterEncoding(&quot;utf-8&quot;);</div></pre></td></tr></table></figure></p>
+<p>但上面这句代码只对post方式提交的数据有效，用get方式提交的无效</p>
+<p>若get方式提交出现乱码解决方法(测试时我没出现)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username = new String(username.getBytes(&quot;iso8859-1&quot;),&quot;utf-8&quot;);</div></pre></td></tr></table></figure></p>
+<p>还可以更改tomcat服务器配置<br>在conf目录下打开server.xml文件<br>在Connector标签中加一个属性<br>URIEncoding=”UTF-8”<br>或属性<br>useBodyEncodingForURI=”true”</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc0d5az8000kcsvdfkn5mljs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/04/request常用方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">request常用方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request常用方法/">request常用方法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response图片输出/">response图片输出</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

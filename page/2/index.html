@@ -68,6 +68,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-https及tomcat配置及应用管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/28/https及tomcat配置及应用管理/" class="article-date">
+  <time datetime="2017-12-28T08:14:08.000Z" itemprop="datePublished">2017-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/28/https及tomcat配置及应用管理/">https及tomcat配置及应用管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>通过相同的密码序列进行加密解密</p>
+<h4 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h4><p>产生公钥私钥<br>公钥加密的数据私钥解，私钥加密的数据公钥解密</p>
+<p>（代号）小东将公钥发给CA担保，生成数字证书，发给代号（小明）</p>
+<p>小明也生成一对公钥私钥，用小东数字证书加密，再对数据摘要进行加密，生成数字签名，也称数据指纹</p>
+<p>数字签名通过md5算法生成</p>
+<h3 id="tomcat配置加密服务器"><a href="#tomcat配置加密服务器" class="headerlink" title="tomcat配置加密服务器"></a>tomcat配置加密服务器</h3><p>在cmd中使用java工具keytool<br>在cmd中输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -alias tomcat -keyalg RSA</div></pre></td></tr></table></figure></p>
+<p>设置密码<br>在姓氏和名字填写服务器主机名称<br>如 www.unbeatableglbb.com<br>其他可以回车默认<br>在cmd的工作目录下可以看见.keystore文件<br>复制粘贴到conf文件夹下，<br>然后打开server.xml插入一个连接器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;8443&quot; protocol=&quot;org.apache.coyote.http11.Http11Protocol&quot;</div><div class="line">               maxThreads=&quot;150&quot; SSLEnabled=&quot;true&quot; scheme=&quot;https&quot; secure=&quot;true&quot;</div><div class="line">               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; keystoreFile=&quot;conf/.keystore&quot; keystorePass=&quot;****&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>keystoreFile是.keystore所在文件夹<br>keystorePass是建立.keystore文件是输入的密码<br>重启服务器</p>
+<h3 id="tomcat应用管理"><a href="#tomcat应用管理" class="headerlink" title="tomcat应用管理"></a>tomcat应用管理</h3><p>参考<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://jingyan.baidu.com/album/fea4511a1c624ef7bb9125ec.html?picindex=6</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc0d5az3000fcsvd98gs4bvc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Tomcat体系结构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/28/Tomcat体系结构/" class="article-date">
@@ -96,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjbz9qrdu0007okvdncfieq1p" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc0d5ayu000acsvdn3a7hud4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjbz9qrew000kokvdp1wiilzk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc0d5azc000ocsvdain1boqq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -173,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjbz9qrf0000nokvdcvuw8j0y" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc0d5azh000rcsvdafyeut1l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -222,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjbz9qreb0008okvdnpn5zdyp" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjc0d5ayz000ccsvd2kbug98m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -273,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjbz9qrfj000rokvd3l2v04wu" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc0d5az2000ecsvdeyr45niv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjbz9qrdl0004okvd6976tic6" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc0d5ayk0007csvdulnhx0o2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -356,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjbz9qreg000bokvde1k8la8o" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc0d5ayb0004csvdnzo4yjud" class="article-share-link">Share</a>
       
       
     </footer>
@@ -403,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjbz9qrfh000qokvdmcrcd5bk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc0d5az1000dcsvdov5l0p4f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -445,50 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjbz9qrbr0001okvd6rphi0fi" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JAVA枚举" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/22/JAVA枚举/" class="article-date">
-  <time datetime="2017-12-22T13:21:24.000Z" itemprop="datePublished">2017-12-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/22/JAVA枚举/">JAVA枚举</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看如下示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;),B(&quot;89-80&quot;),C(&quot;79-70&quot;),D(&quot;69-60&quot;),E(&quot;59-0&quot;);</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
-<li>枚举构造函数必须为私有的</li>
-<li>switch可以接受枚举类型</li>
-</ol>
-<h3 id="带有抽象方法的枚举"><a href="#带有抽象方法的枚举" class="headerlink" title="带有抽象方法的枚举"></a>带有抽象方法的枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">package enumeration;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo_1 &#123;</div><div class="line">	</div><div class="line">	@Test</div><div class="line">	public void test()&#123;</div><div class="line">		print(Grade.A);</div><div class="line">		print(Grade.B);</div><div class="line">		print(Grade.C);</div><div class="line">		print(Grade.D);</div><div class="line">		print(Grade.E);</div><div class="line">		System.out.println(Grade.A.locateValue());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public void print(Grade g)&#123;</div><div class="line">		System.out.println(g.getValue());</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">enum Grade&#123;</div><div class="line">	A(&quot;100-90&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;优&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,B(&quot;89-80&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;良&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,C(&quot;79-70&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;中&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,D(&quot;69-60&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;差&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;,E(&quot;59-0&quot;)&#123;</div><div class="line">		public String locateValue()&#123;</div><div class="line">			return &quot;不及格&quot;;</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">	</div><div class="line">	private String value;</div><div class="line">	private Grade(String value)&#123;</div><div class="line">		this.value = value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getValue()&#123;</div><div class="line">		return this.value;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public abstract String locateValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="单态设计模式"><a href="#单态设计模式" class="headerlink" title="单态设计模式"></a>单态设计模式</h3><p>内存中只有一个这样的类<br>可以使用枚举来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">enum A&#123;</div><div class="line">	a;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjbz9qrcn0003okvdqp9s8hme" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc0d5ay60001csvdtxic6v4e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -532,6 +534,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/04/request常用方法/">request常用方法</a>
           </li>
         
@@ -545,10 +551,6 @@
         
           <li>
             <a href="/2018/01/03/response图片输出/">response图片输出</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
           </li>
         
       </ul>
