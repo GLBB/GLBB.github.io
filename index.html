@@ -68,6 +68,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-request域和forward方法和uri的书写和referer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/04/request域和forward方法和uri的书写和referer/" class="article-date">
+  <time datetime="2018-01-04T13:12:00.000Z" itemprop="datePublished">2018-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mvc模式<br>m : model(javabean)<br>v : view(jsp)<br>c : control(servlet)<br>域代表一个容器</p>
+<h3 id="request实现消息的转发"><a href="#request实现消息的转发" class="headerlink" title="request实现消息的转发"></a>request实现消息的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String data = &quot;aaaaaa&quot;;</div><div class="line">request.setAttribute(&quot;data&quot;, data);</div><div class="line"></div><div class="line">request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</div></pre></td></tr></table></figure></p>
+<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	String data = (String)request.getAttribute(&quot;data&quot;);</div><div class="line">	out.write(data);</div><div class="line">%&gt;</div><div class="line">$&#123;data &#125;  //el表达式</div></pre></td></tr></table></figure></p>
+<h3 id="输出流关闭后，不能实现request的跳转"><a href="#输出流关闭后，不能实现request的跳转" class="headerlink" title="输出流关闭后，不能实现request的跳转"></a>输出流关闭后，不能实现request的跳转</h3><ol>
+<li>如果在调用forward之前，servlet程序中写入部分已经真正传送到客户端，forward方法将抛出illegleStateException，注意：在forward之后加return;</li>
+<li>在调用forward方法前，向servlet的缓冲区中（response）写入了内容，写入到缓冲区的还没有真正输出到客户端，forward方法可以正确执行，原来写入到缓存区的内容将被清空，但是，已写入到HttpServletResponse对象的响应字段信息保持有效。</li>
+</ol>
+<h3 id="uri的书写"><a href="#uri的书写" class="headerlink" title="uri的书写"></a>uri的书写</h3><p>写uri首先考虑是浏览器调用还是服务器调用，若是服务器调用，则第一个/代表webroot这个目录，若是浏览器调用则写web应用下，下例：、<br>浏览器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.sendRedirect(&quot;/day06/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
+<p>服务器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
+<p>windows访问硬盘上的资源： \</p>
+<h3 id="其中referer头代表从哪里来的，从哪个页面来的"><a href="#其中referer头代表从哪里来的，从哪个页面来的" class="headerlink" title="其中referer头代表从哪里来的，从哪个页面来的"></a>其中referer头代表从哪里来的，从哪个页面来的</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc0ihnv7000emsvd3ys4q9sq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-request获得数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/04/request获得数据/" class="article-date">
@@ -109,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc0d5az8000kcsvdfkn5mljs" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc0ihnv9000gmsvdqqz7ms3g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc0d5az4000gcsvd5rgr3m59" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc0ihnvn000mmsvdczitie5s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -193,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc0d5aza000mcsvdf1nxufpa" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc0ihnvg000kmsvd335bxm61" class="article-share-link">Share</a>
       
       
     </footer>
@@ -232,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc0d5az5000icsvd1mp5jt5r" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc0ihnvc000hmsvdqnmhla4h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -270,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc0d5az7000jcsvdqgjmnatl" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc0ihnvd000imsvd7uiihthj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -314,7 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc0d5az9000lcsvd30pkkobk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc0ihnvs000qmsvd9pnsmzpu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -379,7 +425,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc0d5azf000qcsvdd200gl5p" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc0ihnvp000nmsvdrs8rp5ew" class="article-share-link">Share</a>
       
       
     </footer>
@@ -416,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc0d5ays0009csvdi01o4nj1" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc0ihnv8000fmsvd1m5qcum4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -459,44 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc0d5azj000tcsvdlf7234tq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Schema入门" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/29/Schema入门/" class="article-date">
-  <time datetime="2017-12-29T06:29:57.000Z" itemprop="datePublished">2017-12-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/Schema入门/">Schema入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="xsd文件"><a href="#xsd文件" class="headerlink" title="xsd文件"></a>xsd文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;</div><div class="line">		   targetNamespace=&quot;http://glbb.com.cn&quot;</div><div class="line">		   xmlns=&quot;http://glbb.com.cn&quot;</div><div class="line">		   elementFormDefault=&quot;qualified&quot;&gt;</div><div class="line"></div><div class="line">&lt;xs:element name=&quot;shiporder&quot;&gt;</div><div class="line"> &lt;xs:complexType&gt;</div><div class="line">  &lt;xs:sequence&gt;</div><div class="line">   &lt;xs:element name=&quot;orderperson&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">   &lt;xs:element name=&quot;shipto&quot;&gt;</div><div class="line">    &lt;xs:complexType&gt;</div><div class="line">     &lt;xs:sequence&gt;</div><div class="line">      &lt;xs:element name=&quot;name&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;address&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;city&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;country&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">     &lt;/xs:sequence&gt;</div><div class="line">    &lt;/xs:complexType&gt;</div><div class="line">   &lt;/xs:element&gt;</div><div class="line">   &lt;xs:element name=&quot;item&quot; maxOccurs=&quot;unbounded&quot;&gt;</div><div class="line">    &lt;xs:complexType&gt;</div><div class="line">     &lt;xs:sequence&gt;</div><div class="line">      &lt;xs:element name=&quot;title&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;note&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;quantity&quot; type=&quot;xs:positiveInteger&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;price&quot; type=&quot;xs:decimal&quot;/&gt;</div><div class="line">     &lt;/xs:sequence&gt;</div><div class="line">    &lt;/xs:complexType&gt;</div><div class="line">   &lt;/xs:element&gt;</div><div class="line">  &lt;/xs:sequence&gt;</div><div class="line">  &lt;xs:attribute name=&quot;orderid&quot; type=&quot;xs:string&quot; use=&quot;required&quot;/&gt;</div><div class="line"> &lt;/xs:complexType&gt;</div><div class="line">&lt;/xs:element&gt;</div><div class="line"></div><div class="line">&lt;/xs:schema&gt;</div></pre></td></tr></table></figure>
-<h3 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line"></div><div class="line">&lt;shiporder </div><div class="line">xmlns=&quot;http://glbb.com.cn&quot;</div><div class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">xsi:schemaLocation=&quot;http://glbb.com.cn shiporder.xsd&quot;	</div><div class="line">orderid=&quot;3&quot;&gt;</div><div class="line">	&lt;orderperson&gt;GLBB&lt;/orderperson&gt;</div><div class="line">	&lt;shipto&gt;</div><div class="line">		&lt;name&gt;pencil&lt;/name&gt;</div><div class="line">		&lt;address&gt;ChongqingChangShou&lt;/address&gt;</div><div class="line">		&lt;city&gt;ChongQing&lt;/city&gt;</div><div class="line">		&lt;country&gt;Chin&lt;/country&gt;</div><div class="line">	&lt;/shipto&gt;</div><div class="line">	&lt;item&gt;</div><div class="line">		&lt;title&gt;s&lt;/title&gt;</div><div class="line">		&lt;quantity&gt;20&lt;/quantity&gt;</div><div class="line">		&lt;price&gt;10&lt;/price&gt;</div><div class="line">	&lt;/item&gt;</div><div class="line">&lt;/shiporder&gt;</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc0d5ayr0008csvduuhp3zwn" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc0ihnvx000tmsvdzgc0wyc2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -509,7 +518,7 @@
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -540,6 +549,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/04/request获得数据/">request获得数据</a>
           </li>
         
@@ -553,10 +566,6 @@
         
           <li>
             <a href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/03/response图片输出/">response图片输出</a>
           </li>
         
       </ul>

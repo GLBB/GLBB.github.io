@@ -68,6 +68,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Schema入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/29/Schema入门/" class="article-date">
+  <time datetime="2017-12-29T06:29:57.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/Schema入门/">Schema入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="xsd文件"><a href="#xsd文件" class="headerlink" title="xsd文件"></a>xsd文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;</div><div class="line">		   targetNamespace=&quot;http://glbb.com.cn&quot;</div><div class="line">		   xmlns=&quot;http://glbb.com.cn&quot;</div><div class="line">		   elementFormDefault=&quot;qualified&quot;&gt;</div><div class="line"></div><div class="line">&lt;xs:element name=&quot;shiporder&quot;&gt;</div><div class="line"> &lt;xs:complexType&gt;</div><div class="line">  &lt;xs:sequence&gt;</div><div class="line">   &lt;xs:element name=&quot;orderperson&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">   &lt;xs:element name=&quot;shipto&quot;&gt;</div><div class="line">    &lt;xs:complexType&gt;</div><div class="line">     &lt;xs:sequence&gt;</div><div class="line">      &lt;xs:element name=&quot;name&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;address&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;city&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;country&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">     &lt;/xs:sequence&gt;</div><div class="line">    &lt;/xs:complexType&gt;</div><div class="line">   &lt;/xs:element&gt;</div><div class="line">   &lt;xs:element name=&quot;item&quot; maxOccurs=&quot;unbounded&quot;&gt;</div><div class="line">    &lt;xs:complexType&gt;</div><div class="line">     &lt;xs:sequence&gt;</div><div class="line">      &lt;xs:element name=&quot;title&quot; type=&quot;xs:string&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;note&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;quantity&quot; type=&quot;xs:positiveInteger&quot;/&gt;</div><div class="line">      &lt;xs:element name=&quot;price&quot; type=&quot;xs:decimal&quot;/&gt;</div><div class="line">     &lt;/xs:sequence&gt;</div><div class="line">    &lt;/xs:complexType&gt;</div><div class="line">   &lt;/xs:element&gt;</div><div class="line">  &lt;/xs:sequence&gt;</div><div class="line">  &lt;xs:attribute name=&quot;orderid&quot; type=&quot;xs:string&quot; use=&quot;required&quot;/&gt;</div><div class="line"> &lt;/xs:complexType&gt;</div><div class="line">&lt;/xs:element&gt;</div><div class="line"></div><div class="line">&lt;/xs:schema&gt;</div></pre></td></tr></table></figure>
+<h3 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line"></div><div class="line">&lt;shiporder </div><div class="line">xmlns=&quot;http://glbb.com.cn&quot;</div><div class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">xsi:schemaLocation=&quot;http://glbb.com.cn shiporder.xsd&quot;	</div><div class="line">orderid=&quot;3&quot;&gt;</div><div class="line">	&lt;orderperson&gt;GLBB&lt;/orderperson&gt;</div><div class="line">	&lt;shipto&gt;</div><div class="line">		&lt;name&gt;pencil&lt;/name&gt;</div><div class="line">		&lt;address&gt;ChongqingChangShou&lt;/address&gt;</div><div class="line">		&lt;city&gt;ChongQing&lt;/city&gt;</div><div class="line">		&lt;country&gt;Chin&lt;/country&gt;</div><div class="line">	&lt;/shipto&gt;</div><div class="line">	&lt;item&gt;</div><div class="line">		&lt;title&gt;s&lt;/title&gt;</div><div class="line">		&lt;quantity&gt;20&lt;/quantity&gt;</div><div class="line">		&lt;price&gt;10&lt;/price&gt;</div><div class="line">	&lt;/item&gt;</div><div class="line">&lt;/shiporder&gt;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc0ihnuk0007msvddn27peek" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-https及tomcat配置及应用管理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/28/https及tomcat配置及应用管理/" class="article-date">
@@ -103,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc0d5az3000fcsvd98gs4bvc" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc0ihnvf000jmsvdai86grtn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc0d5ayu000acsvdn3a7hud4" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc0ihnus0008msvdrvmhcf1e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc0d5azc000ocsvdain1boqq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc0ihnvq000omsvd7n0zusvw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -218,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc0d5azh000rcsvdafyeut1l" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc0ihnvw000smsvdmrfqtu3v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +304,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjc0d5ayz000ccsvd2kbug98m" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjc0ihnv0000bmsvdmixvea83" class="article-share-link">Share</a>
       
       
     </footer>
@@ -318,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc0d5az2000ecsvdeyr45niv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc0ihnv3000cmsvd7cmseszj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -357,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc0d5ayk0007csvdulnhx0o2" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc0ihnuf0005msvdb7e793vp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc0d5ayb0004csvdnzo4yjud" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc0ihnua0004msvdzr98o4da" class="article-share-link">Share</a>
       
       
     </footer>
@@ -448,49 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc0d5az1000dcsvdov5l0p4f" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JAVA内省" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/22/JAVA内省/" class="article-date">
-  <time datetime="2017-12-22T13:22:48.000Z" itemprop="datePublished">2017-12-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/22/JAVA内省/">JAVA内省</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="学习内省原因"><a href="#学习内省原因" class="headerlink" title="学习内省原因"></a>学习内省原因</h3><p>开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作</p>
-<h4 id="得到所有的属性"><a href="#得到所有的属性" class="headerlink" title="得到所有的属性"></a>得到所有的属性</h4><p>其中Person类相当于一个Bean,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">package introspector;</div><div class="line"></div><div class="line">public class Person &#123;</div><div class="line">	public String name;</div><div class="line">	public int age;</div><div class="line">	public String passwd;</div><div class="line">	</div><div class="line">	public String getAB()&#123;</div><div class="line">		return null;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getName() &#123;</div><div class="line">		return name;</div><div class="line">	&#125;</div><div class="line">	public void setName(String name) &#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public int getAge() &#123;</div><div class="line">		return age;</div><div class="line">	&#125;</div><div class="line">	public void setAge(int age) &#123;</div><div class="line">		this.age = age;</div><div class="line">	&#125;</div><div class="line">	public String getPasswd() &#123;</div><div class="line">		return passwd;</div><div class="line">	&#125;</div><div class="line">	public void setPasswd(String passwd) &#123;</div><div class="line">		this.passwd = passwd;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中具有的属性为name,age,passwd,AB,class<br>以下为获得所有属性的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test1() throws Exception&#123;</div><div class="line">		BeanInfo beanInfo = Introspector.getBeanInfo(Person.class);</div><div class="line">		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();</div><div class="line">		for(PropertyDescriptor pd : pds)&#123;</div><div class="line">			System.out.println(pd.getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>若是不想要获得父类型所继承的属性可以调用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BeanInfo beanInfo = Introspector.getBeanInfo(Person.class,Object.class);</div></pre></td></tr></table></figure></p>
-<h3 id="操作bean的属性"><a href="#操作bean的属性" class="headerlink" title="操作bean的属性"></a>操作bean的属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//操作bean的age属性</div><div class="line">	@Test</div><div class="line">	public void test2() throws Exception&#123;</div><div class="line">		Person p = new Person();</div><div class="line">		PropertyDescriptor pd = new PropertyDescriptor(&quot;age&quot;, Person.class);</div><div class="line">		</div><div class="line">		Method m = pd.getWriteMethod();</div><div class="line">		m.invoke(p, 45);</div><div class="line">		</div><div class="line">		m = pd.getReadMethod();</div><div class="line">		int age = (int) m.invoke(p, null);</div><div class="line">		System.out.println(age);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>如果要得到属性类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Class c = pd.getPropertyType();</div><div class="line">System.out.println(c);</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc0d5ay60001csvdtxic6v4e" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc0ihnv5000dmsvdo9acangq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -503,7 +498,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -534,6 +529,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/04/request获得数据/">request获得数据</a>
           </li>
         
@@ -547,10 +546,6 @@
         
           <li>
             <a href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/03/response图片输出/">response图片输出</a>
           </li>
         
       </ul>

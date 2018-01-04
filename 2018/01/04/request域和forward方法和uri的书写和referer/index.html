@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>request域和forward方法和uri的书写和referer | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="mvc模式m : model(javabean)v : view(jsp)c : control(servlet)域代表一个容器 request实现消息的转发servlet中1234String data = &amp;quot;aaaaaa&amp;quot;;request.setAttribute(&amp;quot;data&amp;quot;, data);request.getRequestDispatcher(&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="request域和forward方法和uri的书写和referer">
+<meta property="og:url" content="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="mvc模式m : model(javabean)v : view(jsp)c : control(servlet)域代表一个容器 request实现消息的转发servlet中1234String data = &amp;quot;aaaaaa&amp;quot;;request.setAttribute(&amp;quot;data&amp;quot;, data);request.getRequestDispatcher(&amp;q">
+<meta property="og:updated_time" content="2018-01-04T13:12:27.246Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="request域和forward方法和uri的书写和referer">
+<meta name="twitter:description" content="mvc模式m : model(javabean)v : view(jsp)c : control(servlet)域代表一个容器 request实现消息的转发servlet中1234String data = &amp;quot;aaaaaa&amp;quot;;request.setAttribute(&amp;quot;data&amp;quot;, data);request.getRequestDispatcher(&amp;q">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-request域和forward方法和uri的书写和referer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/04/request域和forward方法和uri的书写和referer/" class="article-date">
+  <time datetime="2018-01-04T13:12:00.000Z" itemprop="datePublished">2018-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      request域和forward方法和uri的书写和referer
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mvc模式<br>m : model(javabean)<br>v : view(jsp)<br>c : control(servlet)<br>域代表一个容器</p>
+<h3 id="request实现消息的转发"><a href="#request实现消息的转发" class="headerlink" title="request实现消息的转发"></a>request实现消息的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String data = &quot;aaaaaa&quot;;</div><div class="line">request.setAttribute(&quot;data&quot;, data);</div><div class="line"></div><div class="line">request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</div></pre></td></tr></table></figure></p>
+<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	String data = (String)request.getAttribute(&quot;data&quot;);</div><div class="line">	out.write(data);</div><div class="line">%&gt;</div><div class="line">$&#123;data &#125;  //el表达式</div></pre></td></tr></table></figure></p>
+<h3 id="输出流关闭后，不能实现request的跳转"><a href="#输出流关闭后，不能实现request的跳转" class="headerlink" title="输出流关闭后，不能实现request的跳转"></a>输出流关闭后，不能实现request的跳转</h3><ol>
+<li>如果在调用forward之前，servlet程序中写入部分已经真正传送到客户端，forward方法将抛出illegleStateException，注意：在forward之后加return;</li>
+<li>在调用forward方法前，向servlet的缓冲区中（response）写入了内容，写入到缓冲区的还没有真正输出到客户端，forward方法可以正确执行，原来写入到缓存区的内容将被清空，但是，已写入到HttpServletResponse对象的响应字段信息保持有效。</li>
+</ol>
+<h3 id="uri的书写"><a href="#uri的书写" class="headerlink" title="uri的书写"></a>uri的书写</h3><p>写uri首先考虑是浏览器调用还是服务器调用，若是服务器调用，则第一个/代表webroot这个目录，若是浏览器调用则写web应用下，下例：、<br>浏览器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.sendRedirect(&quot;/day06/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
+<p>服务器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
+<p>windows访问硬盘上的资源： \</p>
+<h3 id="其中referer头代表从哪里来的，从哪个页面来的"><a href="#其中referer头代表从哪里来的，从哪个页面来的" class="headerlink" title="其中referer头代表从哪里来的，从哪个页面来的"></a>其中referer头代表从哪里来的，从哪个页面来的</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc0ihnv7000emsvd3ys4q9sq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/04/request获得数据/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">request获得数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request常用方法/">request常用方法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
