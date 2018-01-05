@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Cookie创建和删除 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="常用方法setMaxAge()用来设置cookie的有效期，若不调用这个方法，则cookie有效期是浏览器进程setPath()设置cookie的有效目录，若设置/day06意味着等会去访问服务器，在/day06下所有的资源都会带着cookie,若不调用这个方法，则这个cookie是由哪个servlet发出去的，则访问它所在的有效目录才带cookie，如该cookie是由/day06/servle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookie创建和删除">
+<meta property="og:url" content="http://glbb.github.io/2018/01/05/Cookie创建和删除/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="常用方法setMaxAge()用来设置cookie的有效期，若不调用这个方法，则cookie有效期是浏览器进程setPath()设置cookie的有效目录，若设置/day06意味着等会去访问服务器，在/day06下所有的资源都会带着cookie,若不调用这个方法，则这个cookie是由哪个servlet发出去的，则访问它所在的有效目录才带cookie，如该cookie是由/day06/servle">
+<meta property="og:updated_time" content="2018-01-05T08:54:00.716Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cookie创建和删除">
+<meta name="twitter:description" content="常用方法setMaxAge()用来设置cookie的有效期，若不调用这个方法，则cookie有效期是浏览器进程setPath()设置cookie的有效目录，若设置/day06意味着等会去访问服务器，在/day06下所有的资源都会带着cookie,若不调用这个方法，则这个cookie是由哪个servlet发出去的，则访问它所在的有效目录才带cookie，如该cookie是由/day06/servle">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Cookie创建和删除" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/05/Cookie创建和删除/" class="article-date">
+  <time datetime="2018-01-05T08:53:38.000Z" itemprop="datePublished">2018-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cookie创建和删除
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><p>setMaxAge()用来设置cookie的有效期，若不调用这个方法，则cookie有效期是浏览器进程<br>setPath()设置cookie的有效目录，若设置/day06意味着等会去访问服务器，在/day06下所有的资源都会带着cookie,若不调用这个方法，则这个cookie是由哪个servlet发出去的，则访问它所在的有效目录才带cookie，如该cookie是由/day06/servlet/servletDemo1,则有效目录是/day06/servlet/<br>setDomain()方法为第三方主机设置一个cookie，但常被浏览器拒收</p>
+<p>例子，利用cookie显示上次登陆的时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.cookie;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.io.PrintWriter;</div><div class="line">import java.sql.Date;</div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Calendar;</div><div class="line">import java.util.GregorianCalendar;</div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.Cookie;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class cookiedemo1 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line"></div><div class="line">		PrintWriter pw = response.getWriter();</div><div class="line">		pw.print(&quot;你上次登陆的时间是：&quot;);</div><div class="line"></div><div class="line">		Cookie[] cookies = request.getCookies();</div><div class="line">		if (cookies != null) &#123;</div><div class="line">			for (int i = 0; i &lt; cookies.length; i++) &#123;</div><div class="line">				if (cookies[i].getName().equals(&quot;lastAcessTime&quot;)) &#123;</div><div class="line">					long cookieValue = Long.parseLong(cookies[i].getValue());</div><div class="line">					Date date = new Date(cookieValue);</div><div class="line">					SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd H:m:s&quot;);</div><div class="line">					pw.print(dateFormat.format(date)+&quot;  &quot;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		Cookie cookie = new Cookie(&quot;lastAcessTime&quot;,System.currentTimeMillis()+&quot;&quot;);</div><div class="line">		cookie.setMaxAge(30*24*3600);</div><div class="line">		cookie.setPath(&quot;/day07&quot;);</div><div class="line">		</div><div class="line">		response.addCookie(cookie);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="删除名为lastAcessTime的cookie"><a href="#删除名为lastAcessTime的cookie" class="headerlink" title="删除名为lastAcessTime的cookie"></a>删除名为lastAcessTime的cookie</h3><p>在cookiedemo1中添加一个链接到cookiedemo2后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.cookie;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.Cookie;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class cookiedemo2 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line">	//删除cookie</div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		Cookie cookie = new Cookie(&quot;lastAcessTime&quot;,System.currentTimeMillis()+&quot;&quot;);</div><div class="line">		//给出以秒为单位的有效时间，0代表删除</div><div class="line">		cookie.setMaxAge(0);</div><div class="line">		</div><div class="line">		//路径名必须要和删除的cookie设置的路径一样才能删除</div><div class="line">		cookie.setPath(&quot;/day07&quot;);</div><div class="line">		</div><div class="line">		response.addCookie(cookie);</div><div class="line">		</div><div class="line">		response.sendRedirect(&quot;/day07/servlet/cookiedemo1&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc1op28l0001vcvdq5dqv0pz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/04/request域和forward方法和uri的书写和referer/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">request域和forward方法和uri的书写和referer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request常用方法/">request常用方法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
