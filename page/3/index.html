@@ -68,6 +68,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-SAX解析XML" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/25/SAX解析XML/" class="article-date">
+  <time datetime="2017-12-25T15:20:50.000Z" itemprop="datePublished">2017-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/25/SAX解析XML/">SAX解析XML</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SAX采用事件处理的方式解析XML文件，利用SAX解析XML文档涉及两个部分:解析器和事件处理器</p>
+<ol>
+<li>解析器可以使用JAXP的API，创建出SAX的解析器，可以指定解析器去解析某个XML文档。</li>
+<li>解析器采用SAX方式解析某个XML文档，它只要解析到XML文档的一个组成部分，就会去调用事件处理器的一个方法，解析器在调用事件处理器方法时，会把当前解析到的XML文档内容作为方法的参数传递给事件处理器。</li>
+<li>事件处理器由程序员编写，程序员通过事件处理器方法的参数，可以得到SAX解析器解析的数据，从而决定对数据如何处理。</li>
+</ol>
+<h3 id="用SAX方式获取xml文本内容"><a href="#用SAX方式获取xml文本内容" class="headerlink" title="用SAX方式获取xml文本内容"></a>用SAX方式获取xml文本内容</h3><p>用于操作的XML文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</div><div class="line">&lt;书架&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 author=&quot;GLBB&quot;&gt;JAVA就业培训教程&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;29.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 name=&quot;GLBB&quot;&gt;JavaScript网页开发&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;28.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">&lt;/书架&gt;</div></pre></td></tr></table></figure></p>
+<p>解析XML文档内容，并打印到控制台<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">package day03;</div><div class="line"></div><div class="line">import javax.xml.parsers.SAXParser;</div><div class="line">import javax.xml.parsers.SAXParserFactory;</div><div class="line"></div><div class="line">import org.xml.sax.Attributes;</div><div class="line">import org.xml.sax.ContentHandler;</div><div class="line">import org.xml.sax.Locator;</div><div class="line">import org.xml.sax.SAXException;</div><div class="line">import org.xml.sax.XMLReader;</div><div class="line"></div><div class="line">public class demo1 &#123;</div><div class="line">	// sax解析文档</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		// 1.创建解析工厂</div><div class="line">		SAXParserFactory factory = SAXParserFactory.newInstance();</div><div class="line">		// 2.得到解析器</div><div class="line">		SAXParser parser = factory.newSAXParser();</div><div class="line">		// 3.得到读取器</div><div class="line">		XMLReader reader = parser.getXMLReader();</div><div class="line">		// 4.设置内容处理器</div><div class="line">		reader.setContentHandler(new ListHanlder());</div><div class="line">		// 5.读取XML文本内容</div><div class="line">		reader.parse(&quot;src/book.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class ListHanlder implements ContentHandler &#123;</div><div class="line">	@Override</div><div class="line">	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException &#123;</div><div class="line">		System.out.print(&quot;&lt;&quot; + qName + &quot; &quot;);</div><div class="line">		for (int i = 0; i &lt; atts.getLength(); i++) &#123;</div><div class="line">			String att = atts.getQName(i);</div><div class="line">			String value = atts.getValue(i);</div><div class="line">			System.out.print(&quot; &quot;+att +&quot;=\&quot;&quot;+ value +&quot;\&quot;&quot;);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;&gt;&quot;);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void endElement(String uri, String localName, String qName) throws SAXException &#123;</div><div class="line">		System.out.println(&quot;&lt;/&quot;+qName+&quot;&gt;&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void characters(char[] ch, int start, int length) throws SAXException &#123;</div><div class="line">		System.out.println(new String(ch,start,length));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void processingInstruction(String target, String data) throws SAXException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void skippedEntity(String name) throws SAXException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void setDocumentLocator(Locator locator) &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void startDocument() throws SAXException &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void endDocument() throws SAXException &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void startPrefixMapping(String prefix, String uri) throws SAXException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void endPrefixMapping(String prefix) throws SAXException &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="获取某一标签的内容"><a href="#获取某一标签的内容" class="headerlink" title="获取某一标签的内容"></a>获取某一标签的内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">package day03;</div><div class="line"></div><div class="line"></div><div class="line">import javax.xml.parsers.SAXParser;</div><div class="line">import javax.xml.parsers.SAXParserFactory;</div><div class="line"></div><div class="line">import org.xml.sax.Attributes;</div><div class="line">import org.xml.sax.SAXException;</div><div class="line">import org.xml.sax.XMLReader;</div><div class="line">import org.xml.sax.helpers.DefaultHandler;</div><div class="line"></div><div class="line">public class demo2 &#123;</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SAXParserFactory factory = SAXParserFactory.newInstance();</div><div class="line">		SAXParser parser = factory.newSAXParser();</div><div class="line">		XMLReader reader = parser.getXMLReader();</div><div class="line">		reader.setContentHandler(new GetContent());</div><div class="line">		reader.parse(&quot;src/book.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class GetContent extends DefaultHandler&#123;</div><div class="line">	public String currentTag;</div><div class="line">	//获取第几个标签的内容</div><div class="line">	private int needNumber = 1;</div><div class="line">	//当前的标签的计数</div><div class="line">	private int nowNumber = 0;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException &#123;</div><div class="line">		currentTag = qName;</div><div class="line">		if(&quot;售价&quot;.equals(currentTag))&#123;</div><div class="line">			nowNumber++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void endElement(String uri, String localName, String qName) throws SAXException &#123;</div><div class="line">		currentTag = null;	</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void characters(char[] ch, int start, int length) throws SAXException &#123;</div><div class="line">		//1.   &quot;售价&quot;.equals(currentTag)</div><div class="line">		//2.   currentTag.equals(&quot;售价&quot;)</div><div class="line">		//currentTag可能等于null，所以第二种方式错的</div><div class="line">		if(&quot;售价&quot;.equals(currentTag)&amp;&amp;nowNumber==needNumber)&#123;</div><div class="line">			System.out.println(new String(ch,start,length));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc2xeg7g000ck8vdn55zq8o3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-XML用JAXP解析" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/24/XML用JAXP解析/" class="article-date">
@@ -105,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc1op29y000evcvduvlfjaml" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc2xeg7t000lk8vdmqmbmpk6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -147,7 +191,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc1op28q0003vcvd8ukvpuqf" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc2xeg670003k8vdgcc89cal" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjc1op28v0005vcvd7ttutwx1" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjc2xeg680004k8vdrdev6qdp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -255,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjc1op28y0006vcvdfg55t5p2" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjc2xeg8d000uk8vdebiasst4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjc1op27p0000vcvdhc4gmyfj" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjc2xeg7e000bk8vd4rcdno9b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -351,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjc1op29w000dvcvdxzleezev" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjc2xeg7c000ak8vdoc1e5qn5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjc1op28r0004vcvd90ect7xx" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjc2xeg640002k8vdgr9ouau2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -434,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjc1op2aw000svcvdxixnuhnx" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjc2xeg86000qk8vdahzpd8d1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -490,43 +534,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjc1op2av000rvcvd1zfs72wq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-互联网常用协议工作端口" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/18/互联网常用协议工作端口/" class="article-date">
-  <time datetime="2017-12-18T09:18:26.000Z" itemprop="datePublished">2017-12-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/互联网常用协议工作端口/">互联网常用协议工作端口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="互联网常用协议工作端口"><a href="#互联网常用协议工作端口" class="headerlink" title="互联网常用协议工作端口"></a>互联网常用协议工作端口</h1><h3 id="http-80"><a href="#http-80" class="headerlink" title="http 80"></a>http 80</h3><h3 id="smtp-25"><a href="#smtp-25" class="headerlink" title="smtp 25"></a>smtp 25</h3><h3 id="pop3-110"><a href="#pop3-110" class="headerlink" title="pop3 110"></a>pop3 110</h3><h3 id="ftp-23"><a href="#ftp-23" class="headerlink" title="ftp 23"></a>ftp 23</h3><h3 id="https-443"><a href="#https-443" class="headerlink" title="https 443"></a>https 443</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjc1op2ay000uvcvds9bzjtel" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjc2xeg85000pk8vdbdnr7l7g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -570,6 +578,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/06/session入门/">session入门</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
           </li>
         
@@ -583,10 +595,6 @@
         
           <li>
             <a href="/2018/01/04/request常用方法/">request常用方法</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
           </li>
         
       </ul>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>session入门 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="servlet1中session被创建出来，且设置属性awesome12HttpSession session = request.getSession();session.setAttribute(&amp;quot;awesome&amp;quot;, &amp;quot;GLBB&amp;quot;); servlet2中得到session的属性123456HttpSession session = request.get">
+<meta property="og:type" content="article">
+<meta property="og:title" content="session入门">
+<meta property="og:url" content="http://glbb.github.io/2018/01/06/session入门/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="servlet1中session被创建出来，且设置属性awesome12HttpSession session = request.getSession();session.setAttribute(&amp;quot;awesome&amp;quot;, &amp;quot;GLBB&amp;quot;); servlet2中得到session的属性123456HttpSession session = request.get">
+<meta property="og:updated_time" content="2018-01-06T05:45:29.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="session入门">
+<meta name="twitter:description" content="servlet1中session被创建出来，且设置属性awesome12HttpSession session = request.getSession();session.setAttribute(&amp;quot;awesome&amp;quot;, &amp;quot;GLBB&amp;quot;); servlet2中得到session的属性123456HttpSession session = request.get">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-session入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/06/session入门/" class="article-date">
+  <time datetime="2018-01-06T05:45:21.000Z" itemprop="datePublished">2018-01-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      session入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="servlet1中"><a href="#servlet1中" class="headerlink" title="servlet1中"></a>servlet1中</h4><p>session被创建出来，且设置属性awesome<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">session.setAttribute(&quot;awesome&quot;, &quot;GLBB&quot;);</div></pre></td></tr></table></figure></p>
+<h4 id="servlet2中"><a href="#servlet2中" class="headerlink" title="servlet2中"></a>servlet2中</h4><p>得到session的属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">String awesome = (String) session.getAttribute(&quot;awesome&quot;);</div><div class="line"></div><div class="line">		response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(&quot;世界上最英俊的人是谁：&quot; + awesome);</div></pre></td></tr></table></figure></p>
+<p>session是服务器为每个浏览器创建的<br>由服务器进行管理，session周期由request.getSession创建，默认在30分钟内没用就被服务器销毁，即使会话没有结束，只要30分钟没有使用session服务器就自动销毁session</p>
+<p>可以在web.xml文件中根节点下加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;session-config&gt;</div><div class="line">	&lt;session-timeout&gt;10&lt;/session-timeout&gt;</div><div class="line">&lt;/session-config&gt;</div></pre></td></tr></table></figure></p>
+<p>其中10代表10分钟没用session就销毁</p>
+<p>也可以在程序中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">session.invalidate();</div></pre></td></tr></table></figure></p>
+<p>会马上摧毁session</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.getSession(false);</div><div class="line">requset.getSeession();</div></pre></td></tr></table></figure>
+<p>重载方法，第一句代码只获取session,不创建session<br>第二句代码获取session，若没获取到，则创建session</p>
+<h3 id="服务器怎么知道哪个session对应哪个浏览器"><a href="#服务器怎么知道哪个session对应哪个浏览器" class="headerlink" title="服务器怎么知道哪个session对应哪个浏览器"></a>服务器怎么知道哪个session对应哪个浏览器</h3><p>在执行到request.getSession()方法时，创建出一个session,每个session有一个id号，通过cookie把id号写给浏览器，下次浏览器访问服务器，把cookie取出来给服务器，服务器就知道哪个session对应哪个浏览器，所以说:session是基于cookie的，其中cookie写给浏览器，cookie是没有设置有效期的，也就是说，浏览器关了，cookie就没有了，所以说需要手动把这个cookie设置一个有效期<br>在html页面设置两个链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;/day07/servlet/sessiondemo1&quot;&gt;设置这世界最英俊的人&lt;/a&gt;</div><div class="line">&lt;br/&gt;</div><div class="line">&lt;a href=&quot;/day07/servlet/sessiondemo2&quot;&gt;查看这世界最英俊的人&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+<p>servlet1设置session数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">session.setAttribute(&quot;awesome&quot;, &quot;GLBB&quot;);</div><div class="line"></div><div class="line">String id = session.getId();</div><div class="line">Cookie cookie = new Cookie(&quot;JSESSIONID&quot;,id);</div><div class="line">cookie.setMaxAge(30*60);</div><div class="line">cookie.setPath(&quot;/day07&quot;);</div><div class="line">response.addCookie(cookie);</div></pre></td></tr></table></figure></p>
+<p>servlet2得到session数据</p>
+<h3 id="浏览器阻止接收cookie"><a href="#浏览器阻止接收cookie" class="headerlink" title="浏览器阻止接收cookie"></a>浏览器阻止接收cookie</h3><p>（浏览器对主机名localhost不阻止），把localhost改成127.0.0.1阻止，<br>解决方案：URL重写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">request.getSession();</div><div class="line"></div><div class="line">String url1 = response.encodeURL(&quot;/day07/servlet/sessiondemo1&quot;);</div><div class="line">String url2 = response.encodeURL(&quot;/day07/servlet/sessiondemo2&quot;);</div><div class="line"></div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(&quot;&lt;a href=&quot;+url1+&quot;&gt;设置这世界最帅的人&lt;/a&gt;&lt;br/&gt;&quot;);</div><div class="line">pw.write(&quot;&lt;a href=&quot;+url2+&quot;&gt;查看这世界最帅的人&lt;/a&gt;&lt;br/&gt;&quot;);</div></pre></td></tr></table></figure></p>
+<p>则在解析后的url后面会带上sessionid号，若浏览器开启了cookie，那么，url后面不会带sessionid号。但是若用户阻止了cookie，启用url方式，用户将浏览器关闭后，就无法保存用户的操作</p>
+<h4 id="uri路径不写死"><a href="#uri路径不写死" class="headerlink" title="uri路径不写死"></a>uri路径不写死</h4><p>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String = &quot;/day07/servlet/sessiondemo2&quot;</div></pre></td></tr></table></figure></p>
+<p>可以改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String = request.getContextPath()+&quot;/servlet/sessiondemo2&quot;</div></pre></td></tr></table></figure></p>
+<p>其中request.getContextPath()就相当于/day07</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc2xeg7w000nk8vdg6gt4voq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/05/Cookie创建和删除/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cookie创建和删除</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/06/session入门/">session入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request常用方法/">request常用方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
