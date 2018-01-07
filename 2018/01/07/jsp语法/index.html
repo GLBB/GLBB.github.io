@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jsp语法 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="脚本表达式作用是向浏览器输出数据1&amp;lt;%=time%&amp;gt; 相当于，在翻译后的servlet中可以看到1out.print(time); 脚本片段12345678&amp;lt;% 	String x = &amp;quot;是&amp;quot;;%&amp;gt;&amp;lt;p&amp;gt;问是否此山最高&amp;lt;/p&amp;gt;&amp;lt;% 	out.print(x+&amp;quot;&amp;lt;br/&amp;gt;&amp;quot;);%&amp;gt;&amp;lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jsp语法">
+<meta property="og:url" content="http://glbb.github.io/2018/01/07/jsp语法/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="脚本表达式作用是向浏览器输出数据1&amp;lt;%=time%&amp;gt; 相当于，在翻译后的servlet中可以看到1out.print(time); 脚本片段12345678&amp;lt;% 	String x = &amp;quot;是&amp;quot;;%&amp;gt;&amp;lt;p&amp;gt;问是否此山最高&amp;lt;/p&amp;gt;&amp;lt;% 	out.print(x+&amp;quot;&amp;lt;br/&amp;gt;&amp;quot;);%&amp;gt;&amp;lt;">
+<meta property="og:updated_time" content="2018-01-07T11:51:58.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsp语法">
+<meta name="twitter:description" content="脚本表达式作用是向浏览器输出数据1&amp;lt;%=time%&amp;gt; 相当于，在翻译后的servlet中可以看到1out.print(time); 脚本片段12345678&amp;lt;% 	String x = &amp;quot;是&amp;quot;;%&amp;gt;&amp;lt;p&amp;gt;问是否此山最高&amp;lt;/p&amp;gt;&amp;lt;% 	out.print(x+&amp;quot;&amp;lt;br/&amp;gt;&amp;quot;);%&amp;gt;&amp;lt;">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jsp语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/07/jsp语法/" class="article-date">
+  <time datetime="2018-01-07T11:51:52.000Z" itemprop="datePublished">2018-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      jsp语法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="脚本表达式"><a href="#脚本表达式" class="headerlink" title="脚本表达式"></a>脚本表达式</h3><p>作用是向浏览器输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%=time%&gt;</div></pre></td></tr></table></figure></p>
+<p>相当于，在翻译后的servlet中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">out.print(time);</div></pre></td></tr></table></figure></p>
+<h3 id="脚本片段"><a href="#脚本片段" class="headerlink" title="脚本片段"></a>脚本片段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	String x = &quot;是&quot;;</div><div class="line">%&gt;</div><div class="line">&lt;p&gt;问是否此山最高&lt;/p&gt;</div><div class="line">&lt;% </div><div class="line">	out.print(x+&quot;&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line">&lt;br/&gt;</div></pre></td></tr></table></figure>
+<p>可以嵌如多行java代码<br>单个脚本片段中java语句可以是不完成的，但多个脚本片段组合起来必须是完整的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	for(int i=0;i&lt;9;i++)&#123;</div><div class="line">%&gt;</div><div class="line">		我最高&lt;br/&gt;</div><div class="line">&lt;% </div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>由此可以看出jsp页面确实不适合处理请求</p>
+<h3 id="jsp声明"><a href="#jsp声明" class="headerlink" title="jsp声明"></a>jsp声明</h3><p>jsp页面默认声明的代码默认会翻译到jspService方法中，<br>但jsp声明中的语句会放在jspService方法之外<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%! </div><div class="line">	public void run()&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>java语法认为方法里面不能在声明一个方法的<br>也就是说jspService方法中不能在加入run方法，jsp声明会将代码块里面的东西放到jspService方法之外</p>
+<h3 id="jsp注释"><a href="#jsp注释" class="headerlink" title="jsp注释"></a>jsp注释</h3><p>jsp注释不会发送给浏览器，html注释中注释的内容会发给浏览器，但浏览器识别不显示<br>格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;%--</div><div class="line">    	saaaaa</div><div class="line">--%&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="jsp指令"><a href="#jsp指令" class="headerlink" title="jsp指令"></a>jsp指令</h3><p>jsp指令是为jsp引擎设计的，并不产生任何可见输出，只是告诉引擎如何处理JSP页面的其余部分<br>如page指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ 指令 属性名=&quot;值&quot; %&gt;</div><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div></pre></td></tr></table></figure></p>
+<p>如果一个指令有多个属性，这多个属性可以写在一个指令中，也可以分开写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; %&gt;</div><div class="line">&lt;%@ page import=&quot;java.util.Date&quot; %&gt;</div><div class="line">//也可以写作</div><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; import=&quot;java.util.Date&quot;  %&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="page指令"><a href="#page指令" class="headerlink" title="page指令"></a>page指令</h3><p>page指令用于定义jsp页面的各种属性,无论page指令出现在jsp页面哪个位置，作用的都是整个jsp页面，为了页面的可读性，常定义在jsp页面的起始位置<br>jsp page 的import属性，默认导入了如下包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java.lang.*</div><div class="line">javax.servlet.*</div><div class="line">javax.servlet.jsp</div><div class="line">javax.servlet.http</div></pre></td></tr></table></figure></p>
+<p>一个import属性可以导入多个包,不同的包用逗号分割<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import=&quot;java.util.Date,java.sql.*，java.io.*&quot;</div></pre></td></tr></table></figure></p>
+<p>也可以分为多行写</p>
+<p>还有属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">errorPage=&quot;/errors/error.jsp&quot;</div></pre></td></tr></table></figure></p>
+<p>定义jsp出错后跳转到哪个页面，其中路径必须是相对路径目录<br>如果以”/“开头，表示相对于当前WEB程序根目录，否则表示当前页面<br>可以在web.xml文件中使用&lt;error-page&gt; 元素为整个web应用程序设置处理错误页面，其中&lt;exception-type&gt; 子元素指定异常类的完全限定名，&lt;location&gt; 元素指定以“/”开头的错误处理页面<br>例子<br>在web.xml文件中配置全局的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;error-page&gt;</div><div class="line">	&lt;exception-type&gt;java.lang.ArithmeticException&lt;/exception-type&gt;</div><div class="line">	&lt;location&gt;/errors/error.jsp&lt;/location&gt;</div><div class="line">&lt;/error-page&gt;</div></pre></td></tr></table></figure></p>
+<p>或者在jsp文件中，配置Jsp文件的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot; errorPage=&quot;/errors/error.jsp&quot;%&gt;</div></pre></td></tr></table></figure></p>
+<p>其中jsp page 中errorPage属性的优先级比在web.xml中文件配置的更高</p>
+<p>page中还有一个属性，isErrorPage,默认值是false,作用是对异常页面显式说明，声明这个属性，jsp翻译成的servlet中就会内置一个exception对象</p>
+<p>pageEncoding和contentType是解决乱码相关的<br>pageEncoding设置tomcat服务器以声明码表来把jsp翻译成servlet，contentType是指定浏览器以什么码表打开<br>一般来说只需设置pageEncoding属性就可以了</p>
+<h3 id="include指令"><a href="#include指令" class="headerlink" title="include指令"></a>include指令</h3><p>include指令用于引入其他jsp页面，如果使用include指令引入了其他jsp页面，那么jsp引擎将把两个jsp页面翻译为一个servlet,所以include指令引入通常称为静态引入<br>语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ include file=&quot;relativeURL&quot; %&gt;</div></pre></td></tr></table></figure></p>
+<p>其中file属性用于指定被引入文件路径，路径以”/“开头，代表当前web应用</p>
+<p>例子<br>页头<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页头&lt;br/&gt;</div></pre></td></tr></table></figure></p>
+<p>页脚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页脚&lt;br/&gt;</div></pre></td></tr></table></figure></p>
+<p>内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line"></div><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;include指令&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">  		&lt;%@ include file=&quot;/public/head.jsp&quot; %&gt;</div><div class="line">    	这是内容&lt;br/&gt;</div><div class="line">    	&lt;%@ include file=&quot;/public/foot.jsp&quot; %&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>注意被包含进来的直接写内容，不需要有&lt;html&gt; 这些标签，否则格式不良好</p>
+<h3 id="include包含"><a href="#include包含" class="headerlink" title="include包含"></a>include包含</h3><p>include指令包含成为静态包含，它包含的所有jsp会翻译成一个servlet，编译时包含<br>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.getRequestDispatcher(&quot;/public/head.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	response.getWriter().write(&quot;这是内容&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	request.getRequestDispatcher(&quot;/public/foot.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>称为动态包含，动态包含会把包含进来的各自翻译成servlet，jsp运行的时候把这些包含进来了，称为动态包含</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjc4pxr95000eq4vdjbaqtprw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/07/jsp运行原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">jsp运行原理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/07/jsp语法/">jsp语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/06/session入门/">session入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

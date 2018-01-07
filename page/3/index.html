@@ -68,6 +68,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-dom4j解析XML" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/27/dom4j解析XML/" class="article-date">
+  <time datetime="2017-12-27T12:51:15.000Z" itemprop="datePublished">2017-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/27/dom4j解析XML/">dom4j解析XML、</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>dom4j下载地址</p>
+<blockquote>
+<blockquote>
+<p><a href="https://dom4j.github.io/" target="_blank" rel="external">https://dom4j.github.io/</a><br>dom4j快速入门<br><a href="https://github.com/dom4j/dom4j/wiki/Quick-Start-Guide" target="_blank" rel="external">https://github.com/dom4j/dom4j/wiki/Quick-Start-Guide</a></p>
+</blockquote>
+</blockquote>
+<h3 id="dom4j写document到xml中乱码问题"><a href="#dom4j写document到xml中乱码问题" class="headerlink" title="dom4j写document到xml中乱码问题"></a>dom4j写document到xml中乱码问题</h3><ol>
+<li>由于sum.io.FileWriter中用的是GB2312码表，而XML中用的是UTF-8所以会乱码，且FileWriter构造函数中没有设置码表的，所以切换到用OutputStreamWriter()可指定编码</li>
+<li>将xml文档改成gb2312 用FileWriter还是会产生乱码，原因是将xml读取到内存中document会用UTF-8方式，而FileWriter用gb2312写，所以产生乱码<h4 id="若想要将xml改成gb2312可采用格式化输出器"><a href="#若想要将xml改成gb2312可采用格式化输出器" class="headerlink" title="若想要将xml改成gb2312可采用格式化输出器"></a>若想要将xml改成gb2312可采用格式化输出器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line"></div><div class="line">&lt;书架&gt; </div><div class="line">  &lt;书&gt; </div><div class="line">    &lt;书名 author=&quot;GLBB&quot;&gt;JAVA就业培训教程&lt;/书名&gt;  </div><div class="line">    &lt;作者&gt;张孝祥&lt;/作者&gt;  </div><div class="line">    &lt;售价&gt;29.00元&lt;/售价&gt; </div><div class="line">  &lt;/书&gt;  </div><div class="line">  &lt;书&gt; </div><div class="line">    &lt;书名 name=&quot;GLBB&quot;&gt;JavaScript网页开发&lt;/书名&gt;  </div><div class="line">    &lt;作者&gt;张孝祥&lt;/作者&gt;  </div><div class="line">    &lt;售价&gt;28.00元&lt;/售价&gt; </div><div class="line">  &lt;/书&gt; </div><div class="line">&lt;/书架&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line">package dom4jexercise;</div><div class="line"></div><div class="line"></div><div class="line">import java.io.File;</div><div class="line">import java.io.FileOutputStream;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">import org.dom4j.Document;</div><div class="line">import org.dom4j.DocumentHelper;</div><div class="line">import org.dom4j.Element;</div><div class="line">import org.dom4j.io.OutputFormat;</div><div class="line">import org.dom4j.io.SAXReader;</div><div class="line">import org.dom4j.io.XMLWriter;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">public class demo1 &#123;</div><div class="line"></div><div class="line">	// 得到&lt;书名 name=&quot;GLBB&quot;&gt;JavaScript网页开发&lt;/书名&gt;中的文本,在得到其中name属性的值</div><div class="line">	@Test</div><div class="line">	public void read1() throws Exception &#123;</div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/book.xml&quot;));</div><div class="line">		Element root = (Element) document.getRootElement();</div><div class="line">		Element book = root.elements(&quot;书&quot;).get(1);</div><div class="line">		String bookName = book.element(&quot;书名&quot;).getText();</div><div class="line">		String bookAttName = book.element(&quot;书名&quot;).attributeValue(&quot;name&quot;);</div><div class="line">		System.out.println(bookName);</div><div class="line">		System.out.println(bookAttName);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 在book.xml第一本书中添加一个售价&lt;售价&gt;159.00元&lt;/售价&gt;</div><div class="line">	@Test</div><div class="line">	public void add() throws Exception &#123;</div><div class="line">		SAXReader saxReader = new SAXReader();</div><div class="line">		Document document = saxReader.read(new File(&quot;src/book.xml&quot;));</div><div class="line"></div><div class="line">		Element root = document.getRootElement();</div><div class="line">		Element book = root.element(&quot;书&quot;);</div><div class="line">		book.addElement(&quot;售价&quot;).setText(&quot;159.00元&quot;);</div><div class="line">		</div><div class="line">		//方法一全部采用UTF-8</div><div class="line">		//XMLWriter writer = new XMLWriter(new OutputStreamWriter(new FileOutputStream(&quot;src/book.xml&quot;),&quot;UTF-8&quot;));</div><div class="line">		</div><div class="line">		//方法二采用gb2312</div><div class="line">		//OutputFormat format = OutputFormat.createPrettyPrint();</div><div class="line">		//format.setEncoding(&quot;gb2312&quot;);</div><div class="line">		//XMLWriter writer = new XMLWriter(new OutputStreamWriter(new FileOutputStream(&quot;src/book.xml&quot;),&quot;gb2312&quot;),format);</div><div class="line">		</div><div class="line">		//以上都是采用字符流，最好采用字节流</div><div class="line">		OutputFormat format = OutputFormat.createPrettyPrint();</div><div class="line">		format.setEncoding(&quot;UTF-8&quot;);</div><div class="line">		XMLWriter writer = new XMLWriter(new FileOutputStream(&quot;src/book.xml&quot;),format);</div><div class="line">		</div><div class="line">		writer.write(document);</div><div class="line">		writer.close();</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//在指定位置添加&lt;售价&gt;159.00元&lt;/售价&gt;  ,更改保存所有孩子list集合的顺序</div><div class="line">	@Test</div><div class="line">	public void add2() throws Exception&#123;</div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/book.xml&quot;));</div><div class="line">		</div><div class="line">		Element root = document.getRootElement();</div><div class="line">		Element book = root.element(&quot;书&quot;);</div><div class="line">		List&lt;Element&gt; childrens = book.elements();</div><div class="line">		</div><div class="line">		Element price = DocumentHelper.createElement(&quot;售价&quot;);</div><div class="line">		price.setText(&quot;189元&quot;);</div><div class="line">		</div><div class="line">		childrens.add(2,price);</div><div class="line">		</div><div class="line">		OutputFormat format = OutputFormat.createPrettyPrint();</div><div class="line">		format.setEncoding(&quot;UTF-8&quot;);</div><div class="line">		</div><div class="line">		XMLWriter writer = new XMLWriter(new FileOutputStream(&quot;src/book.xml&quot;),format);</div><div class="line">		writer.write(document);</div><div class="line">		writer.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//删除第一本书的第一个售价节点</div><div class="line">	@Test</div><div class="line">	public void delete() throws Exception&#123;</div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/book.xml&quot;));</div><div class="line">		</div><div class="line">		Element price = document.getRootElement().element(&quot;书&quot;).element(&quot;售价&quot;);</div><div class="line">		price.getParent().remove(price);</div><div class="line">		</div><div class="line">		OutputFormat format = OutputFormat.createPrettyPrint();</div><div class="line">		format.setEncoding(&quot;UTF-8&quot;);</div><div class="line">		</div><div class="line">		XMLWriter writer = new XMLWriter(new FileOutputStream(&quot;src/book.xml&quot;),format);</div><div class="line">		writer.write(document);</div><div class="line">		writer.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	//更新第二本书的&lt;作者&gt;张孝祥&lt;/作者&gt; 为&lt;作者&gt;GLBB&lt;/作者&gt; </div><div class="line">	@Test</div><div class="line">	public void update() throws Exception&#123;</div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/book.xml&quot;));</div><div class="line">		Element author = document.getRootElement().elements(&quot;书&quot;).get(1).element(&quot;作者&quot;);</div><div class="line">		author.setText(&quot;GLBB&quot;);</div><div class="line">		</div><div class="line">		OutputFormat format = OutputFormat.createPrettyPrint();</div><div class="line">		format.setEncoding(&quot;UTF-8&quot;);</div><div class="line">		</div><div class="line">		XMLWriter writer = new XMLWriter(new FileOutputStream(&quot;src/book.xml&quot;),format);</div><div class="line">		writer.write(document);</div><div class="line">		writer.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="XPATH快速定位到要的数据"><a href="#XPATH快速定位到要的数据" class="headerlink" title="XPATH快速定位到要的数据"></a>XPATH快速定位到要的数据</h3><h4 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h4><p>需要用到的jar包,其中jaxen和saxpath是支持jar<br><img src="http://i1.bvimg.com/624208/bd4701c2bdcbb0d1.png" alt="Markdown"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">package dom4jexercise;</div><div class="line"></div><div class="line">import java.io.File;</div><div class="line"></div><div class="line">import org.dom4j.Document;</div><div class="line">import org.dom4j.io.SAXReader;</div><div class="line"></div><div class="line">public class demo2 &#123;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * </div><div class="line">	 * 应用Xpath提取数据</div><div class="line">	 * 提取第一本书的作者值</div><div class="line">	 * */</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/book.xml&quot;));</div><div class="line">		</div><div class="line">		String value = document.selectSingleNode(&quot;//作者&quot;).getText();</div><div class="line">		System.out.println(value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="利用Xpath实现对比操作"><a href="#利用Xpath实现对比操作" class="headerlink" title="利用Xpath实现对比操作"></a>利用Xpath实现对比操作</h3><p>用于操作的XML文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line"></div><div class="line">&lt;users&gt;</div><div class="line">	&lt;user id=&quot;1&quot; username=&quot;GLBB&quot; passwd=&quot;123456&quot;&gt;&lt;/user&gt;</div><div class="line">	&lt;user id=&quot;2&quot; username=&quot;nix&quot; passwd=&quot;234567&quot;&gt;&lt;/user&gt;</div><div class="line">&lt;/users&gt;</div></pre></td></tr></table></figure></p>
+<p>java解析过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">package dom4jexercise;</div><div class="line"></div><div class="line">import java.io.File;</div><div class="line"></div><div class="line">import org.dom4j.Document;</div><div class="line">import org.dom4j.Node;</div><div class="line">import org.dom4j.io.SAXReader;</div><div class="line"></div><div class="line">public class demo3 &#123;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 利用XML作为数据库 从XML读取出user 对比</div><div class="line">	 */</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		String username = &quot;GLBB&quot;;</div><div class="line">		String passwd = &quot;123456&quot;;</div><div class="line"></div><div class="line">		SAXReader reader = new SAXReader();</div><div class="line">		Document document = reader.read(new File(&quot;src/users.xml&quot;));</div><div class="line"></div><div class="line">		Node node = document.selectSingleNode(&quot;//user[@username=&apos;&quot; + username + &quot;&apos; and @passwd=&apos;&quot; + passwd + &quot;&apos;]&quot;);</div><div class="line">		if (node == null) &#123;</div><div class="line">			System.out.println(&quot;---------------------用户名或密码错误----------------------&quot;);</div><div class="line">		&#125; else &#123;</div><div class="line">			System.out.println(&quot;------------------------登陆成功--------------------&quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc4pxr95000hq4vd5gv87dn6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-SAX解析XML示例" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/25/SAX解析XML示例/" class="article-date">
@@ -97,7 +148,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc49ce7s0009tgvdaekdch7x" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc4pxr8q0009q4vd9w2uzz1s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc49ce7s0006tgvdirt8teuk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML/" data-id="cjc4pxr7u0007q4vdvzs1iy6d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc49ce88000ftgvdp8bsbx6x" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/24/XML用JAXP解析/" data-id="cjc4pxr95000fq4vdqcbyaomk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -230,7 +281,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc49ce7c0004tgvdxla4c6in" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjc4pxr7f0001q4vdnz81p7hn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -273,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjc49ce7s0005tgvds4wq064d" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjc4pxr7u0006q4vd5ufcxvk2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -338,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjc49ce7s0008tgvd6cwerrvr" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjc4pxr7u0005q4vdctwtxn3p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjc49ce7c0002tgvdwmsmbque" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjc4pxr7u0002q4vdduhit8f6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -434,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjc49ce88000dtgvd52q689k5" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjc4pxr95000dq4vdlufxamis" class="article-share-link">Share</a>
       
       
     </footer>
@@ -477,47 +528,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjc49ce7c0003tgvdu9d54i29" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tomcat入门学习二" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/19/tomcat入门学习二/" class="article-date">
-  <time datetime="2017-12-19T12:12:50.000Z" itemprop="datePublished">2017-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/19/tomcat入门学习二/">tomcat入门学习二</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="WEB应用配置"><a href="#WEB应用配置" class="headerlink" title="WEB应用配置"></a>WEB应用配置</h2><h3 id="WEB应用配置-1"><a href="#WEB应用配置-1" class="headerlink" title="WEB应用配置"></a>WEB应用配置</h3><h4 id="虚拟目录映射"><a href="#虚拟目录映射" class="headerlink" title="虚拟目录映射"></a>虚拟目录映射</h4><p>（1）需要重启WEB服务器<br>打开conf下server.xml<br>在<host>中插入<context>标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Context path=&quot;/blogproject&quot; docBase=&quot;f:\blog&quot;/&gt;</div></pre></td></tr></table></figure></context></host></p>
-<p>path代表虚拟目录，即用浏览器所访问的目录<br>即<a href="http://www.glbb.com/blogproject" target="_blank" rel="external">http://www.glbb.com/blogproject</a><br>docBase代表项目实际所在的目录<br>改动server.xml之后必须重启web服务器<br>(2)不需重启WEB服务器上线WEB应用<br>tomcat官方文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">In individual files (with a &quot;.xml&quot; extension) in the $CATALINA_BASE/conf/[enginename]/[hostname]/ directory. The context path and version will be derived from the base name of the file (the file name less the .xml extension). This file will always take precedence over any context.xml file packaged in the web application&apos;s META-INF directory.</div></pre></td></tr></table></figure></p>
-<p>在tomcat的conf/Catalina/localhost目录下新建一个文件<br>如a.xml<br>其中文件名称（如a）除去.xml扩展名被用作path路径的值,即虚拟目录<br>在a.xml中键入·<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Context docBase=&quot;f:\javaee&quot;/&gt;</div></pre></td></tr></table></figure></p>
-<p>多级虚拟目录<br>例子：文件名称foo#bar代表虚拟目录foo/bar<br>(3)把某个WEB应用配置为缺省应用<br>如直接输入主机IP进入某个WEB应用<br>在tomcat的conf/Catalina/localhost目录下创建文件名为ROOT.xml<br>需要重启服务器来覆盖原来的默认WEB应用<br>(重要！！！)此种方法需WEB应用不在webapps目录内<br>原来<a href="http://localhost/blogproject/1.html" target="_blank" rel="external">http://localhost/blogproject/1.html</a><br>现在<a href="http://localhost/1.html" target="_blank" rel="external">http://localhost/1.html</a><br>(4)在conf/server.xml中把WEB应用配置为缺省的WEB应用<br><code>&lt;Context path=&quot;&quot; docBase=&quot;f:\blog&quot;/&gt;</code><br>即path什么都不写<br>(5)让tomcat自动映射<br>在webapps目录下，tomcat会自动映射</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjc49ce93000vtgvd3od9wacr" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjc4pxr7u0004q4vdhzn5h6oj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -561,6 +572,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/07/jsp语法/">jsp语法</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
           </li>
         
@@ -574,10 +589,6 @@
         
           <li>
             <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/04/request获得数据/">request获得数据</a>
           </li>
         
       </ul>
