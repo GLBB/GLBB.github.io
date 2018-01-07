@@ -68,6 +68,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-jsp运行原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/07/jsp运行原理/" class="article-date">
+  <time datetime="2018-01-07T04:07:11.000Z" itemprop="datePublished">2018-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,<br>这个被服务器翻译出来的servlet页面可在tomcat目录下的work中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">work\Catalina\localhost\day08\org\apache\jsp</div></pre></td></tr></table></figure></p>
+<p>其中被翻译的servlet定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public final class _1_jsp extends org.apache.jasper.runtime.HttpJspBase</div></pre></td></tr></table></figure></p>
+<p>其中HttpJspBase是servlet的子类<br>其中源码定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public abstract class HttpJspBase extends HttpServlet implements HttpJspPage</div></pre></td></tr></table></figure></p>
+<h3 id="jsp如何把页面内容打给浏览器的"><a href="#jsp如何把页面内容打给浏览器的" class="headerlink" title="jsp如何把页面内容打给浏览器的"></a>jsp如何把页面内容打给浏览器的</h3><p>在翻译后的servlet中的_jspService方法中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;html&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    &lt;title&gt;My JSP &apos;1.jsp&apos; starting page&lt;/title&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;script&gt;\&quot;undefined\&quot;==typeof CODE_LIVE&amp;&amp;(!function(e)&#123;var t=&#123;nonSecure:\&quot;60251\&quot;,secure:\&quot;60257\&quot;&#125;,c=&#123;nonSecure:\&quot;http://\&quot;,secure:\&quot;https://\&quot;&#125;,r=&#123;nonSecure:\&quot;127.0.0.1\&quot;,secure:\&quot;gapdebug.local.genuitec.com\&quot;&#125;,n=\&quot;https:\&quot;===window.location.protocol?\&quot;secure\&quot;:\&quot;nonSecure\&quot;;script=e.createElement(\&quot;script\&quot;),script.type=\&quot;text/javascript\&quot;,script.async=!0,script.src=c[n]+r[n]+\&quot;:\&quot;+t[n]+\&quot;/codelive-assets/bundle.js\&quot;,e.getElementsByTagName(\&quot;head\&quot;)[0].appendChild(script)&#125;(document),CODE_LIVE=!0);&lt;/script&gt;&lt;/head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  \r\n&quot;);</div><div class="line">out.write(&quot;  &lt;body data-genuitec-lp-enabled=\&quot;false\&quot; data-genuitec-file-id=\&quot;wc2-0\&quot; data-genuitec-path=\&quot;/day08/WebRoot/1.jsp\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    \t当前时间是：\r\n&quot;);</div><div class="line">out.write(&quot;    \t&quot;);</div><div class="line"></div><div class="line">Date date = new Date();</div><div class="line">SimpleDateFormat sd = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</div><div class="line">out.print(sd.format(date));</div><div class="line"></div><div class="line">    	</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;/body&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;/html&gt;\r\n&quot;);</div></pre></td></tr></table></figure></p>
+<p>与浏览器相关的全部通过Out这样的输出流打给浏览器，其中的Java代码全部照搬到翻译后的servlet中<br>其中jsp页面预先准备了多少对象<br>可以在jspService方法中看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public void _jspService(final javax.servlet.http.HttpServletRequest request, final javax.servlet.http.HttpServletResponse response)</div><div class="line">    throws java.io.IOException, javax.servlet.ServletException &#123;</div><div class="line"></div><div class="line">  final java.lang.String _jspx_method = request.getMethod();</div><div class="line">  if (!&quot;GET&quot;.equals(_jspx_method) &amp;&amp; !&quot;POST&quot;.equals(_jspx_method) &amp;&amp; !&quot;HEAD&quot;.equals(_jspx_method) &amp;&amp; !javax.servlet.DispatcherType.ERROR.equals(request.getDispatcherType())) &#123;</div><div class="line">    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, &quot;JSPs only permit GET POST or HEAD&quot;);</div><div class="line">    return;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  final javax.servlet.jsp.PageContext pageContext;</div><div class="line">  javax.servlet.http.HttpSession session = null;</div><div class="line">  final javax.servlet.ServletContext application;</div><div class="line">  final javax.servlet.ServletConfig config;</div><div class="line">  javax.servlet.jsp.JspWriter out = null;</div><div class="line">  final java.lang.Object page = this;</div><div class="line">  javax.servlet.jsp.JspWriter _jspx_out = null;</div><div class="line">  javax.servlet.jsp.PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
+<p>也就是提供的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PageContext pageContext;</div><div class="line">HttpSession session = null;</div><div class="line">ServletContext application;</div><div class="line">ServletConfig config;</div><div class="line">JspWriter out = null;</div><div class="line">Object page = this;</div><div class="line">JspWriter _jspx_out = null;</div><div class="line">PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
+<h3 id="jsp的最佳实践"><a href="#jsp的最佳实践" class="headerlink" title="jsp的最佳实践"></a>jsp的最佳实践</h3><p>把servlet作为WEB应用的控制器组件来使用，jsp作为数据的显示模板<br>servlet只负责响应请求产生数据，jsp负责显示数据</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjc49ce88000itgvdwy1ul02o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-session入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/06/session入门/" class="article-date">
@@ -111,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc2xeg7w000nk8vdg6gt4voq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc49ce93000stgvdfksqq6c4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,7 +193,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc2xeg3y0000k8vdig1iqkgq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc49ce6d0000tgvdvm98s9iu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -196,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc2xeg7m000fk8vd1pynocsh" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc49ce8n000ktgvdaizapznz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc2xeg7n000gk8vdkovtme0b" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc49ce8n000ltgvdnaxjayj7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc2xeg7o000hk8vd8jtxzk4v" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc49ce8n000jtgvdiyw1ikzo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -331,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc2xeg7s000kk8vdq5knztjc" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc49ce8n000ntgvd8b8324m5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -370,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc2xeg7p000ik8vd162ftvvg" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc49ce8n000mtgvduzpt0a4b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc2xeg7r000jk8vdgwha2w7c" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc49ce8n000otgvdgkk5jo51" class="article-share-link">Share</a>
       
       
     </footer>
@@ -452,72 +495,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc2xeg7u000mk8vdi1jkuhf6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-servlet和读取资源文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/01/servlet和读取资源文件/" class="article-date">
-  <time datetime="2018-01-01T11:23:11.000Z" itemprop="datePublished">2018-01-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>配置文件web.xml文件更改，自动加载</li>
-<li>一个servlet可以映射到多个url地址，可以配置多个&lt;servlet-mapping&gt;</li>
-<li><servlet-mapping>中可以配置通用符， &lt;servlet-mapping&gt;/ <em>&lt;servlet-mapping&gt;通配符匹配，或 &lt;servlet-mapping&gt;\</em>.sh&lt;servlet-mapping&gt;</servlet-mapping></li>
-<li>启动服务器时就启动servlet可以配置一个标签&lt;load-on-starup&gt;1&lt;/load-on-starup&gt;</li>
-<li>servlet线程安全问题,可以使用同步方法获得把类实现接口SingleThreadModel标记接口，这样当有多个访问时，若一个servlet还没处理完上一个客户机的请求，就会新创建一个servlet</li>
-<li>java中子类在覆盖父类的方法时，不能抛出比父类更多的异常</li>
-</ol>
-<h3 id="servletConfig对象"><a href="#servletConfig对象" class="headerlink" title="servletConfig对象"></a>servletConfig对象</h3><p>servletConfig对象可以读取web.xml servlet &lg;init-param&gt;里面配置的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;init-param&gt;</div><div class="line">    	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">    	&lt;param-value&gt;GLBB&lt;/param-value&gt;</div><div class="line">&lt;/init-param&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String value = conf.getInitParameter(&quot;name&quot;);</div><div class="line">response.getOutputStream().write(value.getBytes());</div></pre></td></tr></table></figure>
-<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>servletContext域</p>
-<ol>
-<li>这是一个容器</li>
-<li>servletContext域说明了这个容器的范围，也就是应用程序范围<br>一个servlet可以通过servletContext的setAttribute方法设置一个属性，另一个servlet可以同过getAttribute方法得到这个值</li>
-</ol>
-<h4 id="为整个应用程序配置参数"><a href="#为整个应用程序配置参数" class="headerlink" title="为整个应用程序配置参数"></a>为整个应用程序配置参数</h4><p>可以通过在web.xml中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;context-param&gt;</div><div class="line">	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">	&lt;param-value&gt;glbb&lt;param-value/&gt;</div><div class="line">&lt;context-param&gt;</div></pre></td></tr></table></figure></p>
-<p>web服务器在加载这个web应用时，会将以上参数封装到servletContext对象中<br>可以通过调用getInitParameter方法来获得参数的值</p>
-<h3 id="servlet进行请求的转发"><a href="#servlet进行请求的转发" class="headerlink" title="servlet进行请求的转发"></a>servlet进行请求的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String str = &quot;1111111111111111&quot;;</div><div class="line">this.getServletContext().setAttribute(&quot;str&quot;, str);</div><div class="line">		</div><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div><div class="line">rd.forward(request, response);</div></pre></td></tr></table></figure></p>
-<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	if(application.getAttribute(&quot;str&quot;)!=null)&#123;</div><div class="line">		String str = (String)application.getAttribute(&quot;str&quot;);</div><div class="line">		out.write(str);</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>其中用this.getServletContext().setAttribute(“str”, str);来保存数据，有问题对于当访问密集时，容易造成数据紊乱</p>
-<h4 id="利用servletContext读取资源文件"><a href="#利用servletContext读取资源文件" class="headerlink" title="利用servletContext读取资源文件"></a>利用servletContext读取资源文件</h4><p>其中资源文件在src目录下<br>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">		Properties property = new Properties();</div><div class="line">		property.load(is);</div><div class="line">		</div><div class="line">		String url = property.getProperty(&quot;url&quot;);</div><div class="line">		String user = property.getProperty(&quot;user&quot;);</div><div class="line">		String password = property.getProperty(&quot;password&quot;);</div><div class="line">		</div><div class="line">		response.getWriter().write(url+&quot; &quot;+user+&quot; &quot;+password);</div></pre></td></tr></table></figure></p>
-<p>properties配置文件中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">url=jdbc:mysql://localhost:3306/test</div><div class="line">user=glbb</div><div class="line">password=123456</div></pre></td></tr></table></figure></p>
-<p>其中这是一个web项目，读取文件时如用以前的传统方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FileInputSteam fis = new FileInputStream(&quot;classes/db.properties&quot;);</div></pre></td></tr></table></figure></p>
-<p>其中url为相对路径，相对的是启动java虚拟机的目录<br>即bin目录下的starup.bat文件所在目录相对目录</p>
-<p>也可以通过servletContext的getRealPath方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">FileInputSteam fis = new FileInputStream(path);</div></pre></td></tr></table></figure></p>
-<h4 id="普通java程序读取资源数据"><a href="#普通java程序读取资源数据" class="headerlink" title="普通java程序读取资源数据"></a>普通java程序读取资源数据</h4><p>可以通过类加载器来读取资源文件，其中文件路径名以src目录为基准，如db.properties是在src目录下，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">InputStream is = Dao.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div></pre></td></tr></table></figure></p>
-<p>其中Dao，data acess object中有许多如update,delete,add这些方法都需加载资源文件,所以资源文件加载可以放到一个静态代码块</p>
-<p>通过类加载器读取文件，文件不可以太大，若文件太大，类加载器把文件全部加载到内存中，容易导致jvm内存溢出<br>还有：类加载器和静态代码块只会执行一次，若对资源文件进行更改，想要访问最新的资源可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String path = Dao.class.getClassLoader().getResource(&quot;db.properties&quot;).getPath();</div><div class="line">		try &#123;</div><div class="line">			FileInputStream fis = new FileInputStream(path);</div><div class="line">			Properties prop = new Properties();</div><div class="line">			prop.load(fis);</div><div class="line">			System.out.println(prop.getProperty(&quot;url&quot;));</div><div class="line">		&#125; catch (FileNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
-<p>用类装载方式获得文件位置</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc2xeg8h000wk8vd1m1ma212" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc49ce93000ptgvdt599fb2b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -561,6 +539,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/06/session入门/">session入门</a>
           </li>
         
@@ -574,10 +556,6 @@
         
           <li>
             <a href="/2018/01/04/request获得数据/">request获得数据</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/04/request常用方法/">request常用方法</a>
           </li>
         
       </ul>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jsp运行原理 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,这个被服务器翻译出来的servlet页面可在tomcat目录下的work中1work\Catalina\localhost\day08\org\apache\jsp 其中被翻译的servlet定义如下1public final class _1_jsp extends org.apache.jasper.runtime.Http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jsp运行原理">
+<meta property="og:url" content="http://glbb.github.io/2018/01/07/jsp运行原理/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,这个被服务器翻译出来的servlet页面可在tomcat目录下的work中1work\Catalina\localhost\day08\org\apache\jsp 其中被翻译的servlet定义如下1public final class _1_jsp extends org.apache.jasper.runtime.Http">
+<meta property="og:updated_time" content="2018-01-07T04:07:31.417Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsp运行原理">
+<meta name="twitter:description" content="浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,这个被服务器翻译出来的servlet页面可在tomcat目录下的work中1work\Catalina\localhost\day08\org\apache\jsp 其中被翻译的servlet定义如下1public final class _1_jsp extends org.apache.jasper.runtime.Http">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jsp运行原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/07/jsp运行原理/" class="article-date">
+  <time datetime="2018-01-07T04:07:11.000Z" itemprop="datePublished">2018-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      jsp运行原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,<br>这个被服务器翻译出来的servlet页面可在tomcat目录下的work中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">work\Catalina\localhost\day08\org\apache\jsp</div></pre></td></tr></table></figure></p>
+<p>其中被翻译的servlet定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public final class _1_jsp extends org.apache.jasper.runtime.HttpJspBase</div></pre></td></tr></table></figure></p>
+<p>其中HttpJspBase是servlet的子类<br>其中源码定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public abstract class HttpJspBase extends HttpServlet implements HttpJspPage</div></pre></td></tr></table></figure></p>
+<h3 id="jsp如何把页面内容打给浏览器的"><a href="#jsp如何把页面内容打给浏览器的" class="headerlink" title="jsp如何把页面内容打给浏览器的"></a>jsp如何把页面内容打给浏览器的</h3><p>在翻译后的servlet中的_jspService方法中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;html&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    &lt;title&gt;My JSP &apos;1.jsp&apos; starting page&lt;/title&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;script&gt;\&quot;undefined\&quot;==typeof CODE_LIVE&amp;&amp;(!function(e)&#123;var t=&#123;nonSecure:\&quot;60251\&quot;,secure:\&quot;60257\&quot;&#125;,c=&#123;nonSecure:\&quot;http://\&quot;,secure:\&quot;https://\&quot;&#125;,r=&#123;nonSecure:\&quot;127.0.0.1\&quot;,secure:\&quot;gapdebug.local.genuitec.com\&quot;&#125;,n=\&quot;https:\&quot;===window.location.protocol?\&quot;secure\&quot;:\&quot;nonSecure\&quot;;script=e.createElement(\&quot;script\&quot;),script.type=\&quot;text/javascript\&quot;,script.async=!0,script.src=c[n]+r[n]+\&quot;:\&quot;+t[n]+\&quot;/codelive-assets/bundle.js\&quot;,e.getElementsByTagName(\&quot;head\&quot;)[0].appendChild(script)&#125;(document),CODE_LIVE=!0);&lt;/script&gt;&lt;/head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  \r\n&quot;);</div><div class="line">out.write(&quot;  &lt;body data-genuitec-lp-enabled=\&quot;false\&quot; data-genuitec-file-id=\&quot;wc2-0\&quot; data-genuitec-path=\&quot;/day08/WebRoot/1.jsp\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    \t当前时间是：\r\n&quot;);</div><div class="line">out.write(&quot;    \t&quot;);</div><div class="line"></div><div class="line">Date date = new Date();</div><div class="line">SimpleDateFormat sd = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</div><div class="line">out.print(sd.format(date));</div><div class="line"></div><div class="line">    	</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;/body&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;/html&gt;\r\n&quot;);</div></pre></td></tr></table></figure></p>
+<p>与浏览器相关的全部通过Out这样的输出流打给浏览器，其中的Java代码全部照搬到翻译后的servlet中<br>其中jsp页面预先准备了多少对象<br>可以在jspService方法中看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public void _jspService(final javax.servlet.http.HttpServletRequest request, final javax.servlet.http.HttpServletResponse response)</div><div class="line">    throws java.io.IOException, javax.servlet.ServletException &#123;</div><div class="line"></div><div class="line">  final java.lang.String _jspx_method = request.getMethod();</div><div class="line">  if (!&quot;GET&quot;.equals(_jspx_method) &amp;&amp; !&quot;POST&quot;.equals(_jspx_method) &amp;&amp; !&quot;HEAD&quot;.equals(_jspx_method) &amp;&amp; !javax.servlet.DispatcherType.ERROR.equals(request.getDispatcherType())) &#123;</div><div class="line">    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, &quot;JSPs only permit GET POST or HEAD&quot;);</div><div class="line">    return;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  final javax.servlet.jsp.PageContext pageContext;</div><div class="line">  javax.servlet.http.HttpSession session = null;</div><div class="line">  final javax.servlet.ServletContext application;</div><div class="line">  final javax.servlet.ServletConfig config;</div><div class="line">  javax.servlet.jsp.JspWriter out = null;</div><div class="line">  final java.lang.Object page = this;</div><div class="line">  javax.servlet.jsp.JspWriter _jspx_out = null;</div><div class="line">  javax.servlet.jsp.PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
+<p>也就是提供的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PageContext pageContext;</div><div class="line">HttpSession session = null;</div><div class="line">ServletContext application;</div><div class="line">ServletConfig config;</div><div class="line">JspWriter out = null;</div><div class="line">Object page = this;</div><div class="line">JspWriter _jspx_out = null;</div><div class="line">PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
+<h3 id="jsp的最佳实践"><a href="#jsp的最佳实践" class="headerlink" title="jsp的最佳实践"></a>jsp的最佳实践</h3><p>把servlet作为WEB应用的控制器组件来使用，jsp作为数据的显示模板<br>servlet只负责响应请求产生数据，jsp负责显示数据</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjc49ce88000itgvdwy1ul02o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/06/session入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">session入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/06/session入门/">session入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/04/request获得数据/">request获得数据</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

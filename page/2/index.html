@@ -68,6 +68,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-servlet和读取资源文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/01/servlet和读取资源文件/" class="article-date">
+  <time datetime="2018-01-01T11:23:11.000Z" itemprop="datePublished">2018-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/01/servlet和读取资源文件/">servlet和读取资源文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>配置文件web.xml文件更改，自动加载</li>
+<li>一个servlet可以映射到多个url地址，可以配置多个&lt;servlet-mapping&gt;</li>
+<li><servlet-mapping>中可以配置通用符， &lt;servlet-mapping&gt;/ <em>&lt;servlet-mapping&gt;通配符匹配，或 &lt;servlet-mapping&gt;\</em>.sh&lt;servlet-mapping&gt;</servlet-mapping></li>
+<li>启动服务器时就启动servlet可以配置一个标签&lt;load-on-starup&gt;1&lt;/load-on-starup&gt;</li>
+<li>servlet线程安全问题,可以使用同步方法获得把类实现接口SingleThreadModel标记接口，这样当有多个访问时，若一个servlet还没处理完上一个客户机的请求，就会新创建一个servlet</li>
+<li>java中子类在覆盖父类的方法时，不能抛出比父类更多的异常</li>
+</ol>
+<h3 id="servletConfig对象"><a href="#servletConfig对象" class="headerlink" title="servletConfig对象"></a>servletConfig对象</h3><p>servletConfig对象可以读取web.xml servlet &lg;init-param&gt;里面配置的参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;init-param&gt;</div><div class="line">    	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">    	&lt;param-value&gt;GLBB&lt;/param-value&gt;</div><div class="line">&lt;/init-param&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String value = conf.getInitParameter(&quot;name&quot;);</div><div class="line">response.getOutputStream().write(value.getBytes());</div></pre></td></tr></table></figure>
+<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>servletContext域</p>
+<ol>
+<li>这是一个容器</li>
+<li>servletContext域说明了这个容器的范围，也就是应用程序范围<br>一个servlet可以通过servletContext的setAttribute方法设置一个属性，另一个servlet可以同过getAttribute方法得到这个值</li>
+</ol>
+<h4 id="为整个应用程序配置参数"><a href="#为整个应用程序配置参数" class="headerlink" title="为整个应用程序配置参数"></a>为整个应用程序配置参数</h4><p>可以通过在web.xml中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;context-param&gt;</div><div class="line">	&lt;param-name&gt;name&lt;/param-name&gt;</div><div class="line">	&lt;param-value&gt;glbb&lt;param-value/&gt;</div><div class="line">&lt;context-param&gt;</div></pre></td></tr></table></figure></p>
+<p>web服务器在加载这个web应用时，会将以上参数封装到servletContext对象中<br>可以通过调用getInitParameter方法来获得参数的值</p>
+<h3 id="servlet进行请求的转发"><a href="#servlet进行请求的转发" class="headerlink" title="servlet进行请求的转发"></a>servlet进行请求的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">String str = &quot;1111111111111111&quot;;</div><div class="line">this.getServletContext().setAttribute(&quot;str&quot;, str);</div><div class="line">		</div><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div><div class="line">rd.forward(request, response);</div></pre></td></tr></table></figure></p>
+<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	if(application.getAttribute(&quot;str&quot;)!=null)&#123;</div><div class="line">		String str = (String)application.getAttribute(&quot;str&quot;);</div><div class="line">		out.write(str);</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>其中用this.getServletContext().setAttribute(“str”, str);来保存数据，有问题对于当访问密集时，容易造成数据紊乱</p>
+<h4 id="利用servletContext读取资源文件"><a href="#利用servletContext读取资源文件" class="headerlink" title="利用servletContext读取资源文件"></a>利用servletContext读取资源文件</h4><p>其中资源文件在src目录下<br>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">InputStream is = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">		Properties property = new Properties();</div><div class="line">		property.load(is);</div><div class="line">		</div><div class="line">		String url = property.getProperty(&quot;url&quot;);</div><div class="line">		String user = property.getProperty(&quot;user&quot;);</div><div class="line">		String password = property.getProperty(&quot;password&quot;);</div><div class="line">		</div><div class="line">		response.getWriter().write(url+&quot; &quot;+user+&quot; &quot;+password);</div></pre></td></tr></table></figure></p>
+<p>properties配置文件中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">url=jdbc:mysql://localhost:3306/test</div><div class="line">user=glbb</div><div class="line">password=123456</div></pre></td></tr></table></figure></p>
+<p>其中这是一个web项目，读取文件时如用以前的传统方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FileInputSteam fis = new FileInputStream(&quot;classes/db.properties&quot;);</div></pre></td></tr></table></figure></p>
+<p>其中url为相对路径，相对的是启动java虚拟机的目录<br>即bin目录下的starup.bat文件所在目录相对目录</p>
+<p>也可以通过servletContext的getRealPath方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db.properties&quot;);</div><div class="line">FileInputSteam fis = new FileInputStream(path);</div></pre></td></tr></table></figure></p>
+<h4 id="普通java程序读取资源数据"><a href="#普通java程序读取资源数据" class="headerlink" title="普通java程序读取资源数据"></a>普通java程序读取资源数据</h4><p>可以通过类加载器来读取资源文件，其中文件路径名以src目录为基准，如db.properties是在src目录下，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">InputStream is = Dao.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div></pre></td></tr></table></figure></p>
+<p>其中Dao，data acess object中有许多如update,delete,add这些方法都需加载资源文件,所以资源文件加载可以放到一个静态代码块</p>
+<p>通过类加载器读取文件，文件不可以太大，若文件太大，类加载器把文件全部加载到内存中，容易导致jvm内存溢出<br>还有：类加载器和静态代码块只会执行一次，若对资源文件进行更改，想要访问最新的资源可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">String path = Dao.class.getClassLoader().getResource(&quot;db.properties&quot;).getPath();</div><div class="line">		try &#123;</div><div class="line">			FileInputStream fis = new FileInputStream(path);</div><div class="line">			Properties prop = new Properties();</div><div class="line">			prop.load(fis);</div><div class="line">			System.out.println(prop.getProperty(&quot;url&quot;));</div><div class="line">		&#125; catch (FileNotFoundException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<p>用类装载方式获得文件位置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc49ce93000qtgvdnmmw6p1g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Servlet调用图" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/29/Servlet调用图/" class="article-date">
@@ -95,7 +160,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc2xeg6l0007k8vduaersuc6" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc49ce88000atgvd0r2glmkg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc2xeg8a000sk8vdq9nzwxez" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc49ce93000xtgvdedwqskgb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc2xeg6i0006k8vdwnb3zkh3" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc49ce7s0007tgvd3o0ks40n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -220,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc2xeg7j000dk8vdt0epujv9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc49ce88000gtgvdxx2llu1l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -258,7 +323,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc2xeg760008k8vdxfrh7ojy" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc49ce88000btgvdwwuft9c1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -298,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc2xeg82000ok8vd6slfqvzt" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc49ce93000rtgvdorbe2pdv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc2xeg89000rk8vdbsn750hy" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc49ce93000utgvdh5unjkco" class="article-share-link">Share</a>
       
       
     </footer>
@@ -384,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjc2xeg7b0009k8vdr5dmwldi" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/Tomcat配置虚拟主机/" data-id="cjc49ce88000ctgvdmmbmlcrw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -435,46 +500,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc2xeg8e000vk8vdjs10lask" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-SAX解析XML示例" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/25/SAX解析XML示例/" class="article-date">
-  <time datetime="2017-12-25T15:21:52.000Z" itemprop="datePublished">2017-12-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/25/SAX解析XML示例/">SAX解析XML示例</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="读取xml文件，返回一个书得list"><a href="#读取xml文件，返回一个书得list" class="headerlink" title="读取xml文件，返回一个书得list"></a>读取xml文件，返回一个书得list</h3><p>用于操作得xml文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</div><div class="line">&lt;书架&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 author=&quot;GLBB&quot;&gt;JAVA就业培训教程&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;29.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">	&lt;书&gt;</div><div class="line">		&lt;书名 name=&quot;GLBB&quot;&gt;JavaScript网页开发&lt;/书名&gt;</div><div class="line">		&lt;作者&gt;张孝祥&lt;/作者&gt;</div><div class="line">		&lt;售价&gt;28.00元&lt;/售价&gt;</div><div class="line">	&lt;/书&gt;</div><div class="line">&lt;/书架&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">package day03;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line"></div><div class="line">import javax.xml.parsers.SAXParser;</div><div class="line">import javax.xml.parsers.SAXParserFactory;</div><div class="line"></div><div class="line">import org.xml.sax.Attributes;</div><div class="line">import org.xml.sax.SAXException;</div><div class="line">import org.xml.sax.XMLReader;</div><div class="line">import org.xml.sax.helpers.DefaultHandler;</div><div class="line"></div><div class="line">public class demo3 &#123;</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		SAXParserFactory factory = SAXParserFactory.newInstance();</div><div class="line">		SAXParser parser = factory.newSAXParser();</div><div class="line">		XMLReader reader = parser.getXMLReader();</div><div class="line">		BookListHandler handler = new BookListHandler();</div><div class="line">		reader.setContentHandler(handler);</div><div class="line">		reader.parse(&quot;src/book.xml&quot;);</div><div class="line">		ArrayList&lt;Book&gt; bookList = handler.getBookList();</div><div class="line">		System.out.println(bookList);</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class BookListHandler extends DefaultHandler &#123;</div><div class="line">	private ArrayList&lt;Book&gt; bookList = new ArrayList&lt;&gt;();</div><div class="line">	private String currentTag;</div><div class="line">	private Book book;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException &#123;</div><div class="line">		currentTag = qName;</div><div class="line">		if (&quot;书&quot;.equals(currentTag)) &#123;</div><div class="line">			book = new Book();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void characters(char[] ch, int start, int length) throws SAXException &#123;</div><div class="line">		if (&quot;书名&quot;.equals(currentTag)) &#123;</div><div class="line">			String str = new String(ch, start, length);</div><div class="line">			book.setBookName(str);</div><div class="line">		&#125; else if (&quot;作者&quot;.equals(currentTag)) &#123;</div><div class="line">			String str = new String(ch, start, length);</div><div class="line">			book.setAuthor(str);</div><div class="line">		&#125; else if (&quot;售价&quot;.equals(currentTag)) &#123;</div><div class="line">			String str = new String(ch, start, length);</div><div class="line">			book.setPrice(str);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void endElement(String uri, String localName, String qName) throws SAXException &#123;</div><div class="line">		if (qName.equals(&quot;书&quot;)) &#123;</div><div class="line">			bookList.add(book);</div><div class="line">			book = null;</div><div class="line">		&#125;</div><div class="line">		currentTag = null;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public ArrayList&lt;Book&gt; getBookList() &#123;</div><div class="line">		return bookList;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其中BooklistHandle中有许多坑，容易写错，可以在booklistHandle中startElement(),characters(),endElement()中得方法中加入断点调试</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/25/SAX解析XML示例/" data-id="cjc2xeg6d0005k8vddqxt89kt" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/27/dom4j解析XML/" data-id="cjc49ce88000etgvdn4trzu6n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,6 +544,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/06/session入门/">session入门</a>
           </li>
         
@@ -531,10 +561,6 @@
         
           <li>
             <a href="/2018/01/04/request获得数据/">request获得数据</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/04/request常用方法/">request常用方法</a>
           </li>
         
       </ul>

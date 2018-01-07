@@ -68,6 +68,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tomcat入门学习一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/18/tomcat入门学习一/" class="article-date">
+  <time datetime="2017-12-18T15:04:47.000Z" itemprop="datePublished">2017-12-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/18/tomcat入门学习一/">tomcat入门学习一</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="下载tomcat之后"><a href="#下载tomcat之后" class="headerlink" title="下载tomcat之后"></a>下载tomcat之后</h3><p>开启tomcat必须配置javahome环境变量</p>
+<h3 id="tomcat-web服务从默认的8080端口改为80端口"><a href="#tomcat-web服务从默认的8080端口改为80端口" class="headerlink" title="tomcat web服务从默认的8080端口改为80端口"></a>tomcat web服务从默认的8080端口改为80端口</h3><ol>
+<li>打开tomcat 里面conf目录里的server.xml文件</li>
+<li><p>找到如下代码(连接器)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</div><div class="line">              connectionTimeout=&quot;20000&quot;</div><div class="line">              redirectPort=&quot;8443&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Connector port=&quot;80&quot; protocol=&quot;HTTP/1.1&quot;</div><div class="line">              connectionTimeout=&quot;20000&quot;</div><div class="line">              redirectPort=&quot;8443&quot; /&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动tomcat服务</p>
+</li>
+<li>若启动不成功查看是否有程序已经占用80端口</li>
+<li>我80端口被httpd占用<br> 通过netstat -apn|grep “80”发现我端口被httpd服务占用</li>
+<li>通过systemctl stop httpd.service关闭httpd服务</li>
+<li>重启tomcat成功</li>
+</ol>
+<h3 id="web入门辨识"><a href="#web入门辨识" class="headerlink" title="web入门辨识"></a>web入门辨识</h3><ul>
+<li>url      例子: <a href="http://www.sina.com/" target="_blank" rel="external">http://www.sina.com/</a></li>
+<li>主机名      例子: www.sina.com</li>
+<li>域名     例子：sina.com</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjc49ce93000ttgvd30i1fbck" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-互联网常用协议工作端口" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/18/互联网常用协议工作端口/" class="article-date">
@@ -94,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjc2xeg8b000tk8vd1jzvg5g4" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjc49ce93000wtgvd58p0neqk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjc2xeg7l000ek8vdtyyn0wrv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjc49ce88000htgvda6f4bbx9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -210,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjc2xeg620001k8vd522536yu" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjc49ce7c0001tgvd1d10vur6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -254,6 +310,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/06/session入门/">session入门</a>
           </li>
         
@@ -267,10 +327,6 @@
         
           <li>
             <a href="/2018/01/04/request获得数据/">request获得数据</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/04/request常用方法/">request常用方法</a>
           </li>
         
       </ul>
