@@ -68,6 +68,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-jsp之pageContext对象和常用标签和映射" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/" class="article-date">
+  <time datetime="2018-01-08T03:42:20.000Z" itemprop="datePublished">2018-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>pageContext对象代表jsp页面的运行环境</p>
+<ol>
+<li>封装了其他八大对象的引用</li>
+<li>自身是一个域对象，可以用来保存数据</li>
+<li>该对象还封装了web开发中的一些常用操作，例如引入和跳转到其他资源，检索其他域对象中的属性</li>
+</ol>
+<p>pageContext主要是用在自定义标签</p>
+<p>pageConxtext可以获得其他域对象的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.setAttribute(&quot;data&quot;, &quot;AAA&quot;);</div><div class="line">	String data = (String) pageContext.getAttribute(&quot;data&quot;, PageContext.REQUEST_SCOPE);</div><div class="line">	out.write(data);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>使用findAttibute方法可以获得在四个域对象中的某一个值<br>该方法先在pageContext，然后在request，再在session，最后在application域中找，找到了返回值，没找到返回空</p>
+<p>pageContext还可以跳转到其他页面的forward方法，还有include包含方法</p>
+<h3 id="jsp常用标签"><a href="#jsp常用标签" class="headerlink" title="jsp常用标签"></a>jsp常用标签</h3><h4 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h4><p>跳转方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:forward page=&quot;/index.jsp&quot;&gt;&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure></p>
+<p>用法原因<br>配置首页，使用mvc开发时，请求都是交给servlet，必须要把一个servlet设为首页，但在web.xml中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;welcome-file-list&gt;</div><div class="line">  &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;</div><div class="line">&lt;/welcome-file-list&gt;</div></pre></td></tr></table></figure></p>
+<p>配置servlet为首页是无效的，所以可以设置一个jsp为首页，在跳转到servlet中处理请求</p>
+<h4 id="包含"><a href="#包含" class="headerlink" title="包含"></a>包含</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:include page=&quot;/1.jsp&quot;&gt;&lt;/jsp:include&gt;   &lt;!-- pageContext.include()  动态包含 --&gt;</div></pre></td></tr></table></figure>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:forward page=&quot;/servlet/ServletDemo1&quot;&gt;</div><div class="line">	&lt;jsp:param value=&quot;GLBB&quot; name=&quot;username&quot;/&gt;</div><div class="line">&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure>
+<p>跳转的时候带参数过去，可以在servlet中使用request的getParameter方法的得到值<br>还可以带脚本表达式中的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	int i = 1;</div><div class="line">%&gt;</div><div class="line">&lt;jsp:forward page=&quot;/servlet/ServletDemo1&quot;&gt;</div><div class="line">	&lt;jsp:param value=&quot;&lt;%=i %&gt;&quot; name=&quot;username&quot;/&gt;</div><div class="line">&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>把jsp映射到另一个路径上去<br>在web.xml文件中，可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> &lt;servlet&gt;</div><div class="line"> 	&lt;servlet-name&gt;other&lt;/servlet-name&gt;</div><div class="line"> 	&lt;jsp-file&gt;/10.jsp&lt;/jsp-file&gt;</div><div class="line"> &lt;/servlet&gt;</div><div class="line"></div><div class="line">&lt;servlet-mapping&gt;</div><div class="line">	&lt;servlet-name&gt;other&lt;/servlet-name&gt;</div><div class="line">	&lt;url-pattern&gt;/15.html&lt;/url-pattern&gt;</div><div class="line">&lt;/servlet-mapping&gt;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjc5nwozc000hisvdhbc414ac" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-jsp语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/07/jsp语法/" class="article-date">
@@ -121,7 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjc4pxr95000eq4vdjbaqtprw" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjc5nwozc000iisvdsa8qvtw0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjc4pxr95000gq4vd89g6c9wd" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjc5nwozc000jisvdyco3xvaq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -217,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc4pxr9l000tq4vddcw7x3mt" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc5nwp07000uisvdqe4xljdj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -256,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc4pxr6j0000q4vdkjj2tpgg" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc5nwoy10001isvd7u27y2e9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -302,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc4pxr95000jq4vdzm9jqw0c" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc5nwozs000kisvdy2895vtv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -353,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc4pxr9l000mq4vdia7042ge" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc5nwozs000nisvdauo7425f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -390,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc4pxr9l000lq4vdlxa96i57" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc5nwozs000misvddpei4eqz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -437,7 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc4pxr9l000pq4vd53qha7uu" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc5nwp07000qisvdr9sklzi7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -476,45 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc4pxr9l000oq4vdqop3wqft" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-response图片输出" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/03/response图片输出/" class="article-date">
-  <time datetime="2018-01-03T11:17:32.000Z" itemprop="datePublished">2018-01-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/03/response图片输出/">response图片输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.response;</div><div class="line"></div><div class="line">import java.awt.Color;</div><div class="line">import java.awt.Font;</div><div class="line">import java.awt.Graphics;</div><div class="line">import java.awt.Graphics2D;</div><div class="line">import java.awt.image.BufferedImage;</div><div class="line">import java.io.IOException;</div><div class="line">import java.util.Random;</div><div class="line"></div><div class="line">import javax.imageio.ImageIO;</div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line"></div><div class="line">//输出随机图片</div><div class="line">public class demo3 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line">	</div><div class="line">	public static final int WIDTH = 120;</div><div class="line">	public static final int HEIGHT = 35;</div><div class="line">	private static final int LINESNUMBER = 5;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		BufferedImage bufferedImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);</div><div class="line">		Graphics graphics = bufferedImage.getGraphics();</div><div class="line">		</div><div class="line">		//设置背景颜色</div><div class="line">		setBackgroudColor(graphics);</div><div class="line">		</div><div class="line">		//设置边框</div><div class="line">		setBorder(graphics);</div><div class="line">		</div><div class="line">		//设置干扰线</div><div class="line">		drawRomdomLine(graphics);</div><div class="line">		</div><div class="line">		//写随机字符，graphics2D有旋转方法</div><div class="line">		drawRomdomLetter((Graphics2D) graphics);</div><div class="line">		</div><div class="line">		//把图形输出给浏览器,不缓存</div><div class="line">		response.setDateHeader(&quot;expries&quot;, -1);</div><div class="line">		response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</div><div class="line">		response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</div><div class="line">		response.setContentType(&quot;image/jpeg&quot;);</div><div class="line">		ImageIO.write(bufferedImage, &quot;jpg&quot;, response.getOutputStream());</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void setBackgroudColor(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.WHITE);</div><div class="line">		graphics.fillRect(0, 0, WIDTH, HEIGHT);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void setBorder(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.BLUE);</div><div class="line">		graphics.drawRect(1, 1, WIDTH-3, HEIGHT-3);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void drawRomdomLine(Graphics graphics) &#123;</div><div class="line">		graphics.setColor(Color.GREEN);</div><div class="line">		for(int i=0;i&lt;LINESNUMBER;i++)&#123;</div><div class="line">			int x1 = new Random().nextInt(WIDTH);</div><div class="line">			int x2 = new Random().nextInt(WIDTH);</div><div class="line">			</div><div class="line">			int y1 = new Random().nextInt(HEIGHT);</div><div class="line">			int y2 = new Random().nextInt(HEIGHT);</div><div class="line">			</div><div class="line">			graphics.drawLine(x1, y1, x2, y2);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	private void drawRomdomLetter(Graphics2D graphics) &#123;</div><div class="line">	//常用汉语字符</div><div class="line">		String base = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31&quot;;</div><div class="line">		</div><div class="line">		graphics.setColor(Color.RED);</div><div class="line">		graphics.setFont(new Font(&quot;宋体&quot;,Font.BOLD,20));</div><div class="line">		</div><div class="line">		int x = 5;</div><div class="line">		</div><div class="line">		for(int i=0;i&lt;4;i++)&#123;</div><div class="line">			int degree = new Random().nextInt()%30;</div><div class="line">			double theta = degree*3.14/180;</div><div class="line">			graphics.rotate(theta, x, 25);</div><div class="line">			String ch = base.charAt(new Random().nextInt(base.length()))+&quot;&quot;;</div><div class="line">			graphics.drawString(ch, x, 25);</div><div class="line">			graphics.rotate(-theta, x, 25);</div><div class="line">			</div><div class="line">			x+=30;</div><div class="line">		&#125;	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>附加注册页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;index.html&lt;/title&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</div><div class="line">    </div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">		#authenticat:HOVER &#123;</div><div class="line">			cursor: pointer;</div><div class="line">		&#125;		</div><div class="line">	&lt;/style&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;form&gt;</div><div class="line">    	用户名：&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;br/&gt;</div><div class="line">    	密码：&lt;input type=&quot;password&quot; name=&quot;passwd&quot;&gt;&lt;br/&gt;</div><div class="line">    	认证码：&lt;input type=&quot;text&quot; name=&quot;authentication&quot;&gt;&lt;br/&gt;</div><div class="line">    	&lt;img src=&quot;/day06/servlet/demo3&quot; onclick=&quot;this.src=this.src+&apos;?&apos;+(new Date().getMilliseconds())&quot; id=&quot;authenticat&quot;/&gt;</div><div class="line">    	&lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</div><div class="line">    &lt;/form&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc4pxr9l000nq4vd0d95b4zr" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc5nwozs000oisvdss9ibx79" class="article-share-link">Share</a>
       
       
     </footer>
@@ -558,6 +573,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/07/jsp语法/">jsp语法</a>
           </li>
         
@@ -571,10 +590,6 @@
         
           <li>
             <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
           </li>
         
       </ul>
