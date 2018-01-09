@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javabean | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="javabean是一个遵循特定写法的java类，通常具有如下特点  这个java类必须具有一个无参构造函数 属性必须私有化 私有化的属性必须通过public类型的方法暴露给其他程序，并且方法和命名也必须遵守一定命名规范  javabean在javaEE开发中，用于封装数据，对于遵守以上写法的javabean组件，其他程序可以通过反射技术实例化javabean对象，并通过反射调用那些遵守命名的方法，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javabean">
+<meta property="og:url" content="http://glbb.github.io/2018/01/08/javabean/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="javabean是一个遵循特定写法的java类，通常具有如下特点  这个java类必须具有一个无参构造函数 属性必须私有化 私有化的属性必须通过public类型的方法暴露给其他程序，并且方法和命名也必须遵守一定命名规范  javabean在javaEE开发中，用于封装数据，对于遵守以上写法的javabean组件，其他程序可以通过反射技术实例化javabean对象，并通过反射调用那些遵守命名的方法，">
+<meta property="og:updated_time" content="2018-01-08T14:16:22.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javabean">
+<meta name="twitter:description" content="javabean是一个遵循特定写法的java类，通常具有如下特点  这个java类必须具有一个无参构造函数 属性必须私有化 私有化的属性必须通过public类型的方法暴露给其他程序，并且方法和命名也必须遵守一定命名规范  javabean在javaEE开发中，用于封装数据，对于遵守以上写法的javabean组件，其他程序可以通过反射技术实例化javabean对象，并通过反射调用那些遵守命名的方法，">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-javabean" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/08/javabean/" class="article-date">
+  <time datetime="2018-01-08T14:15:35.000Z" itemprop="datePublished">2018-01-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      javabean
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>javabean是一个遵循特定写法的java类，通常具有如下特点</p>
+<ol>
+<li>这个java类必须具有一个无参构造函数</li>
+<li>属性必须私有化</li>
+<li>私有化的属性必须通过public类型的方法暴露给其他程序，并且方法和命名也必须遵守一定命名规范</li>
+</ol>
+<p>javabean在javaEE开发中，用于封装数据，对于遵守以上写法的javabean组件，其他程序可以通过反射技术实例化javabean对象，并通过反射调用那些遵守命名的方法，从而获知javabean属性，进而调用属性保存数据</p>
+<p>jsp提供了三个关于Javabean组件的动作元素，即Jsp标签</p>
+<ol>
+<li>&lt;jsp:useBean&gt; 标签，用于在Jsp页面查找或实例化一个javaBean组件</li>
+<li>&lt;jsp:setProperty&gt; 标签，用于在Jsp页面设置一个JavaBean组件的属性</li>
+<li>&lt;jsp:getProperty&gt; 标签,用于在Jsp页面中获取一个javaBean组件的属性</li>
+</ol>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>实例化一个javabean，并获取其属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:useBean id=&quot;person&quot; class=&quot;cn.cqut.javabean.Person&quot; scope=&quot;page&quot;&gt;&lt;/jsp:useBean&gt;</div><div class="line"></div><div class="line">&lt;%=person.getName() %&gt;</div></pre></td></tr></table></figure></p>
+<p>其中useBean标签可以嵌如标签体，标签体只会在创建javaBean后执行<br>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:useBean id=&quot;person&quot; class=&quot;cn.cqut.javabean.Person&quot; scope=&quot;session&quot;&gt;</div><div class="line">	bbb</div><div class="line">&lt;/jsp:useBean&gt;</div><div class="line"></div><div class="line">&lt;%=person.getName() %&gt;</div></pre></td></tr></table></figure></p>
+<p>设置javabean的属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">	&lt;!-- 手工为bean属性赋值 --&gt;</div><div class="line">&lt;jsp:useBean id=&quot;person&quot; class=&quot;cn.cqut.javabean.Person&quot; /&gt;</div><div class="line"></div><div class="line">&lt;jsp:setProperty name=&quot;person&quot; property=&quot;name&quot; value=&quot;GLBB&quot;/&gt;</div><div class="line"></div><div class="line">&lt;%=person.getName() %&gt;</div><div class="line"></div><div class="line">&lt;!-- 用请求参数给bean赋值 --&gt;</div><div class="line">&lt;jsp:setProperty name=&quot;person&quot; property=&quot;name&quot; param=&quot;name&quot;/&gt;</div><div class="line">&lt;%=person.getName() %&gt;</div><div class="line"></div><div class="line">&lt;jsp:setProperty name=&quot;person&quot; property=&quot;age&quot; param=&quot;age&quot;/&gt;</div><div class="line">&lt;%=person.getAge() %&gt;</div><div class="line"></div><div class="line">&lt;!-- 用所有的请求参数为bean赋值 --&gt;</div><div class="line">&lt;jsp:setProperty property=&quot;*&quot; name=&quot;person&quot;/&gt;</div><div class="line">   &lt;%=person.getName() %&gt;</div><div class="line">  &lt;%=person.getAge() %&gt;</div></pre></td></tr></table></figure></p>
+<p>其中age为int类型，传入的是一个String类型，发生了自动转化，其中转化支持八中基本类型转化，</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjc7kqdzo000f4gvdursw64pv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/09/el表达式和jstl快速入门/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          el表达式和jstl快速入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">jsp之pageContext对象和常用标签和映射</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/09/el表达式和jstl快速入门/">el表达式和jstl快速入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/javabean/">javabean</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/07/jsp语法/">jsp语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

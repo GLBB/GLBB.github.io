@@ -68,6 +68,92 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-response请求重定向和一些小细节" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/03/response请求重定向和一些小细节/" class="article-date">
+  <time datetime="2018-01-03T15:30:14.000Z" itemprop="datePublished">2018-01-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/03/response请求重定向和一些小细节/">response请求重定向和一些小细节</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>示例一<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">response.setStatus(302);</div><div class="line">response.setHeader(&quot;location&quot;, &quot;/day06/index.jsp&quot;);</div><div class="line"></div><div class="line">//以上两行代码可用下面一句代码替代</div><div class="line">//response.sendRedirect(&quot;/day06/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
+<p>重定向特点</p>
+<ol>
+<li>浏览器向服务器发送两次请求，意味着有两对request/response</li>
+<li>重定向浏览器地址栏会发生变化</li>
+<li>用户登陆和显示购物车时常用重定向</li>
+</ol>
+<h4 id="其中关于response的一些细节"><a href="#其中关于response的一些细节" class="headerlink" title="其中关于response的一些细节"></a>其中关于response的一些细节</h4><ol>
+<li>response.getWriter()和response.getOutputStream()方法互斥，在一个response中只能调用其中之一，不能两个都调用,否者会抛异常</li>
+<li>通过response.getWriter()和response.getOutputStream()得到的输出流不需要关闭，在运行结束service()方法后，服务器在摧毁response对象时，服务器会自动关闭response的输出流</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjc7kqe00000o4gvd2yh8pttg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-response之refresh头和控制浏览器缓存" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/03/response之refresh头和控制浏览器缓存/" class="article-date">
+  <time datetime="2018-01-03T13:22:41.000Z" itemprop="datePublished">2018-01-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/03/response之refresh头和控制浏览器缓存/">response之refresh头和控制浏览器缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用refresh头控制浏览器每隔三秒刷新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">response.setHeader(&quot;refresh&quot;, &quot;3&quot;);			</div><div class="line">String data = new Random().nextInt()+&quot;&quot;;</div><div class="line">response.getWriter().write(data);</div></pre></td></tr></table></figure></p>
+<p>用refresh头控制浏览器跳转到指定页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">response.setHeader(&quot;refresh&quot;, &quot;3;url=&apos;/day06/index.jsp&apos;&quot;);</div><div class="line">response.getWriter().write(&quot;3秒后跳转到首页，如没成功点击链接&lt;a href=&apos;/day06/index.jsp&apos;&gt;首页&lt;/a&gt;&quot;);</div></pre></td></tr></table></figure></p>
+<p>现转发到message.jsp把信息以良好的样式输出出来，隔三秒在跳转到首页<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String message = &quot;&lt;meta http-equiv=&apos;refresh&apos; content=&apos;3;url=/day06/index.jsp&apos;&gt;3秒后跳转到首页，如未跳转请点击&lt;a href=&apos;/day06/index.jsp&apos;&gt;&lt;/a&gt;&quot;;</div><div class="line">this.getServletContext().setAttribute(&quot;message&quot;, message);</div><div class="line">this.getServletContext().getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</div></pre></td></tr></table></figure></p>
+<h3 id="控制浏览器缓存"><a href="#控制浏览器缓存" class="headerlink" title="控制浏览器缓存"></a>控制浏览器缓存</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">response.setDateHeader(&quot;expires&quot;, System.currentTimeMillis()+1000*3600);</div><div class="line">String data = &quot;aaaaaaaaaaaaaaaaaaaaaaa&quot;;</div><div class="line">response.getWriter().write(data);</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjc7kqdzz000n4gvds6jwpwbx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-response图片输出" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/03/response图片输出/" class="article-date">
@@ -96,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc5nwozs000pisvdr4leclfj" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjc7kqe0e000r4gvdxefiavuq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -140,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc5nwp07000risvd9lwl8o0x" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjc7kqe0g000s4gvd29psz0je" class="article-share-link">Share</a>
       
       
     </footer>
@@ -205,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc5nwp07000sisvdfy6vmo48" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/01/servlet和读取资源文件/" data-id="cjc7kqe0h000t4gvdebuijvxb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -242,7 +328,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc5nwoyw000aisvd2xlojmyy" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Servlet调用图/" data-id="cjc7kqdyn00074gvdrvd4d530" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +371,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc5nwp12000zisvdf5o01i8b" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/手写一个servlet程序/" data-id="cjc7kqe0r00104gvdy4jsvczv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -322,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc5nwoyw0009isvdvnpqs9lk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/29/Schema入门/" data-id="cjc7kqdzj000d4gvdm1rwks1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc5nwozc000gisvdgfme630z" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/https及tomcat配置及应用管理/" data-id="cjc7kqe0s00114gvdwm5h0o3p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,84 +491,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc5nwoyw000bisvdyvk89kvo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tomcat之war包和reloadable属性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/28/tomcat之war包和reloadable属性/" class="article-date">
-  <time datetime="2017-12-28T03:19:13.000Z" itemprop="datePublished">2017-12-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/28/tomcat之war包和reloadable属性/">tomcat之war包和reloadable属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="如何打成一个war包"><a href="#如何打成一个war包" class="headerlink" title="如何打成一个war包"></a>如何打成一个war包</h3><p>windows下cmd进入WEB应用所在目录<br>如unbeatableglbb下的news WEB应用<br>就进入unbeatableglbb<br>输入如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar cvf news.war news</div></pre></td></tr></table></figure></p>
-<h3 id="为什么需要打成war包"><a href="#为什么需要打成war包" class="headerlink" title="为什么需要打成war包"></a>为什么需要打成war包</h3><p>服务器认识war包，会进行自动解压，放在tomcat下的webapss目录下</p>
-<h3 id="配置tomcat中Context元素中的reloadable属性"><a href="#配置tomcat中Context元素中的reloadable属性" class="headerlink" title="配置tomcat中Context元素中的reloadable属性"></a>配置tomcat中Context元素中的reloadable属性</h3><p>配置tomcat中Context元素中的reloadable属性，让tomcat自动加载更新后的web应用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;www.unbeatableglbb.com&quot; appBase=&quot;F:\tomcatpractice\unbeatableglbb&quot;&gt;</div><div class="line">		&lt;Context path=&quot;&quot; docBase=&quot;F:\tomcatpractice\unbeatableglbb\mail&quot; reloadable=&quot;true&quot;/&gt;</div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
-<p>并不建议在大型项目开发中配置这个属性，原因是程序如果很大，若一改动tomcat就会自动加载，频繁改动，那就会发生很多错误</p>
-<h4 id="在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"><a href="#在tomcat目录下的conf-context-xml中配置的Context元素被所有WEB应用共享-若在这里配置reloadable属性，意味着服务器里面的web应用自动加载" class="headerlink" title="在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载"></a>在tomcat目录下的conf/context.xml中配置的Context元素被所有WEB应用共享,若在这里配置reloadable属性，意味着服务器里面的web应用自动加载</h4>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/tomcat之war包和reloadable属性/" data-id="cjc5nwp07000tisvdhvj9xv2t" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-web资源访问流程图" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/28/web资源访问流程图/" class="article-date">
-  <time datetime="2017-12-27T16:01:55.000Z" itemprop="datePublished">2017-12-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/28/web资源访问流程图/">web资源访问流程图</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://i2.bvimg.com/624208/2534f81b91559da5.png" alt="Markdown"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/28/web资源访问流程图/" data-id="cjc5nwp0n000xisvdavzxymxz" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/28/Tomcat体系结构/" data-id="cjc7kqdze000a4gvdi0fvujad" class="article-share-link">Share</a>
       
       
     </footer>
@@ -526,6 +535,14 @@
       <ul>
         
           <li>
+            <a href="/2018/01/09/el表达式和jstl快速入门/">el表达式和jstl快速入门</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/javabean/">javabean</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
           </li>
         
@@ -535,14 +552,6 @@
         
           <li>
             <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/06/session入门/">session入门</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
           </li>
         
       </ul>
