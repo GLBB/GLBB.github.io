@@ -68,6 +68,111 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-jsp中自定义标签" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/17/jsp中自定义标签/" class="article-date">
+  <time datetime="2018-01-17T14:32:03.000Z" itemprop="datePublished">2018-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/17/jsp中自定义标签/">jsp中自定义标签</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="使用自定义标签移除java代码，需完成以下两个步骤："><a href="#使用自定义标签移除java代码，需完成以下两个步骤：" class="headerlink" title="使用自定义标签移除java代码，需完成以下两个步骤："></a>使用自定义标签移除java代码，需完成以下两个步骤：</h3><ol>
+<li>编写一个实现Tag接口的Java类，把页面中的Java代码移动到这个类中（标签处理器类）。</li>
+<li>编写标签库描述符tld文件，在tld文件中把标签处理器类描述成一个标签</li>
+</ol>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">你的ip是：</div><div class="line">&lt;%</div><div class="line">	String addr = request.getRemoteAddr();</div><div class="line">	out.print(addr);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>将jsp中的java代码移除<br>新建一个类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.web.tag;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.jsp.JspException;</div><div class="line">import javax.servlet.jsp.JspWriter;</div><div class="line">import javax.servlet.jsp.tagext.TagSupport;</div><div class="line"></div><div class="line">public class ViewIpTag extends TagSupport&#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public int doStartTag() throws JspException &#123;</div><div class="line">		HttpServletRequest request = (HttpServletRequest) this.pageContext.getRequest();</div><div class="line">		JspWriter out = this.pageContext.getOut();</div><div class="line">		</div><div class="line">		String ip = request.getRemoteAddr();</div><div class="line">		try &#123;</div><div class="line">			out.print(ip);</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			throw new RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">		return super.doStartTag();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在WEB-INF新建一个tld文件<br>tld文件可以参考tomcat下webapps中examples项目中WEB-INF下jsp2下的一个tld文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line"></div><div class="line">&lt;taglib xmlns=&quot;http://java.sun.com/xml/ns/j2ee&quot;</div><div class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd&quot;</div><div class="line">    version=&quot;2.0&quot;&gt;</div><div class="line">    &lt;description&gt;A tag library exercising SimpleTag handlers.&lt;/description&gt;</div><div class="line">    &lt;tlib-version&gt;1.0&lt;/tlib-version&gt;</div><div class="line">    &lt;short-name&gt;glbb&lt;/short-name&gt;</div><div class="line">    &lt;uri&gt;http://www.glbb.com&lt;/uri&gt;</div><div class="line">    </div><div class="line">    &lt;tag&gt;</div><div class="line">        &lt;name&gt;ViewIp&lt;/name&gt;</div><div class="line">        &lt;tag-class&gt;cn.itcast.web.tag.ViewIpTag&lt;/tag-class&gt;</div><div class="line">        &lt;body-content&gt;empty&lt;/body-content&gt;</div><div class="line">    &lt;/tag&gt;</div><div class="line">&lt;/taglib&gt;</div></pre></td></tr></table></figure></p>
+<p>其中uri配置一个地址，short-name配置一个名字<br>在jsp中使用taglib引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">&lt;%@taglib uri=&quot;http://www.glbb.com&quot; prefix=&quot;itcast&quot;%&gt;</div><div class="line"></div><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;输出客户机的ip&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">    你的ip是：&lt;itcast:ViewIp/&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>其中自定义标签的调用原理</p>
+<ol>
+<li>ie访问web服务器</li>
+<li>web服务器连接上对应的jsp</li>
+<li>jsp中执行到自定义标签，实例化对应的标签处理器类</li>
+<li>调用setPageContext方法，把页面的pageContext对象传递给标签处理器类</li>
+<li>看标签是否有父标签，如果有父标签，把父标签作为一个对象，调用setPararent方法传递给标签处理器类，如果没有，传null</li>
+<li>完成以上的标签的初始化工作后，服务器就开始执行标签，遇到标签的开始标签，就调用doStartTag方法</li>
+<li>如果标签有标签体，服务器一般会执行标签体</li>
+<li>服务器遇到jsp标签的结束标签，就调用标签处理器类的doEndTag方法</li>
+<li>标签执行完以后，服务器一般会调用release方法，释放标签工作时占用的资源</li>
+<li>服务器接着执行jsp余下的页面</li>
+</ol>
+<h3 id="控制标签体是否输出"><a href="#控制标签体是否输出" class="headerlink" title="控制标签体是否输出"></a>控制标签体是否输出</h3><p>可以查看tag类中doStarTag方法，其中有段描述<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Returns:</div><div class="line">EVAL_BODY_INCLUDE if the tag wants to process body, SKIP_BODY if it does not want to process it.</div></pre></td></tr></table></figure></p>
+<h3 id="控制标签后的内容是否还会执行"><a href="#控制标签后的内容是否还会执行" class="headerlink" title="控制标签后的内容是否还会执行"></a>控制标签后的内容是否还会执行</h3><p>可以查看doEndTag方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Returns:</div><div class="line">indication of whether to continue evaluating the JSP page.</div><div class="line"></div><div class="line">If this method returns EVAL_PAGE, the rest of the page continues to be evaluated. If this method returns SKIP_PAGE, the rest of the page is not evaluated,</div></pre></td></tr></table></figure></p>
+<h3 id="重复多次执行标签体"><a href="#重复多次执行标签体" class="headerlink" title="重复多次执行标签体"></a>重复多次执行标签体</h3><p>其中Tag接口的一个子接口IterationTag的doAfterBody方法可以控制标签体执行多次<br>可参考doAfterBody介绍<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Returns:</div><div class="line">whether additional evaluations of the body are desired</div><div class="line"></div><div class="line">If doAfterBody returns EVAL_BODY_AGAIN, a new evaluation of the body will happen (followed by another invocation of doAfterBody). If doAfterBody returns SKIP_BODY, no more body evaluations will occur, and the doEndTag method will be invoked.</div></pre></td></tr></table></figure></p>
+<p>先控制开始标签执行标签体，在调用doAfterBody方法返回不同的返回值</p>
+<h3 id="控制标签体内容大写"><a href="#控制标签体内容大写" class="headerlink" title="控制标签体内容大写"></a>控制标签体内容大写</h3><p>可以查看BodyTag接口中的一个常类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">static int	EVAL_BODY_BUFFERED</div><div class="line">Request the creation of new buffer, a BodyContent on which to evaluate the body of this tag.</div></pre></td></tr></table></figure></p>
+<p>可以在doStarTag返回这个返回值，在标签结束doEndTag得到标签体BodyContent对象，通过getString方法得到标签体内容，然后进行处理，然后得到Out对象进行输出</p>
+<p>其中实现不同的功能需要实现不同的接口，sun公司觉得不太好，于是开发出SimpleTag接口，一个接口可以实现以上全部功能</p>
+<h2 id="使用SimpleTag接口"><a href="#使用SimpleTag接口" class="headerlink" title="使用SimpleTag接口"></a>使用SimpleTag接口</h2><p>可以继承实现类simpleTagSupport类</p>
+<h4 id="使用simpletag接口执行标签体"><a href="#使用simpletag接口执行标签体" class="headerlink" title="使用simpletag接口执行标签体"></a>使用simpletag接口执行标签体</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void doTag() throws JspException, IOException &#123;</div><div class="line">	JspFragment fragment = this.getJspBody();</div><div class="line">	fragment.invoke(this.getJspContext().getOut());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>若想不执行标签体，可以在重写的doTag方法不写任何代码即可</p>
+<h4 id="使用simpleTag接口执行多次标签体"><a href="#使用simpleTag接口执行多次标签体" class="headerlink" title="使用simpleTag接口执行多次标签体"></a>使用simpleTag接口执行多次标签体</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void doTag() throws JspException, IOException &#123;</div><div class="line">	JspFragment fragment = this.getJspBody();</div><div class="line">	for(int i=0;i&lt;5;i++)&#123;</div><div class="line">		fragment.invoke(null);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中invoke(null)等同于invoke(this.getJspContext().getOut());</p>
+<h4 id="修改标签体"><a href="#修改标签体" class="headerlink" title="修改标签体"></a>修改标签体</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void doTag() throws JspException, IOException &#123;</div><div class="line">	JspFragment fragment = this.getJspBody();</div><div class="line">	StringWriter sw = new StringWriter();</div><div class="line">	fragment.invoke(sw);</div><div class="line">	</div><div class="line">	String content = sw.toString();</div><div class="line">	content = content.toUpperCase();</div><div class="line">	this.getJspContext().getOut().write(content);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="控制标签后的jsp内容不执行"><a href="#控制标签后的jsp内容不执行" class="headerlink" title="控制标签后的jsp内容不执行"></a>控制标签后的jsp内容不执行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SkipPageException - If the page that (either directly or indirectly) invoked this tag is to cease evaluation. A Simple Tag Handler generated from a tag file must throw this exception if an invoked Classic Tag Handler returned SKIP_PAGE or if an invoked Simple Tag Handler threw SkipPageException or if an invoked Jsp Fragment threw a SkipPageException.</div></pre></td></tr></table></figure>
+<p>在doTag方法中抛出这个异常，即jsp页面不执行</p>
+<h4 id="简单标签执行流程"><a href="#简单标签执行流程" class="headerlink" title="简单标签执行流程"></a>简单标签执行流程</h4><ol>
+<li>浏览器连接web服务器</li>
+<li>web服务器连接到对应的Jsp文件</li>
+<li>执行到jsp中简单标签位置</li>
+<li>实例化处理器类</li>
+<li>调用servletContext,把页面pageContext对象传递给标签处理器类</li>
+<li>调用setParent方法，把父标签传递进去，如果没有父标签，传递Null</li>
+<li>调用setJspBody方法，把封装了标签体的JspFragment传递给标签处理器类</li>
+<li>执行页面中的自定义标签，实际上就是调用doTag方法</li>
+<li>标签执行完毕</li>
+</ol>
+<h2 id="开发自定义标签带属性"><a href="#开发自定义标签带属性" class="headerlink" title="开发自定义标签带属性"></a>开发自定义标签带属性</h2><p>通常需要两个步骤</p>
+<ol>
+<li>在标签处理器类中编写每个属性对应的setter方法</li>
+<li>在tld文件中描述该属性</li>
+</ol>
+<p>在自定义标签属性时，每个属性命名方式必须按照javaBean命名方法命名，在标签处理器中定义setter方法，用来接受jsp页面调用自定义标签传递进来的属性值<br>在标签处理器定义setter方法后，jsp引擎在执行开始标签前，也就是调用doStartTag方法前会调用set属性的方法，为标签设置属性<br>例子<br>标签处理器类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.web.simpletag;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line">import javax.servlet.jsp.JspException;</div><div class="line">import javax.servlet.jsp.tagext.JspFragment;</div><div class="line">import javax.servlet.jsp.tagext.SimpleTagSupport;</div><div class="line"></div><div class="line">public class SimpleTagDemo5 extends SimpleTagSupport&#123;</div><div class="line">	private int count;</div><div class="line">	</div><div class="line">	public void setCount(int count) &#123;</div><div class="line">		this.count = count;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void doTag() throws JspException, IOException &#123;</div><div class="line">		JspFragment fragment = this.getJspBody();</div><div class="line">		for(int i=0;i&lt;count;i++)&#123;</div><div class="line">			fragment.invoke(null);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>tld文件中描述属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;tag&gt;</div><div class="line">	&lt;name&gt;demo5&lt;/name&gt;</div><div class="line">	&lt;tag-class&gt;cn.itcast.web.simpletag.SimpleTagDemo5&lt;/tag-class&gt;</div><div class="line">	&lt;body-content&gt;scriptless&lt;/body-content&gt;</div><div class="line">	</div><div class="line">	&lt;attribute&gt;</div><div class="line">		&lt;name&gt;count&lt;/name&gt;</div><div class="line">		&lt;required&gt;true&lt;/required&gt;</div><div class="line">		&lt;rtexprvalue&gt;true&lt;/rtexprvalue&gt;</div><div class="line">	&lt;/attribute&gt;</div><div class="line">&lt;/tag&gt;</div></pre></td></tr></table></figure></p>
+<p>其中rtexprvalue描述标签赋值是否允许运行时赋值，即是否可以用脚本表达式或el表达式运行时赋值</p>
+<h3 id="自定义标签"><a href="#自定义标签" class="headerlink" title="自定义标签"></a>自定义标签</h3><p>将标签库制作为一个Jar包，像jstl一样，在以后的项目中复用标签</p>
+<ol>
+<li>新建java工程taproject</li>
+<li>在java工程中新建META-INF目录，将编写标签的tld文件，复制到该目录</li>
+<li>将标签类复制到工程下src目录中，需要为java工程导入javaee的jar包，可右键工程属性–javabuildpath–liberaries–add liberaries–添加myeclipse liberaries–添加javaee类库</li>
+<li>右键工程export导出jar file</li>
+</ol>
+<h3 id="jstl核心标签库"><a href="#jstl核心标签库" class="headerlink" title="jstl核心标签库"></a>jstl核心标签库</h3><p>可参考菜鸟教程</p>
+<h4 id="国际化主要操作"><a href="#国际化主要操作" class="headerlink" title="国际化主要操作"></a>国际化主要操作</h4><ol>
+<li>动态信息<br> 时间  货币</li>
+<li>静态信息<br> 固定的文本信息</li>
+</ol>
+<h3 id="固定文本的国际化"><a href="#固定文本的国际化" class="headerlink" title="固定文本的国际化"></a>固定文本的国际化</h3><p>对于固定信息，应该固定在properties文件中，对于不同国家应该有不同的properties文件，这一组properties文件称作资源包<br>properties文件的名称格式<br>        基名_语言_国家.properties<br>        例子<br>        info_zh_CN.properties<br>        info_en_US.properties<br>ResourceBundle可以操作资源包<br>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ResourceBundle bundle = ResourceBundle.getBundle(&quot;info&quot;,Locale.US);</div><div class="line">String value = bundle.getString(&quot;name&quot;);</div><div class="line">System.out.println(value);</div></pre></td></tr></table></figure></p>
+<p>其中资源文件在src目录下<br>基名.properties是默认的基名文件</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcj62sbl000gfovdwjwqg4mm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-el表达式和jstl快速入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/09/el表达式和jstl快速入门/" class="article-date">
@@ -115,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjc7kqdzm000e4gvd51rnunxk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcj62sbf000dfovdxvxkdhxl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjc7kqdzo000f4gvdursw64pv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcj62sbk000ffovdy8dh6e2b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -221,7 +326,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjc7kqdzq000h4gvdo7x0xz0o" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcj62sbm000hfovd3jvpcfx5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjc7kqdzs000j4gvduc8h6shf" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcj62sbn000ifovd8yw12onc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -327,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjc7kqdzu000k4gvd89vt49f4" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcj62sbo000jfovdjenhvl48" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjc7kqe0i000u4gvdv94zfba9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcj62sdl000vfovdh44v2bmk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -419,7 +524,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjc7kqdyd00024gvd42v4tbl3" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcj62s870000fovdkppdtog2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -465,7 +570,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjc7kqdzw000l4gvdigvkjhao" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjcj62sd5000ofovdn5lxhvhs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -516,44 +621,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjc7kqe0b000q4gvdj83dm4wj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-request常用方法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/04/request常用方法/" class="article-date">
-  <time datetime="2018-01-03T16:19:48.000Z" itemprop="datePublished">2018-01-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/04/request常用方法/">request常用方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>URL: <a href="http://www.sina.com/news/1.html" target="_blank" rel="external">http://www.sina.com/news/1.html</a><br>URI: /news/1.html<br>URI用来标示某一个资源<br>URL用来标示互联网上某一个资源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">System.out.println(request.getRequestURI());</div><div class="line"></div><div class="line">System.out.println(request.getRequestURL());</div><div class="line"></div><div class="line">//获得查询参数</div><div class="line">System.out.println(request.getQueryString());</div><div class="line"></div><div class="line">//得到客户端远程访问ip地址</div><div class="line">System.out.println(request.getRemoteAddr());</div><div class="line"></div><div class="line">//得到远程访问客户端主机名（在dns服务器上注册），若未注册，即返回远程ip地址</div><div class="line">System.out.println(request.getRemoteHost());</div><div class="line"></div><div class="line">//得到远程访问的客户机端口号，浏览器占用的端口号</div><div class="line">System.out.println(request.getRemotePort());</div><div class="line"></div><div class="line">//方法返回WEB服务器主机名</div><div class="line">System.out.println(request.getLocalName());</div><div class="line"></div><div class="line">//获得客户机请求方式</div><div class="line">System.out.println(request.getMethod());</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjc7kqe04000p4gvdhy02fucy" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjcj62sdt0011fovdzs8todvw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -597,6 +665,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/17/jsp中自定义标签/">jsp中自定义标签</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/09/el表达式和jstl快速入门/">el表达式和jstl快速入门</a>
           </li>
         
@@ -610,10 +682,6 @@
         
           <li>
             <a href="/2018/01/07/jsp语法/">jsp语法</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
           </li>
         
       </ul>
