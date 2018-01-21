@@ -68,6 +68,128 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-事务和数据库连接池" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/事务和数据库连接池/" class="article-date">
+  <time datetime="2018-01-21T12:48:43.000Z" itemprop="datePublished">2018-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>事务是指一组操作，要么全部成功，要么全部不成功<br>产生事务</p>
+<ol>
+<li>数据库本身是提供事务的</li>
+<li>jdbc提供对事务进行处理</li>
+</ol>
+<h4 id="数据库中事务处理"><a href="#数据库中事务处理" class="headerlink" title="数据库中事务处理"></a>数据库中事务处理</h4><p>mysql事务是自动提交的—默认情况，事务自动提交，一条sql语句就是一个事务<br>oracle事务是需要手动提交的</p>
+<p>start transaction — 开启事务<br>rollback — 回滚<br>commit — 提交事务</p>
+<p>mysql 设置提交方式<br>可以通过命令<br>show variables like ‘%commit%’； — 可以查看提交方式<br>set autocommit=off/on;   —- 关闭自动提交</p>
+<h4 id="jdbc中事务操作"><a href="#jdbc中事务操作" class="headerlink" title="jdbc中事务操作"></a>jdbc中事务操作</h4><p>在connection中提供<br>设置是否自动commit<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void setAutoCommit(boolean autoCommit) </div><div class="line">Sets this connection&apos;s auto-commit mode to the given state.</div></pre></td></tr></table></figure></p>
+<p>设置回滚操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void	rollback()</div><div class="line">Undoes all changes made in the current transaction and releases any database locks currently held by this Connection object.</div></pre></td></tr></table></figure></p>
+<p>设置提交操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void	commit()</div><div class="line">Makes all changes made since the previous commit/rollback permanent and releases any database locks currently held by this Connection object.</div></pre></td></tr></table></figure></p>
+<p>设置回滚的位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Savepoint	setSavepoint()</div><div class="line">Creates an unnamed savepoint in the current transaction and returns the new Savepoint object that represents it.</div></pre></td></tr></table></figure></p>
+<p>回滚到指定的位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void	rollback(Savepoint savepoint)</div><div class="line">Undoes all changes made after the given Savepoint object was set.</div></pre></td></tr></table></figure></p>
+<h3 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h3><p>事务的特性</p>
+<ol>
+<li>原子性（Atomicity）<br>原子性指事务是一个不可分割的事务单位，事务中的操作要么都发生，要么都不发生</li>
+<li>一致性（Consistence）<br>事务完整性必须一致</li>
+<li>隔离性（Isolation）<br>事务的隔离性是指多个用户并发访问数据库时，一个用户的事务不能被其他用户的事务所干扰，多个并发事务间数据要相互隔离</li>
+<li>持久性（Durability）<br>持久性是指一个用户事务一旦提交，那么它对数据库中的改变就是持久性的，就下来就算数据库发生故障，也不该对它有任何影响</li>
+</ol>
+<h4 id="事务隔离性"><a href="#事务隔离性" class="headerlink" title="事务隔离性"></a>事务隔离性</h4><p>如果不考虑事务的隔离性，将会引发</p>
+<ol>
+<li>脏读<br>一个事务读取到其他事务没提交的数据</li>
+<li>不可重复读<br>在一个事物中读取两（多）次，两（多）次读取到的结果不一样，强调select操作，数据总条数不变</li>
+<li>虚读（幻读）<br>两次读取到的数据不一致，强调的是insert操作，数据的总条数发生改变</li>
+</ol>
+<h4 id="事物的隔离级别"><a href="#事物的隔离级别" class="headerlink" title="事物的隔离级别"></a>事物的隔离级别</h4><p>数据库有四种隔离级别</p>
+<ol>
+<li>Serializable ——– 可以避免脏读，不可重复读，虚读的情况发生（串行化，锁表）</li>
+<li>Repeatable read —- 可以避免脏读，不可重复读的情况发生（可以重复读取表的数据），不能避免虚读</li>
+<li>Read commited —–  可以避免脏读的情况发生（读已经提交了的）</li>
+<li>Read uncommited —— 最低级别，不能避免以上情况（读取数据会读取到未提交的数据）</li>
+</ol>
+<p>mysql的默认隔离级别是 Repeatable read 级别</p>
+<h4 id="数据库设置隔离级别"><a href="#数据库设置隔离级别" class="headerlink" title="数据库设置隔离级别"></a>数据库设置隔离级别</h4><p>set session transaction isolation level —- 设置事物隔离级别<br>select @@tx_isolation —- 查询当前事物隔离级别<br>设置隔离级别例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set session transaction isolation level Repeatable read</div></pre></td></tr></table></figure></p>
+<p>安全性：Serializable &gt; Repeatable read &gt; Read commited &gt; Read uncommited<br>效率：Serializable &lt; Repeatable read &lt; Read commited &lt; Read uncommited</p>
+<h3 id="JDBC设置事物的隔离级别"><a href="#JDBC设置事物的隔离级别" class="headerlink" title="JDBC设置事物的隔离级别"></a>JDBC设置事物的隔离级别</h3><p>在Connection中有几个常量，代表数据库的事物隔离级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static int	TRANSACTION_READ_COMMITTED</div><div class="line">A constant indicating that dirty reads are prevented; non-repeatable reads and phantom reads can occur.</div><div class="line">static int	TRANSACTION_READ_UNCOMMITTED</div><div class="line">A constant indicating that dirty reads, non-repeatable reads and phantom reads can occur.</div><div class="line">static int	TRANSACTION_REPEATABLE_READ</div><div class="line">A constant indicating that dirty reads and non-repeatable reads are prevented; phantom reads can occur.</div><div class="line">static int	TRANSACTION_SERIALIZABLE</div><div class="line">A constant indicating that dirty reads, non-repeatable reads and phantom reads are prevented.</div></pre></td></tr></table></figure></p>
+<p>可以通过Connection中的方法设置隔离级别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void	setTransactionIsolation(int level)</div><div class="line">Attempts to change the transaction isolation level for this Connection object to the one given.</div></pre></td></tr></table></figure></p>
+<h3 id="更新丢失解决"><a href="#更新丢失解决" class="headerlink" title="更新丢失解决"></a>更新丢失解决</h3><p>两个或多个事物更新同一行，但这些事务彼此之间都不知道其他事务进行的修改，因此第二个修改覆盖了第一次修改</p>
+<p>数据库采取什么方式来解决更新丢失问题？</p>
+<ol>
+<li>悲观锁（假设永远可能会发生更新丢失）<br>利用数据库内部锁机制（行级别锁）<br>分为<br>读锁（共享锁）lock in share mode 可以在一行添加多个锁<br>写锁（排他锁） for update     只能有一个锁<br>其中update语句默认是排他锁。<br>锁必须在事物中添加 ，若果commit,锁会自动释放</li>
+<li>乐观锁（假设永远不会发生更新丢失）<br>添加一个字段的类型是timestamp，这个类型的特点是可以自动更新当执行update,insert语句时<br>首先先查询一次数据 得到 当前的 timestamp类型的值，<br>中间可以进行其他操作<br>在真正更新前，在获得一次timestamp类型的值，如果两次值一样，说明在这段时间没有其他更新操作，所以执行更新<br>如果两次timestamp的值不一样的话，将第二次查询到的timestamp的值当作第一次查询到的timestamp的值，将过程在执行一遍</li>
+</ol>
+<h3 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h3><p>连接池：创建多个Connection对象，放入连接池（其实是一个容器）中，当使用时，从连接池取出一个Connection对象，当使用完后，放回连接池中</p>
+<p>编写连接池需要实现java.sql.DataSource接口</p>
+<p>自定义连接池步骤</p>
+<ol>
+<li>创建类实现DataSource接口。</li>
+<li>重写getConnection方法。</li>
+<li>创建一个LinkedList&lt;Connection&gt;集合</li>
+<li>在构造方法间添加多个Connection对象。</li>
+<li>在getConnection方法中，从集合获取Connection对象返回Connection,并从集合中移除</li>
+<li>定义一个closeConn方法中，用户回收使用后的Connection对象。</li>
+</ol>
+<p>问题：为了不依赖自定义的API，而是直接使用java.sql.*中的API。<br>如，DataSource ds = new 自定义实现的类();<br>当使用ds.closeConn方法时报错</p>
+<p>分析：原来Connection的close方法是销毁Connection对象，而不是将对象放在连接池中，<br>解决方案：</p>
+<ol>
+<li>重写。</li>
+<li>装饰模式<br>装饰模式的特点：在装饰类中定义被装饰的对象，通过构造方法接受装饰对象，装饰类与被装饰的一般会实现同一个接口，或继承同一个类</li>
+<li>动态代理<br>要求：jdk提供的动态代理，要求被代理对象必需实现接口,代理对象. java.lang.reflect.Proxy</li>
+</ol>
+<p>可以动态产生一个类的代理对象，我们可以在其中对某些要执行的内容进行控制。<br>例如：我们现在要做的事情是当Connection执行close方法时，将Connection对象放回连接池中。<br>当close方法执行时，我们可以屏蔽掉原来的执行内容，而是执行我们自己的内容，这样可以达到目的。</p>
+<h3 id="DBCP数据库连接池"><a href="#DBCP数据库连接池" class="headerlink" title="DBCP数据库连接池"></a>DBCP数据库连接池</h3><p>DBCP是Apache软件基金组织开发的，需要添加两个jar文件</p>
+<ol>
+<li>Commons-dbcp.jar  ——- 连接池的实现</li>
+<li>Commons-pool.jar  ———— 连接池实现的依赖库<br>以上两个jar包我用的是for java7的，还需添加logging.jar包<br>要使用dbcp有两种方法，需要配置url,password,username,Driver</li>
+<li><p>手动配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">BasicDataSource basicDataSource = new BasicDataSource();</div><div class="line">basicDataSource.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);</div><div class="line">basicDataSource.setUrl(&quot;jdbc:mysql:///day12?useSSL=false&quot;);</div><div class="line">basicDataSource.setUsername(&quot;root&quot;);</div><div class="line">basicDataSource.setPassword(&quot;gl986144668&quot;);</div><div class="line"></div><div class="line">Connection connection = basicDataSource.getConnection();</div></pre></td></tr></table></figure>
+</li>
+<li><p>加载配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Properties property = new Properties();</div><div class="line">InputStream inStream = Demo1.class.getClassLoader().getResourceAsStream(&quot;dbcp.properties&quot;);</div><div class="line">property.load(inStream);</div><div class="line">BasicDataSource basicDataSource = BasicDataSourceFactory.createDataSource(property);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中配置文件中的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">driverClassName=com.mysql.jdbc.Driver</div><div class="line">url=jdbc\:mysql\:///day12?useSSL\=false</div><div class="line">username=root</div><div class="line">password=gl986144668</div></pre></td></tr></table></figure></p>
+<h3 id="c3p0数据库连接池"><a href="#c3p0数据库连接池" class="headerlink" title="c3p0数据库连接池"></a>c3p0数据库连接池</h3><p>其中需要添加两个jar文件</p>
+<ol>
+<li>c3p0-0.9.5.2.jar</li>
+<li>mchange-commons-java-0.2.11.jar<br>若不添加第二个，将会报错<br>通过这句java.lang.ClassNotFoundException: com.mchange.v2.ser.Indirector 发现缺少jar包</li>
+</ol>
+<p>可以阅读c3p0的doc文件下的文档</p>
+<p>c3p0的手动配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();</div><div class="line">comboPooledDataSource.setDriverClass(&quot;com.mysql.jdbc.Driver&quot;);</div><div class="line">comboPooledDataSource.setJdbcUrl(&quot;jdbc:mysql:///day12&quot;);</div><div class="line">comboPooledDataSource.setUser(&quot;root&quot;);</div><div class="line">comboPooledDataSource.setPassword(&quot;gl986144668&quot;);</div><div class="line"></div><div class="line">Connection connection = comboPooledDataSource.getConnection();</div></pre></td></tr></table></figure></p>
+<p>c3p0的自动配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;c3p0-config&gt;</div><div class="line">  &lt;default-config&gt;</div><div class="line">    &lt;property name=&quot;driverClass&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;</div><div class="line">    &lt;property name=&quot;jdbcUrl&quot;&gt;jdbc:mysql:///day12&lt;/property&gt;</div><div class="line">    &lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;</div><div class="line">    &lt;property name=&quot;password&quot;&gt;gl986144668&lt;/property&gt;</div><div class="line"></div><div class="line">  &lt;/default-config&gt;</div><div class="line">&lt;/c3p0-config&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="Tomcat服务器管理连接池"><a href="#Tomcat服务器管理连接池" class="headerlink" title="Tomcat服务器管理连接池"></a>Tomcat服务器管理连接池</h3><p>将连接池交给WEB服务器管理 ———- web应用<br>WEB应用如何获得连接对象<br>通过JDNI技术获取连接池对象</p>
+<p>tomcat 服务器配置数据源<br>在tomcat/conf目录下有context.xml文件，可以在这个文件中配置，但这个是为所有web应用配置。想要为一个WEB应用配置，可以在WEB应用下的META-INF目录下，新建一个context.xml文件，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;Context&gt;</div><div class="line">	&lt;Resource name=&quot;jdbc/datasource&quot; auth=&quot;Container&quot;</div><div class="line">				type=&quot;javax.sql.DataSource&quot; username=&quot;root&quot;</div><div class="line">				password=&quot;***&quot; driverClassName=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">				url=&quot;jdbc:mysql://localhost:3306/day12&quot; maxActive=&quot;8&quot; </div><div class="line">				maxIdle=&quot;4&quot; /&gt;</div><div class="line">&lt;/Context&gt;</div></pre></td></tr></table></figure></p>
+<p>其中这种配置需要将mysql的驱动程序拷贝到tomcat/lib目录下<br>新建一个servlet<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">	try &#123;</div><div class="line">		Context initcontext = new InitialContext();</div><div class="line">		Context envContext = (Context) initcontext.lookup(&quot;java:comp/env&quot;);</div><div class="line">		DataSource datasource = (DataSource) envContext.lookup(&quot;jdbc/datasource&quot;);</div><div class="line">		</div><div class="line">		Connection connection = datasource.getConnection();</div><div class="line">		Statement statement = connection.createStatement();</div><div class="line">		ResultSet set = statement.executeQuery(&quot;select * from account&quot;);</div><div class="line">		while (set.next()) &#123;</div><div class="line">			System.out.println(set.getString(&quot;name&quot;));</div><div class="line">		&#125;</div><div class="line">		connection.close();</div><div class="line">	&#125; catch (NamingException e) &#123;</div><div class="line">		// TODO Auto-generated catch block</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125; catch (SQLException e) &#123;</div><div class="line">		// TODO Auto-generated catch block</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcos4sqf000z74vd4ht7f4i8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JDBC及待解决的编码问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/21/JDBC及待解决的编码问题/" class="article-date">
@@ -144,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcoehx890006zsvdztz51pob" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcos4snn000274vdwwkgn59s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcoehx9s000rzsvd771wmoit" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcos4spp000o74vdwnkoh7qv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -396,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcoehx9j000mzsvdowiag0h0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcos4spj000l74vd5wdsfhnm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -453,7 +575,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcoehx9g000kzsvdecl6haj9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcos4sos000i74vd374nsrbp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -506,7 +628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcoehx9f000jzsvdrt2zhisn" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcos4sos000h74vdo6c7f783" class="article-share-link">Share</a>
       
       
     </footer>
@@ -559,7 +681,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcoehx9h000lzsvdgfjv5yl3" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcos4spi000k74vdb5mvtdwv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -622,7 +744,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcoehx9k000nzsvdaqiw3izd" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcos4spu000p74vdddzp8zme" class="article-share-link">Share</a>
       
       
     </footer>
@@ -665,7 +787,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcoehx9l000ozsvdgpcsgsf0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcos4spl000n74vddgk1lrny" class="article-share-link">Share</a>
       
       
     </footer>
@@ -718,46 +840,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcoehx9z000yzsvdkwzlbw8w" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Cookie创建和删除" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/05/Cookie创建和删除/" class="article-date">
-  <time datetime="2018-01-05T08:53:38.000Z" itemprop="datePublished">2018-01-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/05/Cookie创建和删除/">Cookie创建和删除</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><p>setMaxAge()用来设置cookie的有效期，若不调用这个方法，则cookie有效期是浏览器进程<br>setPath()设置cookie的有效目录，若设置/day06意味着等会去访问服务器，在/day06下所有的资源都会带着cookie,若不调用这个方法，则这个cookie是由哪个servlet发出去的，则访问它所在的有效目录才带cookie，如该cookie是由/day06/servlet/servletDemo1,则有效目录是/day06/servlet/<br>setDomain()方法为第三方主机设置一个cookie，但常被浏览器拒收</p>
-<p>例子，利用cookie显示上次登陆的时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.cookie;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.io.PrintWriter;</div><div class="line">import java.sql.Date;</div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Calendar;</div><div class="line">import java.util.GregorianCalendar;</div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.Cookie;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class cookiedemo1 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line"></div><div class="line">		PrintWriter pw = response.getWriter();</div><div class="line">		pw.print(&quot;你上次登陆的时间是：&quot;);</div><div class="line"></div><div class="line">		Cookie[] cookies = request.getCookies();</div><div class="line">		if (cookies != null) &#123;</div><div class="line">			for (int i = 0; i &lt; cookies.length; i++) &#123;</div><div class="line">				if (cookies[i].getName().equals(&quot;lastAcessTime&quot;)) &#123;</div><div class="line">					long cookieValue = Long.parseLong(cookies[i].getValue());</div><div class="line">					Date date = new Date(cookieValue);</div><div class="line">					SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd H:m:s&quot;);</div><div class="line">					pw.print(dateFormat.format(date)+&quot;  &quot;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		Cookie cookie = new Cookie(&quot;lastAcessTime&quot;,System.currentTimeMillis()+&quot;&quot;);</div><div class="line">		cookie.setMaxAge(30*24*3600);</div><div class="line">		cookie.setPath(&quot;/day07&quot;);</div><div class="line">		</div><div class="line">		response.addCookie(cookie);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="删除名为lastAcessTime的cookie"><a href="#删除名为lastAcessTime的cookie" class="headerlink" title="删除名为lastAcessTime的cookie"></a>删除名为lastAcessTime的cookie</h3><p>在cookiedemo1中添加一个链接到cookiedemo2后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.cookie;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.Cookie;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class cookiedemo2 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line">	//删除cookie</div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		Cookie cookie = new Cookie(&quot;lastAcessTime&quot;,System.currentTimeMillis()+&quot;&quot;);</div><div class="line">		//给出以秒为单位的有效时间，0代表删除</div><div class="line">		cookie.setMaxAge(0);</div><div class="line">		</div><div class="line">		//路径名必须要和删除的cookie设置的路径一样才能删除</div><div class="line">		cookie.setPath(&quot;/day07&quot;);</div><div class="line">		</div><div class="line">		response.addCookie(cookie);</div><div class="line">		</div><div class="line">		response.sendRedirect(&quot;/day07/servlet/cookiedemo1&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcoehx790001zsvdhxl9acf0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcos4sqg001174vd80k6blus" class="article-share-link">Share</a>
       
       
     </footer>
@@ -801,6 +884,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
           </li>
         
@@ -814,10 +901,6 @@
         
           <li>
             <a href="/2018/01/09/el表达式和jstl快速入门/">el表达式和jstl快速入门</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/08/javabean/">javabean</a>
           </li>
         
       </ul>
