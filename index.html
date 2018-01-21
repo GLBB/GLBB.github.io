@@ -68,6 +68,92 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JDBC及待解决的编码问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/JDBC及待解决的编码问题/" class="article-date">
+  <time datetime="2018-01-21T06:25:23.000Z" itemprop="datePublished">2018-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>jdbc例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.jdbc;</div><div class="line"></div><div class="line">import java.sql.Connection;</div><div class="line">import java.sql.DriverManager;</div><div class="line">import java.sql.ResultSet;</div><div class="line">import java.sql.SQLException;</div><div class="line">import java.sql.Statement;</div><div class="line"></div><div class="line">import com.mysql.jdbc.Driver;</div><div class="line"></div><div class="line">//JDBC体验</div><div class="line">public class Demo1 &#123;</div><div class="line">	public static void main(String[] args) throws SQLException &#123;</div><div class="line">		//1.驱动管理器注册驱动</div><div class="line">		DriverManager.registerDriver(new Driver());</div><div class="line">		//2.获取连接对象</div><div class="line">		Connection connection = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/day11?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&quot;,&quot;root&quot;,&quot;123456&quot;);</div><div class="line">		//3.获取操作sql语句的对象</div><div class="line">		Statement statement = connection.createStatement();</div><div class="line">		String sql = &quot;select * from user&quot;;</div><div class="line">		//4.根据查询语句得到结果集</div><div class="line">		ResultSet set = statement.executeQuery(sql);</div><div class="line">		while(set.next())&#123;</div><div class="line">			int id = set.getInt(&quot;id&quot;);</div><div class="line">			String username = set.getString(&quot;username&quot;);</div><div class="line">			String password = set.getString(&quot;password&quot;);</div><div class="line">			String email = set.getString(&quot;email&quot;);</div><div class="line">			System.out.println(id+&quot; &quot;+username +&quot; &quot;+password+&quot; &quot;+email);</div><div class="line">		&#125;</div><div class="line">		//5.释放资源</div><div class="line">		set.close();</div><div class="line">		statement.close();</div><div class="line">		connection.close();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="DriverManager解析"><a href="#DriverManager解析" class="headerlink" title="DriverManager解析"></a>DriverManager解析</h3><p>其中DriverManager是一个容器，可以注册多个数据库驱动在DriverManager中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//1.驱动管理器注册驱动</div><div class="line">DriverManager.registerDriver(new Driver());</div></pre></td></tr></table></figure></p>
+<p>其中注册时采用这种方式，会加载两个驱动Driver，其中new 了一个，和类加载时创建了一个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static &#123;</div><div class="line">    try &#123;</div><div class="line">        java.sql.DriverManager.registerDriver(new Driver());</div><div class="line">    &#125; catch (SQLException E) &#123;</div><div class="line">        throw new RuntimeException(&quot;Can&apos;t register driver!&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所以这就浪费了空间<br>改进方法<br>采用反射，用类加载器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//1.2通过类加载器注册驱动</div><div class="line">Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</div></pre></td></tr></table></figure></p>
+<p>通过类加载器加载，两个好处</p>
+<ol>
+<li>只产生一个驱动对象</li>
+<li>不会依赖具体的mysql API,可维护性更好</li>
+</ol>
+<p>可以将其中的url，和类加载所在地址可以写到一个配置文件中，可以通过<br>ResourceBundle.getBunder(“db”).getString(“driver”);<br>方法读取，也可以通过类加载器读取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 通过读取资源文件获取配置信息</div><div class="line">InputStream is = Demo1.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div><div class="line">Properties properties = new Properties();</div><div class="line">properties.load(is);</div><div class="line"></div><div class="line">String class_load = properties.getProperty(&quot;class_load&quot;);</div><div class="line">String url = properties.getProperty(&quot;url&quot;);</div><div class="line">String user = properties.getProperty(&quot;user&quot;);</div><div class="line">String password = properties.getProperty(&quot;password&quot;);</div></pre></td></tr></table></figure></p>
+<h3 id="url"><a href="#url" class="headerlink" title="url"></a>url</h3><p>其中关于url的简写<br>如果连接的是本机，和端口号也是默认的3306，那么可以省略主机和端口号,即<br>jdbc:mysql:///day11;</p>
+<p>其中url由几部分组成<br>jdbc 主协议<br>mysql 副协议<br>localhost 主机地址<br>3306 端口号<br>day11 数据库名</p>
+<p>其中url还可以带一些参数过去‘<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jdbc:mysql://localhost:3306/day11?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false</div></pre></td></tr></table></figure></p>
+<h3 id="Collection对象"><a href="#Collection对象" class="headerlink" title="Collection对象"></a>Collection对象</h3><p>···<br>        Connection connection = DriverManager.getConnection(“jdbc:mysql://localhost:3306/day11?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false”,”root”,”123456”);<br>···<br>其中方法返回的是jar里的com.mysql.jdbc.Connection对象，当我们使用的引用对象是<br>import java.sql.Connection，原因是解耦，不依赖具体api，增加代码可维护性<br>其中collection常用方法<br>createStatement 获取Statement对象<br>prepareStatement 获取preparedStatement对象<br>prepareCall 获取prepareCall对象（可以执行存储过程）<br>与事务处理有关的方法<br>setAutoCommit(boolean f) 设置事物是否自动提交<br>rollback 事物回滚<br>commit 事物提交</p>
+<h3 id="Statement"><a href="#Statement" class="headerlink" title="Statement"></a>Statement</h3><p>常用方法<br>excuteQuery 执行select语句<br>excuteUpdate 执行update,delete,insert语句<br>excute 执行任意语句<br>addBatch 添加批处理语句<br>excuteBatch 批处理</p>
+<h3 id="结果集"><a href="#结果集" class="headerlink" title="结果集"></a>结果集</h3><p>ResultSet 默认是只读，不能修改回数据库的<br>其中ResultSet 中有几个常量的含义</p>
+<p>可以选择返回的结果集类型，可以在创建Statement语句时，可以设置返回哪些参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Statement	createStatement(int resultSetType, int resultSetConcurrency)</div><div class="line">Creates a Statement object that will generate ResultSet objects with the given type and concurrency.</div></pre></td></tr></table></figure></p>
+<p>结果集类型<br>ResultSet.TYPE_FORWARD_ONLY 设置结果集只能向前<br>ResultSet.TYPE_SCROLL_INSENSITIVE 支持结果集向回滚动，不能查看修改结构<br>ResultSet.TYPE_SCROLL_SENSITIVE 支持结果集向回滚动，查看修改结果</p>
+<p>结果集并发策略<br>ResultSet.CONCUR_READ_ONLY 只读<br>ResultSet.CONCUR_UPDATABLE 支持修改</p>
+<p>常见三种组合<br>ResultSet.TYPE_FORWARD_ONLY 和 ResultSet.CONCUR_READ_ONLY 默认，只读不支持向回滚动<br>ResultSet.TYPE_SCROLL_INSENSITIVE 和 ResultSet.CONCUR_READ_ONLY 只读，支持向回滚动<br>ResultSet.TYPE_SCROLL_SENSITIVE 和 ResultSet.CONCUR_UPDATABLE 支持向回滚动，同时可以修改写回给数据库</p>
+<p>常用API<br>next 光标向下移动<br>previous 移动到前一行<br>absoulute 移动到指定的某一行<br>beforeFirst 移动到最前面<br>afterLast 移动到ResultSet最后面<br>updateRow 更新整行数据</p>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.jdbc;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.sql.Connection;</div><div class="line">import java.sql.DriverManager;</div><div class="line">import java.sql.ResultSet;</div><div class="line">import java.sql.SQLException;</div><div class="line">import java.sql.Statement;</div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">public class Demo3 &#123;</div><div class="line">	private static String driver;</div><div class="line">	private static String url;</div><div class="line">	private static String user;</div><div class="line">	private static String password;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException &#123;</div><div class="line">		// 通过读取资源文件获取配置信息</div><div class="line">		InputStream is = Demo1.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div><div class="line">		Properties properties = new Properties();</div><div class="line">		properties.load(is);</div><div class="line">		</div><div class="line">		driver = properties.getProperty(&quot;class_load&quot;);</div><div class="line">		url = properties.getProperty(&quot;url&quot;);</div><div class="line">		user = properties.getProperty(&quot;user&quot;);</div><div class="line">	    password = properties.getProperty(&quot;password&quot;);</div><div class="line">	    </div><div class="line">		Class.forName(driver);</div><div class="line">		Connection connection = DriverManager.getConnection(url, user, password);</div><div class="line">		Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);</div><div class="line">		</div><div class="line">		String sql = &quot;select * from user&quot;;</div><div class="line">		ResultSet resultSet = statement.executeQuery(sql);</div><div class="line">		</div><div class="line">		//遍历集合</div><div class="line">		ergolic(resultSet);</div><div class="line">		</div><div class="line">		resultSet.beforeFirst();</div><div class="line">		resultSet.next();</div><div class="line">		resultSet.updateString(4, &quot;glbb@qq.com&quot;);</div><div class="line">		</div><div class="line">		resultSet.updateRow();</div><div class="line">		//遍历集合</div><div class="line">		resultSet.beforeFirst();</div><div class="line">		ergolic(resultSet);</div><div class="line">		</div><div class="line">		connection.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private static void ergolic(ResultSet resultSet)&#123;</div><div class="line">		try&#123;</div><div class="line">			while(resultSet.next())&#123;</div><div class="line">				int id = resultSet.getInt(&quot;id&quot;);</div><div class="line">				String username = resultSet.getString(&quot;username&quot;);</div><div class="line">				String password = resultSet.getString(&quot;password&quot;);</div><div class="line">				String email = resultSet.getString(&quot;email&quot;);</div><div class="line">				System.out.println(id+&quot; &quot;+username+&quot; &quot;+password+&quot; &quot;+email);</div><div class="line">			&#125;</div><div class="line">		&#125;catch(Exception e)&#123;</div><div class="line">			throw new RuntimeException(e);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行后得到的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1 glbb 123456 986144668@qq.com</div><div class="line">2 pony 123456 pony@qq.com</div><div class="line">3 jackma 123456 jackma@qq.com</div><div class="line">1 glbb 123456 glbb@qq.com</div><div class="line">2 pony 123456 pony@qq.com</div><div class="line">3 jackma 123456 jackma@qq.com</div></pre></td></tr></table></figure></p>
+<p>数据库结果和表结果都更新了</p>
+<h3 id="PreparedStatement"><a href="#PreparedStatement" class="headerlink" title="PreparedStatement"></a>PreparedStatement</h3><p>使用preparedStatement的好处</p>
+<ol>
+<li>可以解决sql注入问题</li>
+<li>不用在拼接字符串</li>
+</ol>
+<p>PreparedStatement如何使用</p>
+<ol>
+<li><p>PreparedStatement 的获取<br>PreparedStatement ps = connection.preparedStatement(String sql）语句<br>其中语句实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String sql = &quot;select * from user where username=? and password=?&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>怎样执行sql语句<br>ResultSet rs = ps.executeQuery()  执行select<br>int row = ps.executeUpdate()   执行insert delete update</p>
+</li>
+<li>怎样对sql语句进行赋值<br>setXXX方法 如：<br>setInt(站位符索引,值);<br>setString(站位符索引,值);</li>
+</ol>
+<h3 id="大文本"><a href="#大文本" class="headerlink" title="大文本"></a>大文本</h3><p>写文本到数据库,再从数据库中读出文本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.jdbc;</div><div class="line"></div><div class="line">import java.io.FileReader;</div><div class="line">import java.io.FileWriter;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.OutputStreamWriter;</div><div class="line">import java.io.Reader;</div><div class="line">import java.sql.Connection;</div><div class="line">import java.sql.DriverManager;</div><div class="line">import java.sql.PreparedStatement;</div><div class="line">import java.sql.ResultSet;</div><div class="line">import java.sql.SQLException;</div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line"></div><div class="line">public class TextDemo &#123;</div><div class="line">	private static String driver;</div><div class="line">	private static String url;</div><div class="line">	private static String user;</div><div class="line">	private static String password;</div><div class="line"></div><div class="line">	// 存大文本到数据库</div><div class="line">	@Test</div><div class="line">	public void writeText() throws IOException, ClassNotFoundException, SQLException &#123;</div><div class="line">		// 通过读取资源文件获取配置信息</div><div class="line">		InputStream is = Demo1.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div><div class="line">		Properties properties = new Properties();</div><div class="line">		properties.load(is);</div><div class="line"></div><div class="line">		driver = properties.getProperty(&quot;class_load&quot;);</div><div class="line">		url = properties.getProperty(&quot;url&quot;);</div><div class="line">		user = properties.getProperty(&quot;user&quot;);</div><div class="line">		password = properties.getProperty(&quot;password&quot;);</div><div class="line"></div><div class="line">		Class.forName(driver);</div><div class="line">		Connection connection = DriverManager.getConnection(url, user, password);</div><div class="line">		</div><div class="line">		String sql = &quot;insert into t_text values(1,?)&quot;;</div><div class="line">		PreparedStatement preparedStatement = connection.prepareStatement(sql);</div><div class="line">		Reader reader = new FileReader(&quot;C:/Users/Administrator/Desktop/pac.txt&quot;);</div><div class="line">		preparedStatement.setCharacterStream(1, reader);</div><div class="line">		</div><div class="line">		preparedStatement.executeUpdate();</div><div class="line">		</div><div class="line">		reader.close();</div><div class="line">		preparedStatement.close();</div><div class="line">		connection.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//读大文本出来</div><div class="line">	@Test</div><div class="line">	public void read() throws IOException, ClassNotFoundException, SQLException&#123;</div><div class="line">		// 通过读取资源文件获取配置信息</div><div class="line">		InputStream is = Demo1.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);</div><div class="line">		Properties properties = new Properties();</div><div class="line">		properties.load(is);</div><div class="line"></div><div class="line">		driver = properties.getProperty(&quot;class_load&quot;);</div><div class="line">		url = properties.getProperty(&quot;url&quot;);</div><div class="line">		user = properties.getProperty(&quot;user&quot;);</div><div class="line">		password = properties.getProperty(&quot;password&quot;);</div><div class="line"></div><div class="line">		Class.forName(driver);</div><div class="line">		Connection connection = DriverManager.getConnection(url, user, password);</div><div class="line">		</div><div class="line">		String sql = &quot;select content from t_text where id=?&quot;;</div><div class="line">		PreparedStatement preparedStatement = connection.prepareStatement(sql);</div><div class="line">		preparedStatement.setInt(1, 1);</div><div class="line">		ResultSet resultSet = preparedStatement.executeQuery();</div><div class="line">		</div><div class="line">		if(resultSet.next())&#123;</div><div class="line">			Reader reader = resultSet.getCharacterStream(&quot;content&quot;);</div><div class="line">			FileWriter writer = new FileWriter(&quot;C:/Users/Administrator/Desktop/pac_b.txt&quot;);</div><div class="line">			char[] c = new char[1024*10];</div><div class="line">			int c_count = 0;</div><div class="line">			while((c_count=reader.read(c))!=-1)&#123;</div><div class="line">				writer.write(c,0,c_count);</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			writer.close();</div><div class="line">			reader.close();</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		resultSet.close();</div><div class="line">		preparedStatement.close();</div><div class="line">		connection.close();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="这个问题待解决"><a href="#这个问题待解决" class="headerlink" title="这个问题待解决"></a>这个问题待解决</h1><p>其中注意：<br>若读取的文本是用utf-8编码保存的，但是写文本是用FileWriter写的，写出来的不是utf-8，所以在开头将会产生乱码，所以注意读写文本编码的一致性,其中还涉及到数据库数据编码问题<br>所以把物理存在的文本保存为ANSI格式，写文本也这样写没有乱码<br>若用utf-8写还是会有乱码,以下是用utf-8写，读取的文本是用utf-8编码保存的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">	//以utf-8写文本</div><div class="line">	FileOutputStream fos = new FileOutputStream(&quot;C:/Users/Administrator/Desktop/pac_b.txt&quot;);</div><div class="line">	OutputStreamWriter osw = new OutputStreamWriter(fos,&quot;UTF-8&quot;);</div><div class="line">	char[] c = new char[1024*10];</div><div class="line">	int c_count = 0;</div><div class="line">	while((c_count=reader.read(c))!=-1)&#123;</div><div class="line">		osw.write(c,0,c_count);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	osw.close();</div><div class="line">	reader.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理的两种方式</p>
+<ol>
+<li>Statement<br>addBatch(String sql)  添加sql语句到待执行的列表中<br>clearBatch() 清空所有sql<br>executeBatch() 执行列表中有的sql语句</li>
+<li>PreparedStatement<br>addBatch() 添加sql语句到批处理中<br>executeBatch() 批量执行sql语句</li>
+</ol>
+<p>Statement和PreparedStatement语句批量执行的区别</p>
+<ol>
+<li>statement适合批量执行不同类型的sql语句，PreparedStatement适合批量执行相似的sql语句</li>
+<li>statement的效率低于PreparedStatement的批量执行效率</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcoehx890006zsvdztz51pob" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql在windows下的入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/19/mysql在windows下的入门/" class="article-date">
@@ -205,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcldkhnq000o54vdncd15zrr" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcoehx9s000rzsvd771wmoit" class="article-share-link">Share</a>
       
       
     </footer>
@@ -310,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcldkhnm000j54vdrht32f0n" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcoehx9j000mzsvdowiag0h0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -367,7 +453,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcldkhnk000g54vdez4ppygd" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcoehx9g000kzsvdecl6haj9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -420,7 +506,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcldkhnl000i54vdomycl2tj" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcoehx9f000jzsvdrt2zhisn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -473,7 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcldkhnn000k54vdjm3hu0xt" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcoehx9h000lzsvdgfjv5yl3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -536,7 +622,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcldkhno000l54vdi346ems0" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcoehx9k000nzsvdaqiw3izd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -579,7 +665,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcldkhnp000m54vdlq89e2jm" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcoehx9l000ozsvdgpcsgsf0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -632,7 +718,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcldkho4000w54vd03htojux" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcoehx9z000yzsvdkwzlbw8w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -671,53 +757,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcldkhml000154vd63u2ro1n" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-request域和forward方法和uri的书写和referer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/04/request域和forward方法和uri的书写和referer/" class="article-date">
-  <time datetime="2018-01-04T13:12:00.000Z" itemprop="datePublished">2018-01-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/04/request域和forward方法和uri的书写和referer/">request域和forward方法和uri的书写和referer</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>mvc模式<br>m : model(javabean)<br>v : view(jsp)<br>c : control(servlet)<br>域代表一个容器</p>
-<h3 id="request实现消息的转发"><a href="#request实现消息的转发" class="headerlink" title="request实现消息的转发"></a>request实现消息的转发</h3><p>servlet中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String data = &quot;aaaaaa&quot;;</div><div class="line">request.setAttribute(&quot;data&quot;, data);</div><div class="line"></div><div class="line">request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</div></pre></td></tr></table></figure></p>
-<p>jsp中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	String data = (String)request.getAttribute(&quot;data&quot;);</div><div class="line">	out.write(data);</div><div class="line">%&gt;</div><div class="line">$&#123;data &#125;  //el表达式</div></pre></td></tr></table></figure></p>
-<h3 id="输出流关闭后，不能实现request的跳转"><a href="#输出流关闭后，不能实现request的跳转" class="headerlink" title="输出流关闭后，不能实现request的跳转"></a>输出流关闭后，不能实现request的跳转</h3><ol>
-<li>如果在调用forward之前，servlet程序中写入部分已经真正传送到客户端，forward方法将抛出illegleStateException，注意：在forward之后加return;</li>
-<li>在调用forward方法前，向servlet的缓冲区中（response）写入了内容，写入到缓冲区的还没有真正输出到客户端，forward方法可以正确执行，原来写入到缓存区的内容将被清空，但是，已写入到HttpServletResponse对象的响应字段信息保持有效。</li>
-</ol>
-<h3 id="uri的书写"><a href="#uri的书写" class="headerlink" title="uri的书写"></a>uri的书写</h3><p>写uri首先考虑是浏览器调用还是服务器调用，若是服务器调用，则第一个/代表webroot这个目录，若是浏览器调用则写web应用下，下例：、<br>浏览器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.sendRedirect(&quot;/day06/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
-<p>服务器调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RequestDispatcher rd = this.getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;);</div></pre></td></tr></table></figure></p>
-<p>windows访问硬盘上的资源： \</p>
-<h3 id="其中referer头代表从哪里来的，从哪个页面来的"><a href="#其中referer头代表从哪里来的，从哪个页面来的" class="headerlink" title="其中referer头代表从哪里来的，从哪个页面来的"></a>其中referer头代表从哪里来的，从哪个页面来的</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjcldkhnt000p54vd6v90021g" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcoehx790001zsvdhxl9acf0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -730,7 +770,7 @@
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -761,6 +801,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
           </li>
         
@@ -774,10 +818,6 @@
         
           <li>
             <a href="/2018/01/08/javabean/">javabean</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
           </li>
         
       </ul>

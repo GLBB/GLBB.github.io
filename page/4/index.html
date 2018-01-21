@@ -68,6 +68,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JAVA内省" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/22/JAVA内省/" class="article-date">
+  <time datetime="2017-12-22T13:22:48.000Z" itemprop="datePublished">2017-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/22/JAVA内省/">JAVA内省</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="学习内省原因"><a href="#学习内省原因" class="headerlink" title="学习内省原因"></a>学习内省原因</h3><p>开发框架时，经常需要对JAVA属性进行操作，但是用反射技术来操作过于麻烦，所以SUM公司专门开发了一套API，用于对JAVA属性进行操作</p>
+<h4 id="得到所有的属性"><a href="#得到所有的属性" class="headerlink" title="得到所有的属性"></a>得到所有的属性</h4><p>其中Person类相当于一个Bean,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">package introspector;</div><div class="line"></div><div class="line">public class Person &#123;</div><div class="line">	public String name;</div><div class="line">	public int age;</div><div class="line">	public String passwd;</div><div class="line">	</div><div class="line">	public String getAB()&#123;</div><div class="line">		return null;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public String getName() &#123;</div><div class="line">		return name;</div><div class="line">	&#125;</div><div class="line">	public void setName(String name) &#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	public int getAge() &#123;</div><div class="line">		return age;</div><div class="line">	&#125;</div><div class="line">	public void setAge(int age) &#123;</div><div class="line">		this.age = age;</div><div class="line">	&#125;</div><div class="line">	public String getPasswd() &#123;</div><div class="line">		return passwd;</div><div class="line">	&#125;</div><div class="line">	public void setPasswd(String passwd) &#123;</div><div class="line">		this.passwd = passwd;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中具有的属性为name,age,passwd,AB,class<br>以下为获得所有属性的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void test1() throws Exception&#123;</div><div class="line">		BeanInfo beanInfo = Introspector.getBeanInfo(Person.class);</div><div class="line">		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();</div><div class="line">		for(PropertyDescriptor pd : pds)&#123;</div><div class="line">			System.out.println(pd.getName());</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>若是不想要获得父类型所继承的属性可以调用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BeanInfo beanInfo = Introspector.getBeanInfo(Person.class,Object.class);</div></pre></td></tr></table></figure></p>
+<h3 id="操作bean的属性"><a href="#操作bean的属性" class="headerlink" title="操作bean的属性"></a>操作bean的属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//操作bean的age属性</div><div class="line">	@Test</div><div class="line">	public void test2() throws Exception&#123;</div><div class="line">		Person p = new Person();</div><div class="line">		PropertyDescriptor pd = new PropertyDescriptor(&quot;age&quot;, Person.class);</div><div class="line">		</div><div class="line">		Method m = pd.getWriteMethod();</div><div class="line">		m.invoke(p, 45);</div><div class="line">		</div><div class="line">		m = pd.getReadMethod();</div><div class="line">		int age = (int) m.invoke(p, null);</div><div class="line">		System.out.println(age);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>如果要得到属性类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Class c = pd.getPropertyType();</div><div class="line">System.out.println(c);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA内省/" data-id="cjcoehx7d0003zsvdcplwq2ih" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JAVA枚举" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/12/22/JAVA枚举/" class="article-date">
@@ -101,7 +143,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjcldkhmw000554vdeiimad97" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/JAVA枚举/" data-id="cjcoehx8x000ezsvdt32gpeym" class="article-share-link">Share</a>
       
       
     </footer>
@@ -166,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjcldkhn0000654vdh7gzyut7" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/Java反射/" data-id="cjcoehx8c0007zsvd3o3hb06y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -208,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjcldkhmf000054vdmx0hzz6n" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/22/BeanUtils操作/" data-id="cjcoehx6h0000zsvdw1iz58ia" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,7 +304,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjcldkhnh000d54vd2yv1i4ew" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/WEB应用组成结构/" data-id="cjcoehx90000fzsvdfpi4w4mw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -305,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjcldkhmr000354vdgkvunbym" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/21/JAVA可变参数/" data-id="cjcoehx850005zsvdg8v2j8du" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjcldkho9000z54vdke724t3z" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/19/tomcat入门学习二/" data-id="cjcoehxa30012zsvdz0cuis1d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjcldkhoa001054vdm6px1uur" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/tomcat入门学习一/" data-id="cjcoehxa20011zsvdjlonbgib" class="article-share-link">Share</a>
       
       
     </footer>
@@ -437,7 +479,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjcldkhob001254vdlcidh7lv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/12/18/互联网常用协议工作端口/" data-id="cjcoehxa50015zsvdjl64a724" class="article-share-link">Share</a>
       
       
     </footer>
@@ -526,34 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjcldkhnq000n54vdvqx69miz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Hello" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/23/Hello/" class="article-date">
-  <time datetime="2017-06-23T08:58:49.708Z" itemprop="datePublished">2017-06-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>hello world!!!<br>my blog</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2017/06/23/Hello/" data-id="cjcldkhmn000254vd1u01634m" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2017/10/16/markdown简要语法/" data-id="cjcoehx9p000qzsvdjp6mp2e8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -566,7 +581,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -597,6 +612,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
           </li>
         
@@ -610,10 +629,6 @@
         
           <li>
             <a href="/2018/01/08/javabean/">javabean</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
           </li>
         
       </ul>
