@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>元数据 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="元数据元数据的作用：指数据库中的表，字段定义信息 DataBaseMetaData ————— 数据库的信息 如何获取DataBaseMetaData 对象通过Connection中的getMetaData方法12DatabaseMetaData	getMetaData()Retrieves a DatabaseMetaData object that contains metadata abou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元数据">
+<meta property="og:url" content="http://glbb.github.io/2018/01/25/元数据/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="元数据元数据的作用：指数据库中的表，字段定义信息 DataBaseMetaData ————— 数据库的信息 如何获取DataBaseMetaData 对象通过Connection中的getMetaData方法12DatabaseMetaData	getMetaData()Retrieves a DatabaseMetaData object that contains metadata abou">
+<meta property="og:updated_time" content="2018-01-25T12:01:47.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元数据">
+<meta name="twitter:description" content="元数据元数据的作用：指数据库中的表，字段定义信息 DataBaseMetaData ————— 数据库的信息 如何获取DataBaseMetaData 对象通过Connection中的getMetaData方法12DatabaseMetaData	getMetaData()Retrieves a DatabaseMetaData object that contains metadata abou">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-元数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/25/元数据/" class="article-date">
+  <time datetime="2018-01-25T12:01:40.000Z" itemprop="datePublished">2018-01-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      元数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><p>元数据的作用：指数据库中的表，字段定义信息</p>
+<h4 id="DataBaseMetaData-—————-数据库的信息"><a href="#DataBaseMetaData-—————-数据库的信息" class="headerlink" title="DataBaseMetaData ————— 数据库的信息"></a>DataBaseMetaData ————— 数据库的信息</h4><ol>
+<li>如何获取DataBaseMetaData 对象<br>通过Connection中的getMetaData方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DatabaseMetaData	getMetaData()</div><div class="line">Retrieves a DatabaseMetaData object that contains metadata about the database to which this Connection object represents a connection.</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>DataBaseMetaData例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">		DatabaseMetaData dbmd = connection.getMetaData();</div><div class="line">		//获取连接的url</div><div class="line">		System.out.println(dbmd.getURL());</div><div class="line">		//获取用户名,驱动信息，数据库名，数据库版本</div><div class="line">		System.out.println(dbmd.getUserName());</div><div class="line">		System.out.println(dbmd.getDriverName());</div><div class="line">		System.out.println(dbmd.getDatabaseProductName());</div><div class="line">		System.out.println(dbmd.getDatabaseProductVersion());</div><div class="line"></div><div class="line">		//获取表的指定主键结果集</div><div class="line">		ResultSet set = dbmd.getPrimaryKeys(null, null, &quot;account&quot;);</div><div class="line">		if(set.next())&#123;</div><div class="line">			System.out.println(set.getString(4));//COLUMN_NAME 获取主键列名称</div><div class="line">			System.out.println(set.getString(6));//PK_NAME 获取主键名称</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="ParameterMetaData"><a href="#ParameterMetaData" class="headerlink" title="ParameterMetaData"></a>ParameterMetaData</h4><p>ParameterMetaData可以获取PreparedStatement中预定义的sql语句相关信息<br>可以在类PreparedStatement中通过getParameterMetaData()得到ParameterMetaData对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ParameterMetaData	getParameterMetaData()</div><div class="line">Retrieves the number, types and properties of this PreparedStatement object&apos;s parameters.</div></pre></td></tr></table></figure></p>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">String sql = &quot;insert into account values(null,?)&quot;;</div><div class="line">//常用API</div><div class="line">//获取参数个数</div><div class="line">int count = metaData.getParameterCount();</div><div class="line">System.out.println(count);	</div><div class="line">//获取参数类型，当使用getParameterType(1)这个方法时会抛出java.sql.SQLException异常，需要在url后面添加?generateSimpleParameterMetadata=true</div><div class="line">int type = metaData.getParameterType(1);</div><div class="line">String typeName = metaData.getParameterTypeName(1);</div><div class="line"></div><div class="line">System.out.println(type+&quot; &quot;+typeName);</div></pre></td></tr></table></figure></p>
+<p>注意：以下两个方法mysql驱动实现得不好，只会返回varchar类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int type = metaData.getParameterType(1);</div><div class="line">String typeName = metaData.getParameterTypeName(1);</div></pre></td></tr></table></figure></p>
+<h4 id="ResultSetMetaData"><a href="#ResultSetMetaData" class="headerlink" title="ResultSetMetaData"></a>ResultSetMetaData</h4><p>ResultSetMetaData    用于获取结果集得一些相关信息,可以从ResultSet中getMetaData()方法获取该对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ResultSetMetaData	getMetaData()</div><div class="line">Retrieves the number, types and properties of this ResultSet object&apos;s columns.</div></pre></td></tr></table></figure></p>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ResultSetMetaData metaData = set.getMetaData();</div><div class="line"></div><div class="line">//获取resultSet中列的个数</div><div class="line">System.out.println(metaData.getColumnCount());</div><div class="line">//获取ResultSet中列的名称</div><div class="line">System.out.println(metaData.getColumnName(1));</div><div class="line">//获取ResultSet中列的类型</div><div class="line">System.out.println(metaData.getColumnTypeName(1));</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcug7uo10013kkvdqas6g244" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/21/多线程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">多线程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/25/元数据/">元数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/多线程/">多线程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

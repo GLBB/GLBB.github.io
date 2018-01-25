@@ -68,6 +68,89 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-元数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/25/元数据/" class="article-date">
+  <time datetime="2018-01-25T12:01:40.000Z" itemprop="datePublished">2018-01-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/25/元数据/">元数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><p>元数据的作用：指数据库中的表，字段定义信息</p>
+<h4 id="DataBaseMetaData-—————-数据库的信息"><a href="#DataBaseMetaData-—————-数据库的信息" class="headerlink" title="DataBaseMetaData ————— 数据库的信息"></a>DataBaseMetaData ————— 数据库的信息</h4><ol>
+<li>如何获取DataBaseMetaData 对象<br>通过Connection中的getMetaData方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DatabaseMetaData	getMetaData()</div><div class="line">Retrieves a DatabaseMetaData object that contains metadata about the database to which this Connection object represents a connection.</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>DataBaseMetaData例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">		DatabaseMetaData dbmd = connection.getMetaData();</div><div class="line">		//获取连接的url</div><div class="line">		System.out.println(dbmd.getURL());</div><div class="line">		//获取用户名,驱动信息，数据库名，数据库版本</div><div class="line">		System.out.println(dbmd.getUserName());</div><div class="line">		System.out.println(dbmd.getDriverName());</div><div class="line">		System.out.println(dbmd.getDatabaseProductName());</div><div class="line">		System.out.println(dbmd.getDatabaseProductVersion());</div><div class="line"></div><div class="line">		//获取表的指定主键结果集</div><div class="line">		ResultSet set = dbmd.getPrimaryKeys(null, null, &quot;account&quot;);</div><div class="line">		if(set.next())&#123;</div><div class="line">			System.out.println(set.getString(4));//COLUMN_NAME 获取主键列名称</div><div class="line">			System.out.println(set.getString(6));//PK_NAME 获取主键名称</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="ParameterMetaData"><a href="#ParameterMetaData" class="headerlink" title="ParameterMetaData"></a>ParameterMetaData</h4><p>ParameterMetaData可以获取PreparedStatement中预定义的sql语句相关信息<br>可以在类PreparedStatement中通过getParameterMetaData()得到ParameterMetaData对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ParameterMetaData	getParameterMetaData()</div><div class="line">Retrieves the number, types and properties of this PreparedStatement object&apos;s parameters.</div></pre></td></tr></table></figure></p>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">String sql = &quot;insert into account values(null,?)&quot;;</div><div class="line">//常用API</div><div class="line">//获取参数个数</div><div class="line">int count = metaData.getParameterCount();</div><div class="line">System.out.println(count);	</div><div class="line">//获取参数类型，当使用getParameterType(1)这个方法时会抛出java.sql.SQLException异常，需要在url后面添加?generateSimpleParameterMetadata=true</div><div class="line">int type = metaData.getParameterType(1);</div><div class="line">String typeName = metaData.getParameterTypeName(1);</div><div class="line"></div><div class="line">System.out.println(type+&quot; &quot;+typeName);</div></pre></td></tr></table></figure></p>
+<p>注意：以下两个方法mysql驱动实现得不好，只会返回varchar类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int type = metaData.getParameterType(1);</div><div class="line">String typeName = metaData.getParameterTypeName(1);</div></pre></td></tr></table></figure></p>
+<h4 id="ResultSetMetaData"><a href="#ResultSetMetaData" class="headerlink" title="ResultSetMetaData"></a>ResultSetMetaData</h4><p>ResultSetMetaData    用于获取结果集得一些相关信息,可以从ResultSet中getMetaData()方法获取该对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ResultSetMetaData	getMetaData()</div><div class="line">Retrieves the number, types and properties of this ResultSet object&apos;s columns.</div></pre></td></tr></table></figure></p>
+<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ResultSetMetaData metaData = set.getMetaData();</div><div class="line"></div><div class="line">//获取resultSet中列的个数</div><div class="line">System.out.println(metaData.getColumnCount());</div><div class="line">//获取ResultSet中列的名称</div><div class="line">System.out.println(metaData.getColumnName(1));</div><div class="line">//获取ResultSet中列的类型</div><div class="line">System.out.println(metaData.getColumnTypeName(1));</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcug7uo10013kkvdqas6g244" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-多线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/多线程/" class="article-date">
+  <time datetime="2018-01-21T12:51:12.000Z" itemprop="datePublished">2018-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/多线程/">多线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/21/多线程/" data-id="cjcug7unz0011kkvdad0g7ozw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-事务和数据库连接池" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/21/事务和数据库连接池/" class="article-date">
@@ -180,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcos4sqf000z74vd4ht7f4i8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcug7uo50017kkvd8thovvhk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcos4snn000274vdwwkgn59s" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcug7uls0006kkvd315ofx2n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcos4spp000o74vdwnkoh7qv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcug7umz000qkkvdc0w2dxrn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcos4spj000l74vd5wdsfhnm" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcug7umu000lkkvd132eja5v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -575,7 +658,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcos4sos000i74vd374nsrbp" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcug7umr000ikkvdumay48hk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -628,7 +711,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcos4sos000h74vdo6c7f783" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcug7ums000jkkvdm783n2la" class="article-share-link">Share</a>
       
       
     </footer>
@@ -681,7 +764,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcos4spi000k74vdb5mvtdwv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcug7umt000kkkvdrnp6e35v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -744,103 +827,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcos4spu000p74vdddzp8zme" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jsp运行原理" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/07/jsp运行原理/" class="article-date">
-  <time datetime="2018-01-07T04:07:11.000Z" itemprop="datePublished">2018-01-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/07/jsp运行原理/">jsp运行原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>浏览器访问一个jsp页面时，服务器会将jsp页面翻译成servlet,<br>这个被服务器翻译出来的servlet页面可在tomcat目录下的work中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">work\Catalina\localhost\day08\org\apache\jsp</div></pre></td></tr></table></figure></p>
-<p>其中被翻译的servlet定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public final class _1_jsp extends org.apache.jasper.runtime.HttpJspBase</div></pre></td></tr></table></figure></p>
-<p>其中HttpJspBase是servlet的子类<br>其中源码定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public abstract class HttpJspBase extends HttpServlet implements HttpJspPage</div></pre></td></tr></table></figure></p>
-<h3 id="jsp如何把页面内容打给浏览器的"><a href="#jsp如何把页面内容打给浏览器的" class="headerlink" title="jsp如何把页面内容打给浏览器的"></a>jsp如何把页面内容打给浏览器的</h3><p>在翻译后的servlet中的_jspService方法中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;html&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    &lt;title&gt;My JSP &apos;1.jsp&apos; starting page&lt;/title&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;script&gt;\&quot;undefined\&quot;==typeof CODE_LIVE&amp;&amp;(!function(e)&#123;var t=&#123;nonSecure:\&quot;60251\&quot;,secure:\&quot;60257\&quot;&#125;,c=&#123;nonSecure:\&quot;http://\&quot;,secure:\&quot;https://\&quot;&#125;,r=&#123;nonSecure:\&quot;127.0.0.1\&quot;,secure:\&quot;gapdebug.local.genuitec.com\&quot;&#125;,n=\&quot;https:\&quot;===window.location.protocol?\&quot;secure\&quot;:\&quot;nonSecure\&quot;;script=e.createElement(\&quot;script\&quot;),script.type=\&quot;text/javascript\&quot;,script.async=!0,script.src=c[n]+r[n]+\&quot;:\&quot;+t[n]+\&quot;/codelive-assets/bundle.js\&quot;,e.getElementsByTagName(\&quot;head\&quot;)[0].appendChild(script)&#125;(document),CODE_LIVE=!0);&lt;/script&gt;&lt;/head&gt;\r\n&quot;);</div><div class="line">out.write(&quot;  \r\n&quot;);</div><div class="line">out.write(&quot;  &lt;body data-genuitec-lp-enabled=\&quot;false\&quot; data-genuitec-file-id=\&quot;wc2-0\&quot; data-genuitec-path=\&quot;/day08/WebRoot/1.jsp\&quot;&gt;\r\n&quot;);</div><div class="line">out.write(&quot;    \t当前时间是：\r\n&quot;);</div><div class="line">out.write(&quot;    \t&quot;);</div><div class="line"></div><div class="line">Date date = new Date();</div><div class="line">SimpleDateFormat sd = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</div><div class="line">out.print(sd.format(date));</div><div class="line"></div><div class="line">    	</div><div class="line">out.write(&quot;\r\n&quot;);</div><div class="line">out.write(&quot;  &lt;/body&gt;\r\n&quot;);</div><div class="line">out.write(&quot;&lt;/html&gt;\r\n&quot;);</div></pre></td></tr></table></figure></p>
-<p>与浏览器相关的全部通过Out这样的输出流打给浏览器，其中的Java代码全部照搬到翻译后的servlet中<br>其中jsp页面预先准备了多少对象<br>可以在jspService方法中看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public void _jspService(final javax.servlet.http.HttpServletRequest request, final javax.servlet.http.HttpServletResponse response)</div><div class="line">    throws java.io.IOException, javax.servlet.ServletException &#123;</div><div class="line"></div><div class="line">  final java.lang.String _jspx_method = request.getMethod();</div><div class="line">  if (!&quot;GET&quot;.equals(_jspx_method) &amp;&amp; !&quot;POST&quot;.equals(_jspx_method) &amp;&amp; !&quot;HEAD&quot;.equals(_jspx_method) &amp;&amp; !javax.servlet.DispatcherType.ERROR.equals(request.getDispatcherType())) &#123;</div><div class="line">    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, &quot;JSPs only permit GET POST or HEAD&quot;);</div><div class="line">    return;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  final javax.servlet.jsp.PageContext pageContext;</div><div class="line">  javax.servlet.http.HttpSession session = null;</div><div class="line">  final javax.servlet.ServletContext application;</div><div class="line">  final javax.servlet.ServletConfig config;</div><div class="line">  javax.servlet.jsp.JspWriter out = null;</div><div class="line">  final java.lang.Object page = this;</div><div class="line">  javax.servlet.jsp.JspWriter _jspx_out = null;</div><div class="line">  javax.servlet.jsp.PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
-<p>也就是提供的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PageContext pageContext;</div><div class="line">HttpSession session = null;</div><div class="line">ServletContext application;</div><div class="line">ServletConfig config;</div><div class="line">JspWriter out = null;</div><div class="line">Object page = this;</div><div class="line">JspWriter _jspx_out = null;</div><div class="line">PageContext _jspx_page_context = null;</div></pre></td></tr></table></figure></p>
-<h3 id="jsp的最佳实践"><a href="#jsp的最佳实践" class="headerlink" title="jsp的最佳实践"></a>jsp的最佳实践</h3><p>把servlet作为WEB应用的控制器组件来使用，jsp作为数据的显示模板<br>servlet只负责响应请求产生数据，jsp负责显示数据</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcos4spl000n74vddgk1lrny" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-session入门" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/06/session入门/" class="article-date">
-  <time datetime="2018-01-06T05:45:21.000Z" itemprop="datePublished">2018-01-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/06/session入门/">session入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="servlet1中"><a href="#servlet1中" class="headerlink" title="servlet1中"></a>servlet1中</h4><p>session被创建出来，且设置属性awesome<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">session.setAttribute(&quot;awesome&quot;, &quot;GLBB&quot;);</div></pre></td></tr></table></figure></p>
-<h4 id="servlet2中"><a href="#servlet2中" class="headerlink" title="servlet2中"></a>servlet2中</h4><p>得到session的属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">String awesome = (String) session.getAttribute(&quot;awesome&quot;);</div><div class="line"></div><div class="line">		response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(&quot;世界上最英俊的人是谁：&quot; + awesome);</div></pre></td></tr></table></figure></p>
-<p>session是服务器为每个浏览器创建的<br>由服务器进行管理，session周期由request.getSession创建，默认在30分钟内没用就被服务器销毁，即使会话没有结束，只要30分钟没有使用session服务器就自动销毁session</p>
-<p>可以在web.xml文件中根节点下加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;session-config&gt;</div><div class="line">	&lt;session-timeout&gt;10&lt;/session-timeout&gt;</div><div class="line">&lt;/session-config&gt;</div></pre></td></tr></table></figure></p>
-<p>其中10代表10分钟没用session就销毁</p>
-<p>也可以在程序中加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">session.invalidate();</div></pre></td></tr></table></figure></p>
-<p>会马上摧毁session</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">request.getSession(false);</div><div class="line">requset.getSeession();</div></pre></td></tr></table></figure>
-<p>重载方法，第一句代码只获取session,不创建session<br>第二句代码获取session，若没获取到，则创建session</p>
-<h3 id="服务器怎么知道哪个session对应哪个浏览器"><a href="#服务器怎么知道哪个session对应哪个浏览器" class="headerlink" title="服务器怎么知道哪个session对应哪个浏览器"></a>服务器怎么知道哪个session对应哪个浏览器</h3><p>在执行到request.getSession()方法时，创建出一个session,每个session有一个id号，通过cookie把id号写给浏览器，下次浏览器访问服务器，把cookie取出来给服务器，服务器就知道哪个session对应哪个浏览器，所以说:session是基于cookie的，其中cookie写给浏览器，cookie是没有设置有效期的，也就是说，浏览器关了，cookie就没有了，所以说需要手动把这个cookie设置一个有效期<br>在html页面设置两个链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;/day07/servlet/sessiondemo1&quot;&gt;设置这世界最英俊的人&lt;/a&gt;</div><div class="line">&lt;br/&gt;</div><div class="line">&lt;a href=&quot;/day07/servlet/sessiondemo2&quot;&gt;查看这世界最英俊的人&lt;/a&gt;</div></pre></td></tr></table></figure></p>
-<p>servlet1设置session数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">HttpSession session = request.getSession();</div><div class="line">session.setAttribute(&quot;awesome&quot;, &quot;GLBB&quot;);</div><div class="line"></div><div class="line">String id = session.getId();</div><div class="line">Cookie cookie = new Cookie(&quot;JSESSIONID&quot;,id);</div><div class="line">cookie.setMaxAge(30*60);</div><div class="line">cookie.setPath(&quot;/day07&quot;);</div><div class="line">response.addCookie(cookie);</div></pre></td></tr></table></figure></p>
-<p>servlet2得到session数据</p>
-<h3 id="浏览器阻止接收cookie"><a href="#浏览器阻止接收cookie" class="headerlink" title="浏览器阻止接收cookie"></a>浏览器阻止接收cookie</h3><p>（浏览器对主机名localhost不阻止），把localhost改成127.0.0.1阻止，<br>解决方案：URL重写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">request.getSession();</div><div class="line"></div><div class="line">String url1 = response.encodeURL(&quot;/day07/servlet/sessiondemo1&quot;);</div><div class="line">String url2 = response.encodeURL(&quot;/day07/servlet/sessiondemo2&quot;);</div><div class="line"></div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(&quot;&lt;a href=&quot;+url1+&quot;&gt;设置这世界最帅的人&lt;/a&gt;&lt;br/&gt;&quot;);</div><div class="line">pw.write(&quot;&lt;a href=&quot;+url2+&quot;&gt;查看这世界最帅的人&lt;/a&gt;&lt;br/&gt;&quot;);</div></pre></td></tr></table></figure></p>
-<p>则在解析后的url后面会带上sessionid号，若浏览器开启了cookie，那么，url后面不会带sessionid号。但是若用户阻止了cookie，启用url方式，用户将浏览器关闭后，就无法保存用户的操作</p>
-<h4 id="uri路径不写死"><a href="#uri路径不写死" class="headerlink" title="uri路径不写死"></a>uri路径不写死</h4><p>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String = &quot;/day07/servlet/sessiondemo2&quot;</div></pre></td></tr></table></figure></p>
-<p>可以改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String = request.getContextPath()+&quot;/servlet/sessiondemo2&quot;</div></pre></td></tr></table></figure></p>
-<p>其中request.getContextPath()就相当于/day07</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcos4sqg001174vd80k6blus" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcug7un9000tkkvdvq5qbtu1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -884,6 +871,14 @@
       <ul>
         
           <li>
+            <a href="/2018/01/25/元数据/">元数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/多线程/">多线程</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
           </li>
         
@@ -893,14 +888,6 @@
         
           <li>
             <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/17/jsp中自定义标签/">jsp中自定义标签</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/09/el表达式和jstl快速入门/">el表达式和jstl快速入门</a>
           </li>
         
       </ul>
