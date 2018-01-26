@@ -68,6 +68,76 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-DButils" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/26/DButils/" class="article-date">
+  <time datetime="2018-01-26T11:41:35.000Z" itemprop="datePublished">2018-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/26/DButils/">DButils</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="DButils"><a href="#DButils" class="headerlink" title="DButils"></a>DButils</h3><p>commons-dbutils是apache公司的一款开源产品<br>特点：只是对jdbc进行简单封装，学习成本低，简化jdbc代码工作量，不影响程序性能<br>对比hibernate，hibernate本身效率很低，需要进行配置才能高效</p>
+<p>使用DButils</p>
+<ol>
+<li>导包</li>
+<li><p>DButils有三个核心部分<br>QueryRunner ——————— 执行sql语句<br>ResultSetHandler ———————— 封装结果集<br>DbUtils ——————– 提供大量静态方法，close操作， commit rollback等事务操作</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">		//已查询为例</div><div class="line">		//查询account表中姓名为tom的信息</div><div class="line">		String sql = &quot;select * from account where name=?&quot;;</div><div class="line">		</div><div class="line">		//获取QueryRunner对象，使用无参构造</div><div class="line">//		QueryRunner runner = new QueryRunner();</div><div class="line">//		runner.query(DataSourceUtils.getConnnection(),sql, null,&quot;tom&quot;);</div><div class="line">		</div><div class="line">		//获取QueryRunner对象，使用有参构造</div><div class="line">		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">		</div><div class="line">		runner.query(sql, new ResultSetHandler&lt;ResultSet&gt;()&#123;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public ResultSet handle(ResultSet set) throws SQLException &#123;</div><div class="line">				while(set.next())&#123;</div><div class="line">					System.out.print(set.getInt(&quot;id&quot;)+&quot;  &quot;);</div><div class="line">					System.out.print(set.getString(&quot;name&quot;)+&quot;  &quot;);</div><div class="line">					System.out.println(set.getInt(&quot;age&quot;));</div><div class="line">				&#125;</div><div class="line">				return set;</div><div class="line">			&#125;&#125;,&quot;tom&quot;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果用了where条件，在执行query语句时，后面需要加参数<br>当未使用where雕件，在执行query语句时，后面不需要加参数<br>插入例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//插入操作</div><div class="line">@Test</div><div class="line">public void test1() throws SQLException&#123;</div><div class="line">	QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">	String sql = &quot;insert into account values(null,?,?)&quot;;</div><div class="line">	runner.update(sql,&quot;james&quot;,32);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Dbutils使用"><a href="#Dbutils使用" class="headerlink" title="Dbutils使用"></a>Dbutils使用</h4><p>QueryRunner的获取</p>
+<ol>
+<li>new QueryRunner()<br>事务需要手动管理，使用batch,query,update方法，需要指定Connection参数</li>
+<li>new QueryRunner(DataSource ds)<br>事务自动管理，使用batch,query,update方法，不需要指定Connection参数<h3 id="使用DButils进行CRUD操作"><a href="#使用DButils进行CRUD操作" class="headerlink" title="使用DButils进行CRUD操作"></a>使用DButils进行CRUD操作</h3></li>
+<li>new QueryRunner(DataSource ds)使用该构造方法时，insert,update,delete操作时，DButils会自动创建Connection,Statement(PreparedStatement)对象。当使用完后，会自动关闭。</li>
+<li>new QueryRunner()使用无参构造方法时，将Connection传递给底层的引用，获取Connection,Statement(PreparedStatement)对象，但不会关闭Connection对象，或关闭Statement对象等。<br>runner.update(sql,”glbb”,20);是有返回值的，int 类型，为0代表失败，非零代表成功<br>例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">	//insert完成</div><div class="line">	@Test</div><div class="line">	public void update() throws SQLException&#123;</div><div class="line">		//获取QueryRunner对象</div><div class="line">		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">		//执行sql</div><div class="line">		String sql = &quot;insert into account values(null,?,?)&quot;;</div><div class="line">		//sql语句无参数</div><div class="line">//		runner.update(sql);</div><div class="line">		//sql语句有参数</div><div class="line">		runner.update(sql,&quot;glbb&quot;,20);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//delete操作</div><div class="line">	@Test</div><div class="line">	public void delete() throws SQLException&#123;</div><div class="line">		QueryRunner runner = new QueryRunner();</div><div class="line">		Connection connection = DataSourceUtils.getConnnection();</div><div class="line">		String sql = &quot;delete from account where age&lt;?&quot;;</div><div class="line">		runner.update(connection,sql,18);</div><div class="line">		DbUtils.close(connection);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="关于QueryRunner对象的query方法"><a href="#关于QueryRunner对象的query方法" class="headerlink" title="关于QueryRunner对象的query方法"></a>关于QueryRunner对象的query方法</h4><ol>
+<li>ResultSetHandler怎样封装结果集<br>在ResultSetHandler有一个handle方法，参数是ResultSet对象，里面封装了sql语句查询的结果，同时也可将resultSet中的结果封装到一个javabean中</li>
+<li>query方法返回值是ResultSetHandler&lt;T&gt;中T对象，也是handle方法的返回值<br>例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//query操作</div><div class="line">@Test</div><div class="line">public void query() throws SQLException&#123;</div><div class="line">	QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">	String sql = &quot;select * from account&quot;;</div><div class="line">	List&lt;Account&gt; list = runner.query(sql, new ResultSetHandler&lt;List&lt;Account&gt;&gt;()&#123;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public List&lt;Account&gt; handle(ResultSet rs) throws SQLException &#123;</div><div class="line">			List&lt;Account&gt; list = new ArrayList&lt;Account&gt;();</div><div class="line">			while(rs.next())&#123;</div><div class="line">				Account account = new Account();</div><div class="line">				account.setId(rs.getInt(&quot;id&quot;));</div><div class="line">				account.setName(rs.getString(&quot;name&quot;));</div><div class="line">				account.setAge(rs.getInt(&quot;age&quot;));</div><div class="line">				list.add(account);</div><div class="line">			&#125;</div><div class="line">			return list;</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">	</div><div class="line">	for(Account account : list)&#123;</div><div class="line">		System.out.println(account.getId()+&quot;  &quot;+account.getName()+&quot;  &quot;+account.getAge());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="ResultSetHandler的具体实现类"><a href="#ResultSetHandler的具体实现类" class="headerlink" title="ResultSetHandler的具体实现类"></a>ResultSetHandler的具体实现类</h4><ol>
+<li>ArrayHandler 将结果集中的第一行记录封装到一个数据中，每个字段值对象数组中的一个元素。</li>
+<li>ArrayListHandler 将结果集中每一行记录封装到数组中，将数组在封装到一个list集合中</li>
+<li>BeanHandler 将结果集中第一行记录封装到javaBean对象</li>
+<li>BeanListHandler 将结果集中每一条记录封装到一个javaBean对象中，将所有javabean对象封装到一个list集合中</li>
+<li>ColumnListHandler 对结果集中每一列进行封装，无参构造方法，返回第一列的封装；int类型，返回第几列；String类型，返回指定的列名对应的列。</li>
+<li>KeyedHandler 将结果集封装到一个Map集合中，Map集合中key是对应的列，value值又是一个map集合，key对应列，value对应值，如<br>| id | name | age |<br>|—|:—:|—|<br>|1|glbb|20|<br>|2|pony|40|<br>|3|jackma|50|<br>返回的是<br>1——————– {id——–1,name——–glbb,age——–20}<br>2——————– {id——–2,name——–pony,age——–40}<br>3——————– {id——–3,name——–jackma,age——-50}</li>
+<li>MapHandler 将结果集中第一条记录封装到一个map集合中，key字段名称，value 字段值</li>
+<li>MapListHandler 将结果集中每一条数据封装到一个map集合中，将所有map集合在放入一个list集合中</li>
+<li>ScalarHandler 用于处理聚合函数，如select count(*) from account;<br>对应一行一列的数据</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjcvuy1q50000t8vdcjmcho2z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-元数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/25/元数据/" class="article-date">
@@ -105,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcug7uo10013kkvdqas6g244" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcvuy1ui0016t8vd66zr6cdt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/多线程/" data-id="cjcug7unz0011kkvdad0g7ozw" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/多线程/" data-id="cjcvuy1uh0015t8vdg6mhniua" class="article-share-link">Share</a>
       
       
     </footer>
@@ -263,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcug7uo50017kkvd8thovvhk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcvuy1uj0018t8vd0f4ip2cp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -349,7 +419,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcug7uls0006kkvd315ofx2n" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcvuy1rt0008t8vd96pslz44" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +566,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcug7umz000qkkvdc0w2dxrn" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcvuy1tf000nt8vdue8tqf8t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -601,7 +671,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcug7umu000lkkvd132eja5v" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcvuy1t2000it8vdt4vwdvj5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -658,7 +728,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcug7umr000ikkvdumay48hk" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcvuy1t7000lt8vdlh3dqxvr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -711,7 +781,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcug7ums000jkkvdm783n2la" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcvuy1t5000kt8vdj65sy510" class="article-share-link">Share</a>
       
       
     </footer>
@@ -764,70 +834,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcug7umt000kkkvdrnp6e35v" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jsp语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/07/jsp语法/" class="article-date">
-  <time datetime="2018-01-07T11:51:52.000Z" itemprop="datePublished">2018-01-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/07/jsp语法/">jsp语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="脚本表达式"><a href="#脚本表达式" class="headerlink" title="脚本表达式"></a>脚本表达式</h3><p>作用是向浏览器输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%=time%&gt;</div></pre></td></tr></table></figure></p>
-<p>相当于，在翻译后的servlet中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">out.print(time);</div></pre></td></tr></table></figure></p>
-<h3 id="脚本片段"><a href="#脚本片段" class="headerlink" title="脚本片段"></a>脚本片段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	String x = &quot;是&quot;;</div><div class="line">%&gt;</div><div class="line">&lt;p&gt;问是否此山最高&lt;/p&gt;</div><div class="line">&lt;% </div><div class="line">	out.print(x+&quot;&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line">&lt;br/&gt;</div></pre></td></tr></table></figure>
-<p>可以嵌如多行java代码<br>单个脚本片段中java语句可以是不完成的，但多个脚本片段组合起来必须是完整的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	for(int i=0;i&lt;9;i++)&#123;</div><div class="line">%&gt;</div><div class="line">		我最高&lt;br/&gt;</div><div class="line">&lt;% </div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>由此可以看出jsp页面确实不适合处理请求</p>
-<h3 id="jsp声明"><a href="#jsp声明" class="headerlink" title="jsp声明"></a>jsp声明</h3><p>jsp页面默认声明的代码默认会翻译到jspService方法中，<br>但jsp声明中的语句会放在jspService方法之外<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%! </div><div class="line">	public void run()&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>java语法认为方法里面不能在声明一个方法的<br>也就是说jspService方法中不能在加入run方法，jsp声明会将代码块里面的东西放到jspService方法之外</p>
-<h3 id="jsp注释"><a href="#jsp注释" class="headerlink" title="jsp注释"></a>jsp注释</h3><p>jsp注释不会发送给浏览器，html注释中注释的内容会发给浏览器，但浏览器识别不显示<br>格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;%--</div><div class="line">    	saaaaa</div><div class="line">--%&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="jsp指令"><a href="#jsp指令" class="headerlink" title="jsp指令"></a>jsp指令</h3><p>jsp指令是为jsp引擎设计的，并不产生任何可见输出，只是告诉引擎如何处理JSP页面的其余部分<br>如page指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ 指令 属性名=&quot;值&quot; %&gt;</div><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div></pre></td></tr></table></figure></p>
-<p>如果一个指令有多个属性，这多个属性可以写在一个指令中，也可以分开写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; %&gt;</div><div class="line">&lt;%@ page import=&quot;java.util.Date&quot; %&gt;</div><div class="line">//也可以写作</div><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; import=&quot;java.util.Date&quot;  %&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="page指令"><a href="#page指令" class="headerlink" title="page指令"></a>page指令</h3><p>page指令用于定义jsp页面的各种属性,无论page指令出现在jsp页面哪个位置，作用的都是整个jsp页面，为了页面的可读性，常定义在jsp页面的起始位置<br>jsp page 的import属性，默认导入了如下包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java.lang.*</div><div class="line">javax.servlet.*</div><div class="line">javax.servlet.jsp</div><div class="line">javax.servlet.http</div></pre></td></tr></table></figure></p>
-<p>一个import属性可以导入多个包,不同的包用逗号分割<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import=&quot;java.util.Date,java.sql.*，java.io.*&quot;</div></pre></td></tr></table></figure></p>
-<p>也可以分为多行写</p>
-<p>还有属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">errorPage=&quot;/errors/error.jsp&quot;</div></pre></td></tr></table></figure></p>
-<p>定义jsp出错后跳转到哪个页面，其中路径必须是相对路径目录<br>如果以”/“开头，表示相对于当前WEB程序根目录，否则表示当前页面<br>可以在web.xml文件中使用&lt;error-page&gt; 元素为整个web应用程序设置处理错误页面，其中&lt;exception-type&gt; 子元素指定异常类的完全限定名，&lt;location&gt; 元素指定以“/”开头的错误处理页面<br>例子<br>在web.xml文件中配置全局的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;error-page&gt;</div><div class="line">	&lt;exception-type&gt;java.lang.ArithmeticException&lt;/exception-type&gt;</div><div class="line">	&lt;location&gt;/errors/error.jsp&lt;/location&gt;</div><div class="line">&lt;/error-page&gt;</div></pre></td></tr></table></figure></p>
-<p>或者在jsp文件中，配置Jsp文件的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot; errorPage=&quot;/errors/error.jsp&quot;%&gt;</div></pre></td></tr></table></figure></p>
-<p>其中jsp page 中errorPage属性的优先级比在web.xml中文件配置的更高</p>
-<p>page中还有一个属性，isErrorPage,默认值是false,作用是对异常页面显式说明，声明这个属性，jsp翻译成的servlet中就会内置一个exception对象</p>
-<p>pageEncoding和contentType是解决乱码相关的<br>pageEncoding设置tomcat服务器以声明码表来把jsp翻译成servlet，contentType是指定浏览器以什么码表打开<br>一般来说只需设置pageEncoding属性就可以了</p>
-<h3 id="include指令"><a href="#include指令" class="headerlink" title="include指令"></a>include指令</h3><p>include指令用于引入其他jsp页面，如果使用include指令引入了其他jsp页面，那么jsp引擎将把两个jsp页面翻译为一个servlet,所以include指令引入通常称为静态引入<br>语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ include file=&quot;relativeURL&quot; %&gt;</div></pre></td></tr></table></figure></p>
-<p>其中file属性用于指定被引入文件路径，路径以”/“开头，代表当前web应用</p>
-<p>例子<br>页头<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页头&lt;br/&gt;</div></pre></td></tr></table></figure></p>
-<p>页脚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页脚&lt;br/&gt;</div></pre></td></tr></table></figure></p>
-<p>内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line"></div><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;include指令&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">  		&lt;%@ include file=&quot;/public/head.jsp&quot; %&gt;</div><div class="line">    	这是内容&lt;br/&gt;</div><div class="line">    	&lt;%@ include file=&quot;/public/foot.jsp&quot; %&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>注意被包含进来的直接写内容，不需要有&lt;html&gt; 这些标签，否则格式不良好</p>
-<h3 id="include包含"><a href="#include包含" class="headerlink" title="include包含"></a>include包含</h3><p>include指令包含成为静态包含，它包含的所有jsp会翻译成一个servlet，编译时包含<br>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.getRequestDispatcher(&quot;/public/head.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	response.getWriter().write(&quot;这是内容&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	request.getRequestDispatcher(&quot;/public/foot.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>称为动态包含，动态包含会把包含进来的各自翻译成servlet，jsp运行的时候把这些包含进来了，称为动态包含</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcug7un9000tkkvdvq5qbtu1" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcvuy1td000mt8vd67hbc23d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -871,6 +878,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/26/DButils/">DButils</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/25/元数据/">元数据</a>
           </li>
         
@@ -884,10 +895,6 @@
         
           <li>
             <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
           </li>
         
       </ul>

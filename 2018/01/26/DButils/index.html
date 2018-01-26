@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DButils | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DButilscommons-dbutils是apache公司的一款开源产品特点：只是对jdbc进行简单封装，学习成本低，简化jdbc代码工作量，不影响程序性能对比hibernate，hibernate本身效率很低，需要进行配置才能高效 使用DButils  导包 DButils有三个核心部分QueryRunner ——————— 执行sql语句ResultSetHandler ————————">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DButils">
+<meta property="og:url" content="http://glbb.github.io/2018/01/26/DButils/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="DButilscommons-dbutils是apache公司的一款开源产品特点：只是对jdbc进行简单封装，学习成本低，简化jdbc代码工作量，不影响程序性能对比hibernate，hibernate本身效率很低，需要进行配置才能高效 使用DButils  导包 DButils有三个核心部分QueryRunner ——————— 执行sql语句ResultSetHandler ————————">
+<meta property="og:updated_time" content="2018-01-26T11:42:01.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DButils">
+<meta name="twitter:description" content="DButilscommons-dbutils是apache公司的一款开源产品特点：只是对jdbc进行简单封装，学习成本低，简化jdbc代码工作量，不影响程序性能对比hibernate，hibernate本身效率很低，需要进行配置才能高效 使用DButils  导包 DButils有三个核心部分QueryRunner ——————— 执行sql语句ResultSetHandler ————————">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DButils" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/26/DButils/" class="article-date">
+  <time datetime="2018-01-26T11:41:35.000Z" itemprop="datePublished">2018-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DButils
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="DButils"><a href="#DButils" class="headerlink" title="DButils"></a>DButils</h3><p>commons-dbutils是apache公司的一款开源产品<br>特点：只是对jdbc进行简单封装，学习成本低，简化jdbc代码工作量，不影响程序性能<br>对比hibernate，hibernate本身效率很低，需要进行配置才能高效</p>
+<p>使用DButils</p>
+<ol>
+<li>导包</li>
+<li><p>DButils有三个核心部分<br>QueryRunner ——————— 执行sql语句<br>ResultSetHandler ———————— 封装结果集<br>DbUtils ——————– 提供大量静态方法，close操作， commit rollback等事务操作</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">		//已查询为例</div><div class="line">		//查询account表中姓名为tom的信息</div><div class="line">		String sql = &quot;select * from account where name=?&quot;;</div><div class="line">		</div><div class="line">		//获取QueryRunner对象，使用无参构造</div><div class="line">//		QueryRunner runner = new QueryRunner();</div><div class="line">//		runner.query(DataSourceUtils.getConnnection(),sql, null,&quot;tom&quot;);</div><div class="line">		</div><div class="line">		//获取QueryRunner对象，使用有参构造</div><div class="line">		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">		</div><div class="line">		runner.query(sql, new ResultSetHandler&lt;ResultSet&gt;()&#123;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public ResultSet handle(ResultSet set) throws SQLException &#123;</div><div class="line">				while(set.next())&#123;</div><div class="line">					System.out.print(set.getInt(&quot;id&quot;)+&quot;  &quot;);</div><div class="line">					System.out.print(set.getString(&quot;name&quot;)+&quot;  &quot;);</div><div class="line">					System.out.println(set.getInt(&quot;age&quot;));</div><div class="line">				&#125;</div><div class="line">				return set;</div><div class="line">			&#125;&#125;,&quot;tom&quot;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果用了where条件，在执行query语句时，后面需要加参数<br>当未使用where雕件，在执行query语句时，后面不需要加参数<br>插入例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//插入操作</div><div class="line">@Test</div><div class="line">public void test1() throws SQLException&#123;</div><div class="line">	QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">	String sql = &quot;insert into account values(null,?,?)&quot;;</div><div class="line">	runner.update(sql,&quot;james&quot;,32);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Dbutils使用"><a href="#Dbutils使用" class="headerlink" title="Dbutils使用"></a>Dbutils使用</h4><p>QueryRunner的获取</p>
+<ol>
+<li>new QueryRunner()<br>事务需要手动管理，使用batch,query,update方法，需要指定Connection参数</li>
+<li>new QueryRunner(DataSource ds)<br>事务自动管理，使用batch,query,update方法，不需要指定Connection参数<h3 id="使用DButils进行CRUD操作"><a href="#使用DButils进行CRUD操作" class="headerlink" title="使用DButils进行CRUD操作"></a>使用DButils进行CRUD操作</h3></li>
+<li>new QueryRunner(DataSource ds)使用该构造方法时，insert,update,delete操作时，DButils会自动创建Connection,Statement(PreparedStatement)对象。当使用完后，会自动关闭。</li>
+<li>new QueryRunner()使用无参构造方法时，将Connection传递给底层的引用，获取Connection,Statement(PreparedStatement)对象，但不会关闭Connection对象，或关闭Statement对象等。<br>runner.update(sql,”glbb”,20);是有返回值的，int 类型，为0代表失败，非零代表成功<br>例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">	//insert完成</div><div class="line">	@Test</div><div class="line">	public void update() throws SQLException&#123;</div><div class="line">		//获取QueryRunner对象</div><div class="line">		QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">		//执行sql</div><div class="line">		String sql = &quot;insert into account values(null,?,?)&quot;;</div><div class="line">		//sql语句无参数</div><div class="line">//		runner.update(sql);</div><div class="line">		//sql语句有参数</div><div class="line">		runner.update(sql,&quot;glbb&quot;,20);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//delete操作</div><div class="line">	@Test</div><div class="line">	public void delete() throws SQLException&#123;</div><div class="line">		QueryRunner runner = new QueryRunner();</div><div class="line">		Connection connection = DataSourceUtils.getConnnection();</div><div class="line">		String sql = &quot;delete from account where age&lt;?&quot;;</div><div class="line">		runner.update(connection,sql,18);</div><div class="line">		DbUtils.close(connection);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="关于QueryRunner对象的query方法"><a href="#关于QueryRunner对象的query方法" class="headerlink" title="关于QueryRunner对象的query方法"></a>关于QueryRunner对象的query方法</h4><ol>
+<li>ResultSetHandler怎样封装结果集<br>在ResultSetHandler有一个handle方法，参数是ResultSet对象，里面封装了sql语句查询的结果，同时也可将resultSet中的结果封装到一个javabean中</li>
+<li>query方法返回值是ResultSetHandler&lt;T&gt;中T对象，也是handle方法的返回值<br>例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//query操作</div><div class="line">@Test</div><div class="line">public void query() throws SQLException&#123;</div><div class="line">	QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());</div><div class="line">	String sql = &quot;select * from account&quot;;</div><div class="line">	List&lt;Account&gt; list = runner.query(sql, new ResultSetHandler&lt;List&lt;Account&gt;&gt;()&#123;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public List&lt;Account&gt; handle(ResultSet rs) throws SQLException &#123;</div><div class="line">			List&lt;Account&gt; list = new ArrayList&lt;Account&gt;();</div><div class="line">			while(rs.next())&#123;</div><div class="line">				Account account = new Account();</div><div class="line">				account.setId(rs.getInt(&quot;id&quot;));</div><div class="line">				account.setName(rs.getString(&quot;name&quot;));</div><div class="line">				account.setAge(rs.getInt(&quot;age&quot;));</div><div class="line">				list.add(account);</div><div class="line">			&#125;</div><div class="line">			return list;</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">	</div><div class="line">	for(Account account : list)&#123;</div><div class="line">		System.out.println(account.getId()+&quot;  &quot;+account.getName()+&quot;  &quot;+account.getAge());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="ResultSetHandler的具体实现类"><a href="#ResultSetHandler的具体实现类" class="headerlink" title="ResultSetHandler的具体实现类"></a>ResultSetHandler的具体实现类</h4><ol>
+<li>ArrayHandler 将结果集中的第一行记录封装到一个数据中，每个字段值对象数组中的一个元素。</li>
+<li>ArrayListHandler 将结果集中每一行记录封装到数组中，将数组在封装到一个list集合中</li>
+<li>BeanHandler 将结果集中第一行记录封装到javaBean对象</li>
+<li>BeanListHandler 将结果集中每一条记录封装到一个javaBean对象中，将所有javabean对象封装到一个list集合中</li>
+<li>ColumnListHandler 对结果集中每一列进行封装，无参构造方法，返回第一列的封装；int类型，返回第几列；String类型，返回指定的列名对应的列。</li>
+<li>KeyedHandler 将结果集封装到一个Map集合中，Map集合中key是对应的列，value值又是一个map集合，key对应列，value对应值，如<br>| id | name | age |<br>|—|:—:|—|<br>|1|glbb|20|<br>|2|pony|40|<br>|3|jackma|50|<br>返回的是<br>1——————– {id——–1,name——–glbb,age——–20}<br>2——————– {id——–2,name——–pony,age——–40}<br>3——————– {id——–3,name——–jackma,age——-50}</li>
+<li>MapHandler 将结果集中第一条记录封装到一个map集合中，key字段名称，value 字段值</li>
+<li>MapListHandler 将结果集中每一条数据封装到一个map集合中，将所有map集合在放入一个list集合中</li>
+<li>ScalarHandler 用于处理聚合函数，如select count(*) from account;<br>对应一行一列的数据</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjcvuy1q50000t8vdcjmcho2z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/25/元数据/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">元数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/26/DButils/">DButils</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/25/元数据/">元数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/多线程/">多线程</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
