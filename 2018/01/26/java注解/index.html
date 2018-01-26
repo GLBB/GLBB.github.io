@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java注解 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Deprecated过时的，myeclipse会有划线表名这个过时，可以让myeclipse不警告，在方法前面写上注解1@SuppressWarnings(&amp;quot;deprecation&amp;quot;) 可以标记方法过时使用1@Deprecated override使用这个注解标记这个方法是覆盖父类的方法。如12345@Overridepublic boolean equals(Object o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java注解">
+<meta property="og:url" content="http://glbb.github.io/2018/01/26/java注解/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="Deprecated过时的，myeclipse会有划线表名这个过时，可以让myeclipse不警告，在方法前面写上注解1@SuppressWarnings(&amp;quot;deprecation&amp;quot;) 可以标记方法过时使用1@Deprecated override使用这个注解标记这个方法是覆盖父类的方法。如12345@Overridepublic boolean equals(Object o">
+<meta property="og:updated_time" content="2018-01-26T15:37:39.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java注解">
+<meta name="twitter:description" content="Deprecated过时的，myeclipse会有划线表名这个过时，可以让myeclipse不警告，在方法前面写上注解1@SuppressWarnings(&amp;quot;deprecation&amp;quot;) 可以标记方法过时使用1@Deprecated override使用这个注解标记这个方法是覆盖父类的方法。如12345@Overridepublic boolean equals(Object o">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-java注解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/26/java注解/" class="article-date">
+  <time datetime="2018-01-26T15:37:19.000Z" itemprop="datePublished">2018-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java注解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="Deprecated"></a>Deprecated</h3><p>过时的，myeclipse会有划线表名这个过时，<br>可以让myeclipse不警告，在方法前面写上注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@SuppressWarnings(&quot;deprecation&quot;)</div></pre></td></tr></table></figure></p>
+<p>可以标记方法过时使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Deprecated</div></pre></td></tr></table></figure></p>
+<h3 id="override"><a href="#override" class="headerlink" title="override"></a>override</h3><p>使用这个注解标记这个方法是覆盖父类的方法。<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public boolean equals(Object obj) &#123;</div><div class="line">	// TODO Auto-generated method stub</div><div class="line">	return super.equals(obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注解可以在java.lang包中可以查看基本的注解，注解其实是一个类，要在源程序应用某个注解，必须先准备好注解类</p>
+<p>使用自己的注解<br>自定义的注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.annotation;</div><div class="line"></div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将这个注解加到一个类上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.annotation;</div><div class="line"></div><div class="line">@ItcastAnnotation</div><div class="line">public class AnnotationTest &#123;</div><div class="line"></div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line"></div><div class="line">		if(AnnotationTest.class.isAnnotationPresent(ItcastAnnotation.class))&#123;</div><div class="line">			ItcastAnnotation annotation = AnnotationTest.class.getAnnotation(ItcastAnnotation.class);</div><div class="line">			System.out.println(annotation);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用system.out打印注解，什么都没输出，原因是if条件中为false,<br>还需要在注解类上加一个元注解(修饰注解的注解),<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>即告诉程序，将ItcastAnnotation这个注解保留到运行时<br>这涉及到注解的生命周期<br>即存在于java源文件中–&gt; class文件中 –&gt; 字节码中<br>对应修饰 RetentionPolicy.SOURCE —&gt; RetentionPolicy.CLASS -&gt; RetentionPolicy.RUNTIME<br>默认自定义的保留到class阶段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the retention policy defaults to RetentionPolicy.CLASS.</div></pre></td></tr></table></figure></p>
+<p>修饰自定义的注解只能用在方法上可以在注解上加一个元注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Target(ElementType.METHOD)</div></pre></td></tr></table></figure></p>
+<p>既可以用在方法上也可以用在类上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Target(&#123;ElementType.METHOD,ElementType.TYPE&#125;)</div></pre></td></tr></table></figure></p>
+<p>为注解添加属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(&#123;ElementType.METHOD,ElementType.TYPE&#125;)</div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line">	String color();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>设置与显示属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color=&quot;RED&quot;)</div><div class="line">public class AnnotationTest &#123;</div><div class="line"> static void main(String[] args) &#123;</div><div class="line">		if(AnnotationTest.class.isAnnotationPresent(ItcastAnnotation.class))&#123;</div><div class="line">			ItcastAnnotation annotation = AnnotationTest.class.getAnnotation(ItcastAnnotation.class);</div><div class="line">			System.out.println(annotation.color());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果只设置value属性的值，可以省略<br>属性名=，直接写值<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(&quot;method&quot;)</div></pre></td></tr></table></figure></p>
+<p>可以设置属性为int[]数组类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int[] arrayAttr() default &#123;0&#125;;</div></pre></td></tr></table></figure></p>
+<p>设置值时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color = &quot;RED&quot;, value = &quot;class&quot;, arrayAttr=&#123;1,1,1&#125;)</div></pre></td></tr></table></figure></p>
+<p>若数据属性值只有一个，可以省略大括号<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color = &quot;RED&quot;, value = &quot;class&quot;, arrayAttr=1)</div></pre></td></tr></table></figure></p>
+<p>更多可以参考<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://docs.oracle.com/javase/specs/</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/26/java注解/" data-id="cjcw3d6nr000ic0vd9t0k2o8z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/26/DButils/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DButils</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/26/java注解/">java注解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/DButils/">DButils</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/25/元数据/">元数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

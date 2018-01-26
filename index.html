@@ -68,6 +68,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-java注解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/26/java注解/" class="article-date">
+  <time datetime="2018-01-26T15:37:19.000Z" itemprop="datePublished">2018-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/26/java注解/">java注解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="Deprecated"></a>Deprecated</h3><p>过时的，myeclipse会有划线表名这个过时，<br>可以让myeclipse不警告，在方法前面写上注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@SuppressWarnings(&quot;deprecation&quot;)</div></pre></td></tr></table></figure></p>
+<p>可以标记方法过时使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Deprecated</div></pre></td></tr></table></figure></p>
+<h3 id="override"><a href="#override" class="headerlink" title="override"></a>override</h3><p>使用这个注解标记这个方法是覆盖父类的方法。<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public boolean equals(Object obj) &#123;</div><div class="line">	// TODO Auto-generated method stub</div><div class="line">	return super.equals(obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注解可以在java.lang包中可以查看基本的注解，注解其实是一个类，要在源程序应用某个注解，必须先准备好注解类</p>
+<p>使用自己的注解<br>自定义的注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.annotation;</div><div class="line"></div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将这个注解加到一个类上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package cn.itcast.annotation;</div><div class="line"></div><div class="line">@ItcastAnnotation</div><div class="line">public class AnnotationTest &#123;</div><div class="line"></div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line"></div><div class="line">		if(AnnotationTest.class.isAnnotationPresent(ItcastAnnotation.class))&#123;</div><div class="line">			ItcastAnnotation annotation = AnnotationTest.class.getAnnotation(ItcastAnnotation.class);</div><div class="line">			System.out.println(annotation);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用system.out打印注解，什么都没输出，原因是if条件中为false,<br>还需要在注解类上加一个元注解(修饰注解的注解),<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>即告诉程序，将ItcastAnnotation这个注解保留到运行时<br>这涉及到注解的生命周期<br>即存在于java源文件中–&gt; class文件中 –&gt; 字节码中<br>对应修饰 RetentionPolicy.SOURCE —&gt; RetentionPolicy.CLASS -&gt; RetentionPolicy.RUNTIME<br>默认自定义的保留到class阶段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">the retention policy defaults to RetentionPolicy.CLASS.</div></pre></td></tr></table></figure></p>
+<p>修饰自定义的注解只能用在方法上可以在注解上加一个元注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Target(ElementType.METHOD)</div></pre></td></tr></table></figure></p>
+<p>既可以用在方法上也可以用在类上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Target(&#123;ElementType.METHOD,ElementType.TYPE&#125;)</div></pre></td></tr></table></figure></p>
+<p>为注解添加属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(&#123;ElementType.METHOD,ElementType.TYPE&#125;)</div><div class="line">public @interface ItcastAnnotation &#123;</div><div class="line">	String color();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>设置与显示属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color=&quot;RED&quot;)</div><div class="line">public class AnnotationTest &#123;</div><div class="line"> static void main(String[] args) &#123;</div><div class="line">		if(AnnotationTest.class.isAnnotationPresent(ItcastAnnotation.class))&#123;</div><div class="line">			ItcastAnnotation annotation = AnnotationTest.class.getAnnotation(ItcastAnnotation.class);</div><div class="line">			System.out.println(annotation.color());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果只设置value属性的值，可以省略<br>属性名=，直接写值<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(&quot;method&quot;)</div></pre></td></tr></table></figure></p>
+<p>可以设置属性为int[]数组类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int[] arrayAttr() default &#123;0&#125;;</div></pre></td></tr></table></figure></p>
+<p>设置值时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color = &quot;RED&quot;, value = &quot;class&quot;, arrayAttr=&#123;1,1,1&#125;)</div></pre></td></tr></table></figure></p>
+<p>若数据属性值只有一个，可以省略大括号<br>如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@ItcastAnnotation(color = &quot;RED&quot;, value = &quot;class&quot;, arrayAttr=1)</div></pre></td></tr></table></figure></p>
+<p>更多可以参考<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://docs.oracle.com/javase/specs/</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/26/java注解/" data-id="cjcw3d6nr000ic0vd9t0k2o8z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-DButils" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/26/DButils/" class="article-date">
@@ -128,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjcvv1cnf0001uovdrnfmjyxx" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjcw3d6md0000c0vdo82tv5q5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcvv1cq20016uovd6sp4b5d8" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcw3d6on0015c0vdaak8pviz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcvv1cpy0014uovdqpynq896" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcw3d6oo0017c0vdrdifvojz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -383,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcvv1cnx0007uovda3s0582r" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcw3d6mx0006c0vdqeehosbd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -530,7 +583,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcvv1cp2000puovd9mns1f4m" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcw3d6o2000qc0vdtokobqi1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -635,7 +688,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcvv1cox000muovdo9f1wqzu" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcw3d6nx000mc0vdqy7pjdog" class="article-share-link">Share</a>
       
       
     </footer>
@@ -692,7 +745,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcvv1cok000iuovd3mmaat9f" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcw3d6o1000pc0vd4b8m0gre" class="article-share-link">Share</a>
       
       
     </footer>
@@ -745,7 +798,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcvv1con000kuovd5uvn0iej" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcw3d6nu000kc0vd6uumiqzm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -798,70 +851,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcvv1cor000luovd613360gf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jsp语法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/07/jsp语法/" class="article-date">
-  <time datetime="2018-01-07T11:51:52.000Z" itemprop="datePublished">2018-01-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/07/jsp语法/">jsp语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="脚本表达式"><a href="#脚本表达式" class="headerlink" title="脚本表达式"></a>脚本表达式</h3><p>作用是向浏览器输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%=time%&gt;</div></pre></td></tr></table></figure></p>
-<p>相当于，在翻译后的servlet中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">out.print(time);</div></pre></td></tr></table></figure></p>
-<h3 id="脚本片段"><a href="#脚本片段" class="headerlink" title="脚本片段"></a>脚本片段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	String x = &quot;是&quot;;</div><div class="line">%&gt;</div><div class="line">&lt;p&gt;问是否此山最高&lt;/p&gt;</div><div class="line">&lt;% </div><div class="line">	out.print(x+&quot;&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line">&lt;br/&gt;</div></pre></td></tr></table></figure>
-<p>可以嵌如多行java代码<br>单个脚本片段中java语句可以是不完成的，但多个脚本片段组合起来必须是完整的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	for(int i=0;i&lt;9;i++)&#123;</div><div class="line">%&gt;</div><div class="line">		我最高&lt;br/&gt;</div><div class="line">&lt;% </div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>由此可以看出jsp页面确实不适合处理请求</p>
-<h3 id="jsp声明"><a href="#jsp声明" class="headerlink" title="jsp声明"></a>jsp声明</h3><p>jsp页面默认声明的代码默认会翻译到jspService方法中，<br>但jsp声明中的语句会放在jspService方法之外<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%! </div><div class="line">	public void run()&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>java语法认为方法里面不能在声明一个方法的<br>也就是说jspService方法中不能在加入run方法，jsp声明会将代码块里面的东西放到jspService方法之外</p>
-<h3 id="jsp注释"><a href="#jsp注释" class="headerlink" title="jsp注释"></a>jsp注释</h3><p>jsp注释不会发送给浏览器，html注释中注释的内容会发给浏览器，但浏览器识别不显示<br>格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;%--</div><div class="line">    	saaaaa</div><div class="line">--%&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="jsp指令"><a href="#jsp指令" class="headerlink" title="jsp指令"></a>jsp指令</h3><p>jsp指令是为jsp引擎设计的，并不产生任何可见输出，只是告诉引擎如何处理JSP页面的其余部分<br>如page指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ 指令 属性名=&quot;值&quot; %&gt;</div><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div></pre></td></tr></table></figure></p>
-<p>如果一个指令有多个属性，这多个属性可以写在一个指令中，也可以分开写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; %&gt;</div><div class="line">&lt;%@ page import=&quot;java.util.Date&quot; %&gt;</div><div class="line">//也可以写作</div><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; import=&quot;java.util.Date&quot;  %&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="page指令"><a href="#page指令" class="headerlink" title="page指令"></a>page指令</h3><p>page指令用于定义jsp页面的各种属性,无论page指令出现在jsp页面哪个位置，作用的都是整个jsp页面，为了页面的可读性，常定义在jsp页面的起始位置<br>jsp page 的import属性，默认导入了如下包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java.lang.*</div><div class="line">javax.servlet.*</div><div class="line">javax.servlet.jsp</div><div class="line">javax.servlet.http</div></pre></td></tr></table></figure></p>
-<p>一个import属性可以导入多个包,不同的包用逗号分割<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import=&quot;java.util.Date,java.sql.*，java.io.*&quot;</div></pre></td></tr></table></figure></p>
-<p>也可以分为多行写</p>
-<p>还有属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">errorPage=&quot;/errors/error.jsp&quot;</div></pre></td></tr></table></figure></p>
-<p>定义jsp出错后跳转到哪个页面，其中路径必须是相对路径目录<br>如果以”/“开头，表示相对于当前WEB程序根目录，否则表示当前页面<br>可以在web.xml文件中使用&lt;error-page&gt; 元素为整个web应用程序设置处理错误页面，其中&lt;exception-type&gt; 子元素指定异常类的完全限定名，&lt;location&gt; 元素指定以“/”开头的错误处理页面<br>例子<br>在web.xml文件中配置全局的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;error-page&gt;</div><div class="line">	&lt;exception-type&gt;java.lang.ArithmeticException&lt;/exception-type&gt;</div><div class="line">	&lt;location&gt;/errors/error.jsp&lt;/location&gt;</div><div class="line">&lt;/error-page&gt;</div></pre></td></tr></table></figure></p>
-<p>或者在jsp文件中，配置Jsp文件的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot; errorPage=&quot;/errors/error.jsp&quot;%&gt;</div></pre></td></tr></table></figure></p>
-<p>其中jsp page 中errorPage属性的优先级比在web.xml中文件配置的更高</p>
-<p>page中还有一个属性，isErrorPage,默认值是false,作用是对异常页面显式说明，声明这个属性，jsp翻译成的servlet中就会内置一个exception对象</p>
-<p>pageEncoding和contentType是解决乱码相关的<br>pageEncoding设置tomcat服务器以声明码表来把jsp翻译成servlet，contentType是指定浏览器以什么码表打开<br>一般来说只需设置pageEncoding属性就可以了</p>
-<h3 id="include指令"><a href="#include指令" class="headerlink" title="include指令"></a>include指令</h3><p>include指令用于引入其他jsp页面，如果使用include指令引入了其他jsp页面，那么jsp引擎将把两个jsp页面翻译为一个servlet,所以include指令引入通常称为静态引入<br>语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ include file=&quot;relativeURL&quot; %&gt;</div></pre></td></tr></table></figure></p>
-<p>其中file属性用于指定被引入文件路径，路径以”/“开头，代表当前web应用</p>
-<p>例子<br>页头<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页头&lt;br/&gt;</div></pre></td></tr></table></figure></p>
-<p>页脚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页脚&lt;br/&gt;</div></pre></td></tr></table></figure></p>
-<p>内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line"></div><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;include指令&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">  		&lt;%@ include file=&quot;/public/head.jsp&quot; %&gt;</div><div class="line">    	这是内容&lt;br/&gt;</div><div class="line">    	&lt;%@ include file=&quot;/public/foot.jsp&quot; %&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>注意被包含进来的直接写内容，不需要有&lt;html&gt; 这些标签，否则格式不良好</p>
-<h3 id="include包含"><a href="#include包含" class="headerlink" title="include包含"></a>include包含</h3><p>include指令包含成为静态包含，它包含的所有jsp会翻译成一个servlet，编译时包含<br>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.getRequestDispatcher(&quot;/public/head.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	response.getWriter().write(&quot;这是内容&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	request.getRequestDispatcher(&quot;/public/foot.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>称为动态包含，动态包含会把包含进来的各自翻译成servlet，jsp运行的时候把这些包含进来了，称为动态包含</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcvv1coz000nuovd7n43p34p" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcw3d6nw000lc0vd0blq97p9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -905,6 +895,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/26/java注解/">java注解</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/26/DButils/">DButils</a>
           </li>
         
@@ -918,10 +912,6 @@
         
           <li>
             <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
           </li>
         
       </ul>

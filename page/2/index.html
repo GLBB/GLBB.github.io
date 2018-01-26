@@ -68,6 +68,69 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-jsp语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/07/jsp语法/" class="article-date">
+  <time datetime="2018-01-07T11:51:52.000Z" itemprop="datePublished">2018-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/07/jsp语法/">jsp语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="脚本表达式"><a href="#脚本表达式" class="headerlink" title="脚本表达式"></a>脚本表达式</h3><p>作用是向浏览器输出数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%=time%&gt;</div></pre></td></tr></table></figure></p>
+<p>相当于，在翻译后的servlet中可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">out.print(time);</div></pre></td></tr></table></figure></p>
+<h3 id="脚本片段"><a href="#脚本片段" class="headerlink" title="脚本片段"></a>脚本片段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	String x = &quot;是&quot;;</div><div class="line">%&gt;</div><div class="line">&lt;p&gt;问是否此山最高&lt;/p&gt;</div><div class="line">&lt;% </div><div class="line">	out.print(x+&quot;&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line">&lt;br/&gt;</div></pre></td></tr></table></figure>
+<p>可以嵌如多行java代码<br>单个脚本片段中java语句可以是不完成的，但多个脚本片段组合起来必须是完整的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	for(int i=0;i&lt;9;i++)&#123;</div><div class="line">%&gt;</div><div class="line">		我最高&lt;br/&gt;</div><div class="line">&lt;% </div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>由此可以看出jsp页面确实不适合处理请求</p>
+<h3 id="jsp声明"><a href="#jsp声明" class="headerlink" title="jsp声明"></a>jsp声明</h3><p>jsp页面默认声明的代码默认会翻译到jspService方法中，<br>但jsp声明中的语句会放在jspService方法之外<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%! </div><div class="line">	public void run()&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>java语法认为方法里面不能在声明一个方法的<br>也就是说jspService方法中不能在加入run方法，jsp声明会将代码块里面的东西放到jspService方法之外</p>
+<h3 id="jsp注释"><a href="#jsp注释" class="headerlink" title="jsp注释"></a>jsp注释</h3><p>jsp注释不会发送给浏览器，html注释中注释的内容会发给浏览器，但浏览器识别不显示<br>格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;%--</div><div class="line">    	saaaaa</div><div class="line">--%&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="jsp指令"><a href="#jsp指令" class="headerlink" title="jsp指令"></a>jsp指令</h3><p>jsp指令是为jsp引擎设计的，并不产生任何可见输出，只是告诉引擎如何处理JSP页面的其余部分<br>如page指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ 指令 属性名=&quot;值&quot; %&gt;</div><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div></pre></td></tr></table></figure></p>
+<p>如果一个指令有多个属性，这多个属性可以写在一个指令中，也可以分开写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; %&gt;</div><div class="line">&lt;%@ page import=&quot;java.util.Date&quot; %&gt;</div><div class="line">//也可以写作</div><div class="line">&lt;%@ page contentType=&quot;text/html;charset=gb2312&quot; import=&quot;java.util.Date&quot;  %&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="page指令"><a href="#page指令" class="headerlink" title="page指令"></a>page指令</h3><p>page指令用于定义jsp页面的各种属性,无论page指令出现在jsp页面哪个位置，作用的都是整个jsp页面，为了页面的可读性，常定义在jsp页面的起始位置<br>jsp page 的import属性，默认导入了如下包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java.lang.*</div><div class="line">javax.servlet.*</div><div class="line">javax.servlet.jsp</div><div class="line">javax.servlet.http</div></pre></td></tr></table></figure></p>
+<p>一个import属性可以导入多个包,不同的包用逗号分割<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import=&quot;java.util.Date,java.sql.*，java.io.*&quot;</div></pre></td></tr></table></figure></p>
+<p>也可以分为多行写</p>
+<p>还有属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">errorPage=&quot;/errors/error.jsp&quot;</div></pre></td></tr></table></figure></p>
+<p>定义jsp出错后跳转到哪个页面，其中路径必须是相对路径目录<br>如果以”/“开头，表示相对于当前WEB程序根目录，否则表示当前页面<br>可以在web.xml文件中使用&lt;error-page&gt; 元素为整个web应用程序设置处理错误页面，其中&lt;exception-type&gt; 子元素指定异常类的完全限定名，&lt;location&gt; 元素指定以“/”开头的错误处理页面<br>例子<br>在web.xml文件中配置全局的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;error-page&gt;</div><div class="line">	&lt;exception-type&gt;java.lang.ArithmeticException&lt;/exception-type&gt;</div><div class="line">	&lt;location&gt;/errors/error.jsp&lt;/location&gt;</div><div class="line">&lt;/error-page&gt;</div></pre></td></tr></table></figure></p>
+<p>或者在jsp文件中，配置Jsp文件的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot; errorPage=&quot;/errors/error.jsp&quot;%&gt;</div></pre></td></tr></table></figure></p>
+<p>其中jsp page 中errorPage属性的优先级比在web.xml中文件配置的更高</p>
+<p>page中还有一个属性，isErrorPage,默认值是false,作用是对异常页面显式说明，声明这个属性，jsp翻译成的servlet中就会内置一个exception对象</p>
+<p>pageEncoding和contentType是解决乱码相关的<br>pageEncoding设置tomcat服务器以声明码表来把jsp翻译成servlet，contentType是指定浏览器以什么码表打开<br>一般来说只需设置pageEncoding属性就可以了</p>
+<h3 id="include指令"><a href="#include指令" class="headerlink" title="include指令"></a>include指令</h3><p>include指令用于引入其他jsp页面，如果使用include指令引入了其他jsp页面，那么jsp引擎将把两个jsp页面翻译为一个servlet,所以include指令引入通常称为静态引入<br>语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ include file=&quot;relativeURL&quot; %&gt;</div></pre></td></tr></table></figure></p>
+<p>其中file属性用于指定被引入文件路径，路径以”/“开头，代表当前web应用</p>
+<p>例子<br>页头<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页头&lt;br/&gt;</div></pre></td></tr></table></figure></p>
+<p>页脚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line">这是页脚&lt;br/&gt;</div></pre></td></tr></table></figure></p>
+<p>内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;utf-8&quot;%&gt;</div><div class="line"></div><div class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;include指令&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  </div><div class="line">  &lt;body&gt;</div><div class="line">  		&lt;%@ include file=&quot;/public/head.jsp&quot; %&gt;</div><div class="line">    	这是内容&lt;br/&gt;</div><div class="line">    	&lt;%@ include file=&quot;/public/foot.jsp&quot; %&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>注意被包含进来的直接写内容，不需要有&lt;html&gt; 这些标签，否则格式不良好</p>
+<h3 id="include包含"><a href="#include包含" class="headerlink" title="include包含"></a>include包含</h3><p>include指令包含成为静态包含，它包含的所有jsp会翻译成一个servlet，编译时包含<br>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.getRequestDispatcher(&quot;/public/head.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	response.getWriter().write(&quot;这是内容&lt;br/&gt;&quot;);</div><div class="line">%&gt;</div><div class="line"></div><div class="line">&lt;% </div><div class="line">	request.getRequestDispatcher(&quot;/public/foot.jsp&quot;).include(request, response);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
+<p>称为动态包含，动态包含会把包含进来的各自翻译成servlet，jsp运行的时候把这些包含进来了，称为动态包含</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/07/jsp语法/" data-id="cjcw3d6oh0010c0vdltf10m4s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-jsp运行原理" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/07/jsp运行原理/" class="article-date">
@@ -101,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcvv1cp0000ouovdlu92ktbq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/07/jsp运行原理/" data-id="cjcw3d6nz000oc0vd01jq2dl8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -154,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcvv1cpp000zuovdkj0w0jdj" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/06/session入门/" data-id="cjcw3d6og000zc0vdg7zseu8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -193,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcvv1cnk0003uovdet7qzc4j" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/05/Cookie创建和删除/" data-id="cjcw3d6mj0001c0vd832hjea1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -239,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjcvv1cp7000suovdexaes6jv" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request域和forward方法和uri的书写和referer/" data-id="cjcw3d6o6000sc0vd9w5l8p0s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +353,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjcvv1cpa000tuovd9pjadwht" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request获得数据/" data-id="cjcw3d6o8000uc0vdd6ptouhz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -327,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjcvv1cp5000ruovdkrn4fjrq" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/04/request常用方法/" data-id="cjcw3d6o4000rc0vdsecutnoc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -374,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjcvv1cpf000wuovdo47c4fzh" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response请求重定向和一些小细节/" data-id="cjcw3d6oa000wc0vdj1m2hzvl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -413,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjcvv1cpc000uuovd9rbc65ha" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response之refresh头和控制浏览器缓存/" data-id="cjcw3d6o7000tc0vdejofbkg5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -451,51 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjcvv1cpd000vuovdqy0mj9sp" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-servlet之response输出和文件下载" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/03/servlet之response输出和文件下载/" class="article-date">
-  <time datetime="2018-01-03T10:36:15.000Z" itemprop="datePublished">2018-01-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/03/servlet之response输出和文件下载/">servlet之response输出和文件下载</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(str.getBytes());</div></pre></td></tr></table></figure>
-<p>可以成功显示原因：<br>向response中写数据和浏览器读数据采用的码表都是gb2312，或其他相同的码表<br>设置都用utf-8码表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=utf-8&quot;);</div><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(str.getBytes(&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
-<p>用&lt;meta&gt;方式，不同的浏览器支持不一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line"></div><div class="line">OutputStream os = response.getOutputStream();</div><div class="line">os.write(&quot;&lt;meta http-equiv=&apos;content-type&apos; content=&apos;text/html;charset=UTF-8&apos;&gt;&quot;.getBytes());</div><div class="line">os.write(&quot;&lt;h1&gt;的说法是就是&lt;/h1&gt;&quot;.getBytes());</div><div class="line">os.write(str.getBytes(&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
-<p>不一定对所有的浏览器都有效</p>
-<h3 id="采用字符流进行输出"><a href="#采用字符流进行输出" class="headerlink" title="采用字符流进行输出"></a>采用字符流进行输出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String str = &quot;中国&quot;;</div><div class="line">//写入response采用utf-8码表</div><div class="line">response.setCharacterEncoding(&quot;utf-8&quot;);</div><div class="line">//控制浏览器采用utf-8进行显示</div><div class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=utf-8&quot;);</div><div class="line">PrintWriter pw = response.getWriter();</div><div class="line">pw.write(str);</div></pre></td></tr></table></figure>
-<p>其中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">等价于</div><div class="line">//写入response采用utf-8码表</div><div class="line">response.setCharacterEncoding(&quot;utf-8&quot;);</div><div class="line">//控制浏览器采用utf-8进行显示</div><div class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=utf-8&quot;);</div></pre></td></tr></table></figure></p>
-<h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>下载download目录下一个girl.jpg文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">package cn.cqut.response;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.OutputStream;</div><div class="line"></div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.http.HttpServlet;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">public class demo02 extends HttpServlet &#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 1L;</div><div class="line"></div><div class="line">	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</div><div class="line">		String path = this.getServletContext().getRealPath(&quot;/download/girl.jpg&quot;);</div><div class="line">//		System.out.println(path);</div><div class="line">		String filename = path.substring(path.lastIndexOf(&quot;\\&quot;)+1);</div><div class="line">//		System.out.println(path.lastIndexOf(&quot;\\&quot;)); 45</div><div class="line">//		System.out.println(filename);</div><div class="line">		</div><div class="line"></div><div class="line">		response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot; + filename);</div><div class="line"></div><div class="line">		InputStream is = null;</div><div class="line">		OutputStream os = null;</div><div class="line">		is = new FileInputStream(path);</div><div class="line">		int len = 0;</div><div class="line">		byte[] buffer = new byte[1024];</div><div class="line">		os = response.getOutputStream();</div><div class="line">		while ((len = is.read(buffer)) &gt; 0) &#123;</div><div class="line">			os.write(buffer, 0, len);</div><div class="line">		&#125;</div><div class="line">		is.close();</div><div class="line">		os.close();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中的文件名若为中文，必须将文件名用URLEncoder转换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String path = this.getServletContext().getRealPath(&quot;/download/美女.jpg&quot;);</div><div class="line">String filename = path.substring(path.lastIndexOf(&quot;\\&quot;)+1);</div><div class="line">	//文件名为中文</div><div class="line">response.setHeader(&quot;content-disposition&quot;,&quot;attachment;filename=&quot;+URLEncoder.encode(filename,&quot;UTF-8&quot;));</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/03/servlet之response输出和文件下载/" data-id="cjcvv1cpl000xuovdad37fa4p" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/03/response图片输出/" data-id="cjcw3d6o9000vc0vd0q0exd39" class="article-share-link">Share</a>
       
       
     </footer>
@@ -539,6 +558,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/26/java注解/">java注解</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/26/DButils/">DButils</a>
           </li>
         
@@ -552,10 +575,6 @@
         
           <li>
             <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/19/mysql在windows下的入门/">mysql在windows下的入门</a>
           </li>
         
       </ul>
