@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javamail发送邮件 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="打开QQ邮件选择设置选择账户找到 POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务开启POP3/SMTP服务记住授权码编写代码导入mail.jar1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556import">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javamail发送邮件">
+<meta property="og:url" content="http://glbb.github.io/2018/01/31/javamail发送邮件/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="打开QQ邮件选择设置选择账户找到 POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务开启POP3/SMTP服务记住授权码编写代码导入mail.jar1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556import">
+<meta property="og:updated_time" content="2018-01-31T12:53:11.643Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javamail发送邮件">
+<meta name="twitter:description" content="打开QQ邮件选择设置选择账户找到 POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务开启POP3/SMTP服务记住授权码编写代码导入mail.jar1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556import">
+  
+    <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">我的博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一天进步一点</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://glbb.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-javamail发送邮件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/31/javamail发送邮件/" class="article-date">
+  <time datetime="2018-01-31T12:46:54.000Z" itemprop="datePublished">2018-01-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      javamail发送邮件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>打开QQ邮件<br>选择设置<br>选择账户<br>找到 POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务<br>开启POP3/SMTP服务<br>记住授权码<br>编写代码<br>导入mail.jar<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">import java.security.GeneralSecurityException;</div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">import javax.mail.Message;</div><div class="line">import javax.mail.MessagingException;</div><div class="line">import javax.mail.Session;</div><div class="line">import javax.mail.Transport;</div><div class="line">import javax.mail.internet.AddressException;</div><div class="line">import javax.mail.internet.InternetAddress;</div><div class="line">import javax.mail.internet.MimeMessage;</div><div class="line"></div><div class="line">import com.sun.mail.util.MailSSLSocketFactory;</div><div class="line"></div><div class="line">public class MailTest &#123;</div><div class="line">	public static void main(String[] args) throws AddressException, MessagingException, GeneralSecurityException &#123;</div><div class="line">		Properties properties = new Properties();</div><div class="line">		// 开启debug调试，以便在控制台查看</div><div class="line">		properties.setProperty(&quot;mail.debug&quot;, &quot;true&quot;);</div><div class="line">		// 设置邮件传输协议</div><div class="line">		properties.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);</div><div class="line">		// 设置邮件服务器主机名</div><div class="line">		properties.setProperty(&quot;mail.host&quot;, &quot;smtp.qq.com&quot;);</div><div class="line">		// 发送服务器需要身份验证</div><div class="line">		properties.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</div><div class="line">		</div><div class="line">		// 开启SSL加密，否则会失败</div><div class="line">		MailSSLSocketFactory factory = new MailSSLSocketFactory();</div><div class="line">		factory.setTrustAllHosts(true);</div><div class="line">		properties.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</div><div class="line">		properties.put(&quot;mail.smtp.ssl.socketFactory&quot;, factory);</div><div class="line">		</div><div class="line">		// 创建session</div><div class="line">		Session session = Session.getInstance(properties);</div><div class="line">		// 通过session得到transport对象</div><div class="line">		Transport transport = session.getTransport();</div><div class="line">		// 连接邮件服务器：邮箱类型，帐号，授权码代替密码（更安全）</div><div class="line">		transport.connect(&quot;smtp.qq.com&quot;,&quot;123456789&quot;,&quot;sofjsfsksjfl&quot;);</div><div class="line">		// 123456789是QQ账号  sofjsfsksjfl 这个是授权码</div><div class="line">		</div><div class="line">		// 创建邮件对象</div><div class="line">		Message message = new MimeMessage(session);</div><div class="line">		// 指明邮件的发件人</div><div class="line">		message.setFrom(new InternetAddress(&quot;123456789@qq.com&quot;));</div><div class="line">		// 指明邮件的收件人</div><div class="line">		message.setRecipient(Message.RecipientType.TO, new InternetAddress(&quot;1811560185@qq.com&quot;));</div><div class="line">		// 邮件的标题</div><div class="line">		message.setSubject(&quot;JavaMail第4次测试&quot;);</div><div class="line">		// 邮件的文本内容</div><div class="line">		message.setContent(&quot;&lt;h1&gt;Java测试发送邮件成功&lt;/h1&gt;&quot;,&quot;text/html;charset=UTF-8&quot;);</div><div class="line">		// 发送邮件</div><div class="line">		transport.sendMessage(message, message.getAllRecipients());</div><div class="line">		transport.close();</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>当报 unkown host smtp.qq.com 时<br>可以在cmd ping smtp.qq.com ，看网络是否联通<br>参考链接<a href="http://www.cnblogs.com/xyzq/p/5704358.html" target="_blank" rel="external">[参考1]<br><a href="http://www.codes51.com/itwd/2880376.html" target="_blank" rel="external">[参考二]</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/31/javamail发送邮件/" data-id="cjd32o1l3000hm0vdtf3fszzu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/26/java注解/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java注解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/31/javamail发送邮件/">javamail发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/java注解/">java注解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/DButils/">DButils</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/25/元数据/">元数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

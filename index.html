@@ -68,6 +68,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-javamail发送邮件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/31/javamail发送邮件/" class="article-date">
+  <time datetime="2018-01-31T12:46:54.000Z" itemprop="datePublished">2018-01-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/31/javamail发送邮件/">javamail发送邮件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>打开QQ邮件<br>选择设置<br>选择账户<br>找到 POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务<br>开启POP3/SMTP服务<br>记住授权码<br>编写代码<br>导入mail.jar<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">import java.security.GeneralSecurityException;</div><div class="line">import java.util.Properties;</div><div class="line"></div><div class="line">import javax.mail.Message;</div><div class="line">import javax.mail.MessagingException;</div><div class="line">import javax.mail.Session;</div><div class="line">import javax.mail.Transport;</div><div class="line">import javax.mail.internet.AddressException;</div><div class="line">import javax.mail.internet.InternetAddress;</div><div class="line">import javax.mail.internet.MimeMessage;</div><div class="line"></div><div class="line">import com.sun.mail.util.MailSSLSocketFactory;</div><div class="line"></div><div class="line">public class MailTest &#123;</div><div class="line">	public static void main(String[] args) throws AddressException, MessagingException, GeneralSecurityException &#123;</div><div class="line">		Properties properties = new Properties();</div><div class="line">		// 开启debug调试，以便在控制台查看</div><div class="line">		properties.setProperty(&quot;mail.debug&quot;, &quot;true&quot;);</div><div class="line">		// 设置邮件传输协议</div><div class="line">		properties.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);</div><div class="line">		// 设置邮件服务器主机名</div><div class="line">		properties.setProperty(&quot;mail.host&quot;, &quot;smtp.qq.com&quot;);</div><div class="line">		// 发送服务器需要身份验证</div><div class="line">		properties.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</div><div class="line">		</div><div class="line">		// 开启SSL加密，否则会失败</div><div class="line">		MailSSLSocketFactory factory = new MailSSLSocketFactory();</div><div class="line">		factory.setTrustAllHosts(true);</div><div class="line">		properties.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</div><div class="line">		properties.put(&quot;mail.smtp.ssl.socketFactory&quot;, factory);</div><div class="line">		</div><div class="line">		// 创建session</div><div class="line">		Session session = Session.getInstance(properties);</div><div class="line">		// 通过session得到transport对象</div><div class="line">		Transport transport = session.getTransport();</div><div class="line">		// 连接邮件服务器：邮箱类型，帐号，授权码代替密码（更安全）</div><div class="line">		transport.connect(&quot;smtp.qq.com&quot;,&quot;123456789&quot;,&quot;sofjsfsksjfl&quot;);</div><div class="line">		// 123456789是QQ账号  sofjsfsksjfl 这个是授权码</div><div class="line">		</div><div class="line">		// 创建邮件对象</div><div class="line">		Message message = new MimeMessage(session);</div><div class="line">		// 指明邮件的发件人</div><div class="line">		message.setFrom(new InternetAddress(&quot;123456789@qq.com&quot;));</div><div class="line">		// 指明邮件的收件人</div><div class="line">		message.setRecipient(Message.RecipientType.TO, new InternetAddress(&quot;1811560185@qq.com&quot;));</div><div class="line">		// 邮件的标题</div><div class="line">		message.setSubject(&quot;JavaMail第4次测试&quot;);</div><div class="line">		// 邮件的文本内容</div><div class="line">		message.setContent(&quot;&lt;h1&gt;Java测试发送邮件成功&lt;/h1&gt;&quot;,&quot;text/html;charset=UTF-8&quot;);</div><div class="line">		// 发送邮件</div><div class="line">		transport.sendMessage(message, message.getAllRecipients());</div><div class="line">		transport.close();</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>当报 unkown host smtp.qq.com 时<br>可以在cmd ping smtp.qq.com ，看网络是否联通<br>参考链接<a href="http://www.cnblogs.com/xyzq/p/5704358.html" target="_blank" rel="external">[参考1]<br><a href="http://www.codes51.com/itwd/2880376.html" target="_blank" rel="external">[参考二]</a></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://glbb.github.io/2018/01/31/javamail发送邮件/" data-id="cjd32o1l3000hm0vdtf3fszzu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-java注解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/26/java注解/" class="article-date">
@@ -111,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/26/java注解/" data-id="cjcw3d6nr000ic0vd9t0k2o8z" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/26/java注解/" data-id="cjd32o1l5000im0vd72havwuj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjcw3d6md0000c0vdo82tv5q5" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/26/DButils/" data-id="cjd32o1i20000m0vdhvz6k5yd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjcw3d6on0015c0vdaak8pviz" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/25/元数据/" data-id="cjd32o1mj0014m0vdwrrpff5j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -350,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjcw3d6oo0017c0vdrdifvojz" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/事务和数据库连接池/" data-id="cjd32o1mq0018m0vdgie9a0sd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -436,7 +477,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjcw3d6mx0006c0vdqeehosbd" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/21/JDBC及待解决的编码问题/" data-id="cjd32o1iu0002m0vdgft81ywd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -583,7 +624,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjcw3d6o2000qc0vdtokobqi1" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/19/mysql在windows下的入门/" data-id="cjd32o1ly000rm0vdf0v4k6ox" class="article-share-link">Share</a>
       
       
     </footer>
@@ -688,7 +729,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjcw3d6nx000mc0vdqy7pjdog" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/17/jsp中自定义标签/" data-id="cjd32o1lm000nm0vd29mnr9t4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -745,7 +786,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjcw3d6o1000pc0vd4b8m0gre" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/09/el表达式和jstl快速入门/" data-id="cjd32o1lq000om0vdb4wkr7ig" class="article-share-link">Share</a>
       
       
     </footer>
@@ -798,60 +839,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjcw3d6nu000kc0vd6uumiqzm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jsp之pageContext对象和常用标签和映射" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/08/jsp之pageContext对象和常用标签和映射/" class="article-date">
-  <time datetime="2018-01-08T03:42:20.000Z" itemprop="datePublished">2018-01-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/08/jsp之pageContext对象和常用标签和映射/">jsp之pageContext对象和常用标签和映射</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>pageContext对象代表jsp页面的运行环境</p>
-<ol>
-<li>封装了其他八大对象的引用</li>
-<li>自身是一个域对象，可以用来保存数据</li>
-<li>该对象还封装了web开发中的一些常用操作，例如引入和跳转到其他资源，检索其他域对象中的属性</li>
-</ol>
-<p>pageContext主要是用在自定义标签</p>
-<p>pageConxtext可以获得其他域对象的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">	request.setAttribute(&quot;data&quot;, &quot;AAA&quot;);</div><div class="line">	String data = (String) pageContext.getAttribute(&quot;data&quot;, PageContext.REQUEST_SCOPE);</div><div class="line">	out.write(data);</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
-<p>使用findAttibute方法可以获得在四个域对象中的某一个值<br>该方法先在pageContext，然后在request，再在session，最后在application域中找，找到了返回值，没找到返回空</p>
-<p>pageContext还可以跳转到其他页面的forward方法，还有include包含方法</p>
-<h3 id="jsp常用标签"><a href="#jsp常用标签" class="headerlink" title="jsp常用标签"></a>jsp常用标签</h3><h4 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h4><p>跳转方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:forward page=&quot;/index.jsp&quot;&gt;&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure></p>
-<p>用法原因<br>配置首页，使用mvc开发时，请求都是交给servlet，必须要把一个servlet设为首页，但在web.xml中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;welcome-file-list&gt;</div><div class="line">  &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;</div><div class="line">&lt;/welcome-file-list&gt;</div></pre></td></tr></table></figure></p>
-<p>配置servlet为首页是无效的，所以可以设置一个jsp为首页，在跳转到servlet中处理请求</p>
-<h4 id="包含"><a href="#包含" class="headerlink" title="包含"></a>包含</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:include page=&quot;/1.jsp&quot;&gt;&lt;/jsp:include&gt;   &lt;!-- pageContext.include()  动态包含 --&gt;</div></pre></td></tr></table></figure>
-<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:forward page=&quot;/servlet/ServletDemo1&quot;&gt;</div><div class="line">	&lt;jsp:param value=&quot;GLBB&quot; name=&quot;username&quot;/&gt;</div><div class="line">&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure>
-<p>跳转的时候带参数过去，可以在servlet中使用request的getParameter方法的得到值<br>还可以带脚本表达式中的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;% </div><div class="line">	int i = 1;</div><div class="line">%&gt;</div><div class="line">&lt;jsp:forward page=&quot;/servlet/ServletDemo1&quot;&gt;</div><div class="line">	&lt;jsp:param value=&quot;&lt;%=i %&gt;&quot; name=&quot;username&quot;/&gt;</div><div class="line">&lt;/jsp:forward&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>把jsp映射到另一个路径上去<br>在web.xml文件中，可以<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> &lt;servlet&gt;</div><div class="line"> 	&lt;servlet-name&gt;other&lt;/servlet-name&gt;</div><div class="line"> 	&lt;jsp-file&gt;/10.jsp&lt;/jsp-file&gt;</div><div class="line"> &lt;/servlet&gt;</div><div class="line"></div><div class="line">&lt;servlet-mapping&gt;</div><div class="line">	&lt;servlet-name&gt;other&lt;/servlet-name&gt;</div><div class="line">	&lt;url-pattern&gt;/15.html&lt;/url-pattern&gt;</div><div class="line">&lt;/servlet-mapping&gt;</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://glbb.github.io/2018/01/08/jsp之pageContext对象和常用标签和映射/" data-id="cjcw3d6nw000lc0vd0blq97p9" class="article-share-link">Share</a>
+      <a data-url="http://glbb.github.io/2018/01/08/javabean/" data-id="cjd32o1lj000lm0vddvkdc3zb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -895,6 +883,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/31/javamail发送邮件/">javamail发送邮件</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/26/java注解/">java注解</a>
           </li>
         
@@ -908,10 +900,6 @@
         
           <li>
             <a href="/2018/01/21/事务和数据库连接池/">事务和数据库连接池</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/21/JDBC及待解决的编码问题/">JDBC及待解决编码问题</a>
           </li>
         
       </ul>
